@@ -23,8 +23,8 @@ export default async function AdminMenuPage() {
     <main className="flex-1 px-4 sm:px-8 py-8 max-w-5xl w-full mx-auto">
       <MenuManager
         restaurantId={restaurantId}
-        initialCategories={(categories ?? []) as Category[]}
-        initialItems={(menuItems ?? []) as MenuItem[]}
+        initialCategories={(categories ?? []) as unknown as Category[]}
+        initialItems={(menuItems ?? []) as unknown as MenuItem[]}
       />
     </main>
   )

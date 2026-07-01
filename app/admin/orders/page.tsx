@@ -39,7 +39,7 @@ export default async function AdminOrdersPage() {
     .order('created_at', { ascending: false })
     .limit(100)
 
-  const orders = (data ?? []) as Order[]
+  const orders = (data ?? []) as unknown as Order[]
 
   return (
     <main className="flex-1 px-4 sm:px-8 py-8 max-w-5xl w-full mx-auto">

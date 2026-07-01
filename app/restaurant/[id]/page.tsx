@@ -73,7 +73,7 @@ export default async function RestaurantPage({
 
   if (!restaurant) notFound()
 
-  const items = (menuItems ?? []) as MenuItem[]
+  const items = (menuItems ?? []) as unknown as MenuItem[]
   const reviewList = (reviews ?? []) as Review[]
 
   const avgRating =

@@ -11,7 +11,7 @@ export default async function AdminInventoryPage() {
     .select('id, stock_quantity, low_stock_threshold, menu_items(id, name)')
     .eq('restaurant_id', restaurantId)
 
-  const rows = ((inventory ?? []) as InventoryRow[]).slice().sort((a, b) =>
+  const rows = ((inventory ?? []) as unknown as InventoryRow[]).slice().sort((a, b) =>
     (a.menu_items?.name ?? '').localeCompare(b.menu_items?.name ?? '')
   )
 

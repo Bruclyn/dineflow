@@ -50,7 +50,7 @@ export default async function MyOrdersPage() {
     .eq('customer_id', user.id)
     .order('created_at', { ascending: false })
 
-  const orders = (data ?? []) as Order[]
+  const orders = (data ?? []) as unknown as Order[]
 
   // Stable sort: active orders first, completed/cancelled below — each group keeps its
   // existing newest-first order since Array.prototype.sort is stable.

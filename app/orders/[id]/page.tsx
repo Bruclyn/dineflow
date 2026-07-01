@@ -103,7 +103,7 @@ export default async function OrderPage({
 
   if (!order) notFound()
 
-  const items = (orderItems ?? []) as OrderItem[]
+  const items = (orderItems ?? []) as unknown as OrderItem[]
   const isCancelled = order.status === 'cancelled'
   const currentStepIdx = STATUS_STEPS.indexOf(order.status as OrderStatus)
   const placedAt = new Date(order.created_at).toLocaleString('en-NG', {
