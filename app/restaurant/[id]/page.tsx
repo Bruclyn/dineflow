@@ -1,10 +1,10 @@
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
-import LogoutButton from '@/app/dashboard/logout-button'
 import AddToCartButton from './add-to-cart-button'
 import CartNavIcon from '@/app/components/cart-nav-icon'
-import OrdersNavIcon from '@/app/components/orders-nav-icon'
+import UserMenu from '@/app/components/user-menu'
+import { foodImageUrl, guessFoodCategory } from '@/lib/food-images'
 
 type Restaurant = {
   id: string
@@ -73,6 +73,8 @@ export default async function RestaurantPage({
 
   if (!restaurant) notFound()
 
+  const initial = (user.user_metadata?.full_name?.[0] ?? user.email?.[0] ?? 'U').toUpperCase()
+
   const items = (menuItems ?? []) as unknown as MenuItem[]
   const reviewList = (reviews ?? []) as Review[]
 
@@ -118,103 +120,75 @@ export default async function RestaurantPage({
             Back
           </Link>
           <span className="text-xl font-bold text-orange-500 tracking-tight">DineFlow</span>
-          <div className="flex items-center gap-2">
-            <OrdersNavIcon />
+          <div className="flex items-center gap-3">
             <CartNavIcon />
-            <LogoutButton />
+            <UserMenu initial={initial} />
           </div>
         </div>
       </nav>
 
-      {/* Cover image */}
-      <div className="relative h-44 sm:h-60 w-full bg-gradient-to-br from-orange-200 to-orange-100 overflow-hidden">
-        {restaurant.cover_image_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={restaurant.cover_image_url}
-            alt={restaurant.name}
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-16 w-16 text-orange-300"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={0.8}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9m5-9v9m4-9v9m5-9l2 9"
-              />
-            </svg>
-          </div>
-        )}
-      </div>
+      {/* Cover banner with overlaid identity */}
+      <div className="relative h-56 w-full overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={restaurant.cover_image_url ?? foodImageUrl('restaurant', 1200, 448)}
+          alt={restaurant.name}
+          className="h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
 
-      {/* Restaurant header */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="relative -mt-8 flex items-end gap-4 mb-6">
-          {/* Logo */}
-          <div className="shrink-0 h-20 w-20 rounded-2xl border-4 border-white shadow-md bg-white overflow-hidden">
-            {restaurant.logo_url ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={restaurant.logo_url}
-                alt={`${restaurant.name} logo`}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center bg-orange-50">
-                <span className="text-2xl font-bold text-orange-300">
-                  {restaurant.name.charAt(0)}
-                </span>
-              </div>
-            )}
-          </div>
+        <div className="absolute inset-x-0 bottom-0">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-5 flex items-end gap-4">
+            {/* Logo */}
+            <div className="shrink-0 h-16 w-16 sm:h-20 sm:w-20 rounded-2xl border-2 border-white/90 shadow-lg bg-white overflow-hidden">
+              {restaurant.logo_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={restaurant.logo_url}
+                  alt={`${restaurant.name} logo`}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-orange-500">
+                  <span className="text-2xl font-bold text-white">
+                    {restaurant.name.charAt(0)}
+                  </span>
+                </div>
+              )}
+            </div>
 
-          <div className="pb-1 min-w-0">
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight truncate">
-              {restaurant.name}
-            </h1>
+            <div className="pb-1 min-w-0">
+              <h1 className="text-xl sm:text-2xl font-bold text-white leading-tight truncate drop-shadow-sm">
+                {restaurant.name}
+              </h1>
 
-            {avgRating !== null && (
-              <div className="mt-1 flex items-center gap-1.5">
-                <StarRow rating={avgRating} />
-                <span className="text-sm font-medium text-gray-700">
-                  {avgRating.toFixed(1)}
-                </span>
-                <span className="text-xs text-gray-400">
-                  ({reviewList.length} {reviewList.length === 1 ? 'review' : 'reviews'})
-                </span>
-              </div>
-            )}
+              {avgRating !== null && (
+                <div className="mt-1.5 flex items-center gap-1.5">
+                  <StarRow rating={avgRating} />
+                  <span className="text-sm font-semibold text-white">
+                    {avgRating.toFixed(1)}
+                  </span>
+                  <span className="text-xs text-white/75">
+                    ({reviewList.length} {reviewList.length === 1 ? 'review' : 'reviews'})
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
+      </div>
 
+      {/* Restaurant details */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6">
         {restaurant.description && (
-          <p className="text-sm text-gray-500 leading-relaxed mb-2">
+          <p className="text-sm text-gray-500 leading-relaxed mt-4 mb-2">
             {restaurant.description}
           </p>
         )}
 
         {restaurant.address && (
           <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-8">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-3.5 w-3.5 shrink-0"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <span>📍</span>
             {restaurant.address}
           </div>
         )}
@@ -231,7 +205,7 @@ export default async function RestaurantPage({
           <div className="space-y-10 mb-10">
             {categories.map((cat) => (
               <section key={cat}>
-                <h2 className="text-base font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-100">
+                <h2 className="sticky top-16 z-10 -mx-4 sm:-mx-6 px-4 sm:px-6 py-2.5 bg-gray-50/95 backdrop-blur-sm text-base font-bold text-orange-600 mb-4 border-b border-orange-100">
                   {cat}
                 </h2>
                 <div className="space-y-3">
@@ -263,8 +237,8 @@ export default async function RestaurantPage({
           ) : (
             <div className="space-y-3">
               {reviewList.map((review) => (
-                <div key={review.id} className="rounded-2xl border border-gray-100 bg-white shadow-sm p-4">
-                  <div className="flex items-center justify-between gap-2 mb-1.5">
+                <div key={review.id} className="rounded-2xl border border-gray-100 bg-white shadow-sm p-5">
+                  <div className="flex items-center justify-between gap-2 mb-2">
                     <StarRow rating={review.rating} />
                     <span className="shrink-0 text-xs text-gray-400">
                       {new Date(review.created_at).toLocaleDateString('en-NG', {
@@ -296,30 +270,38 @@ function MenuItemCard({
   restaurantId: string
   restaurantName: string
 }) {
+  const imageUrl = item.image_url ?? foodImageUrl(guessFoodCategory(item.name), 160, 160)
+
   return (
-    <div className="flex items-start gap-4 bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
+    <div className="flex items-center gap-4 bg-white rounded-2xl border border-gray-100 shadow-sm p-3">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={imageUrl}
+        alt={item.name}
+        className="h-20 w-20 shrink-0 rounded-xl object-cover"
+      />
+
       <div className="flex-1 min-w-0">
         <h3 className="text-sm font-semibold text-gray-900">{item.name}</h3>
         {item.description && (
-          <p className="mt-0.5 text-xs text-gray-500 leading-relaxed line-clamp-2">
+          <p className="mt-0.5 text-sm text-gray-500 leading-relaxed line-clamp-2">
             {item.description}
           </p>
         )}
-        <p className="mt-2 text-sm font-bold text-orange-500">
+        <p className="mt-1.5 text-sm font-bold text-orange-500">
           ₦{item.price.toLocaleString('en-NG')}
         </p>
       </div>
-      <div className="shrink-0 pt-0.5">
-        <AddToCartButton
-          item={{
-            menu_item_id: item.id,
-            name: item.name,
-            price: item.price,
-            restaurant_id: restaurantId,
-            restaurant_name: restaurantName,
-          }}
-        />
-      </div>
+
+      <AddToCartButton
+        item={{
+          menu_item_id: item.id,
+          name: item.name,
+          price: item.price,
+          restaurant_id: restaurantId,
+          restaurant_name: restaurantName,
+        }}
+      />
     </div>
   )
 }

@@ -1,9 +1,8 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import LogoutButton from './logout-button'
 import RestaurantBrowser from './restaurant-browser'
 import CartNavIcon from '@/app/components/cart-nav-icon'
-import OrdersNavIcon from '@/app/components/orders-nav-icon'
+import UserMenu from '@/app/components/user-menu'
 
 export type Restaurant = {
   id: string
@@ -29,15 +28,16 @@ export default async function DashboardPage() {
     .eq('status', 'active')
     .order('name')
 
+  const initial = (user.user_metadata?.full_name?.[0] ?? user.email?.[0] ?? 'U').toUpperCase()
+
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white border-b border-gray-100 sticky top-0 z-10 shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <span className="text-xl font-bold text-orange-500 tracking-tight">DineFlow</span>
-          <div className="flex items-center gap-2">
-            <OrdersNavIcon />
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+          <span className="text-xl font-bold text-orange-500 tracking-tight shrink-0">DineFlow</span>
+          <div className="flex items-center gap-3 shrink-0">
             <CartNavIcon />
-            <LogoutButton />
+            <UserMenu initial={initial} />
           </div>
         </div>
       </nav>

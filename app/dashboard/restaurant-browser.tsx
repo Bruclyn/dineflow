@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import type { Restaurant } from './page'
+import { foodImageUrl } from '@/lib/food-images'
 
 export default function RestaurantBrowser({ restaurants }: { restaurants: Restaurant[] }) {
   const [query, setQuery] = useState('')
@@ -81,78 +82,59 @@ export default function RestaurantBrowser({ restaurants }: { restaurants: Restau
 }
 
 function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
+  const initial = restaurant.name.charAt(0).toUpperCase()
+
   return (
     <Link
       href={`/restaurant/${restaurant.id}`}
-      className="group flex flex-col bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow"
+      className="group flex flex-col bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
     >
-      {/* Cover / placeholder */}
-      <div className="relative h-36 w-full bg-gradient-to-br from-orange-100 to-orange-50 overflow-hidden">
-        {restaurant.cover_image_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={restaurant.cover_image_url}
-            alt={restaurant.name}
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-12 w-12 text-orange-200"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={1}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9m5-9v9m4-9v9m5-9l2 9"
-              />
-            </svg>
-          </div>
-        )}
+      {/* Cover image */}
+      <div className="relative h-40 w-full overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={restaurant.cover_image_url ?? foodImageUrl('restaurant', 400, 200)}
+          alt={restaurant.name}
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+
+        {/* "Order Now" reveal pill */}
+        <span className="absolute top-3 right-3 rounded-full bg-orange-500 px-3 py-1 text-xs font-bold text-white shadow-lg opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200">
+          Order Now →
+        </span>
 
         {/* Logo badge */}
-        {restaurant.logo_url && (
-          <div className="absolute bottom-2 left-3">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+        <div className="absolute -bottom-4 left-3">
+          {restaurant.logo_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={restaurant.logo_url}
               alt={`${restaurant.name} logo`}
-              className="h-10 w-10 rounded-lg border-2 border-white shadow object-cover bg-white"
+              className="h-11 w-11 rounded-full ring-2 ring-white object-cover bg-white shadow"
             />
-          </div>
-        )}
+          ) : (
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-orange-500 text-base font-bold text-white ring-2 ring-white shadow">
+              {initial}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Card body */}
-      <div className="flex flex-col flex-1 gap-2 p-4">
-        <h2 className="text-sm font-semibold text-gray-900 leading-snug group-hover:text-orange-500 transition-colors">
+      <div className="flex flex-col flex-1 gap-1.5 p-4 pt-6">
+        <h2 className="text-lg font-semibold text-gray-900 leading-snug group-hover:text-orange-500 transition-colors">
           {restaurant.name}
         </h2>
 
         {restaurant.description && (
-          <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">
+          <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
             {restaurant.description}
           </p>
         )}
 
         {restaurant.address && (
           <div className="mt-auto flex items-center gap-1.5 text-xs text-gray-400 pt-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-3.5 w-3.5 shrink-0"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <span>📍</span>
             <span className="truncate">{restaurant.address}</span>
           </div>
         )}
