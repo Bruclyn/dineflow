@@ -14,7 +14,7 @@ export default async function AdminMenuPage() {
       .order('display_order', { ascending: true }),
     supabase
       .from('menu_items')
-      .select('id, name, description, price, is_available, category_id, categories(id, name)')
+      .select('id, name, description, price, is_available, category_id, image_url, tags, prep_time_mins, categories(id, name)')
       .eq('restaurant_id', restaurantId)
       .order('name', { ascending: true }),
   ])

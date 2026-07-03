@@ -5,6 +5,7 @@ import AddToCartButton from './add-to-cart-button'
 import CartNavIcon from '@/app/components/cart-nav-icon'
 import UserMenu from '@/app/components/user-menu'
 import { foodImageUrl, guessFoodCategory } from '@/lib/food-images'
+import { parseTags } from '@/lib/menu-tags'
 
 type Restaurant = {
   id: string
@@ -27,6 +28,8 @@ type MenuItem = {
   description: string | null
   price: number
   image_url: string | null
+  tags: string | null
+  prep_time_mins: number | null
   categories: Category | null
 }
 
@@ -59,7 +62,7 @@ export default async function RestaurantPage({
         .single<Restaurant>(),
       supabase
         .from('menu_items')
-        .select('id, name, description, price, image_url, categories(id, name, display_order)')
+        .select('id, name, description, price, image_url, tags, prep_time_mins, categories(id, name, display_order)')
         .eq('restaurant_id', params.id)
         .eq('is_available', true)
         .order('name', { ascending: true }),
@@ -271,6 +274,7 @@ function MenuItemCard({
   restaurantName: string
 }) {
   const imageUrl = item.image_url ?? foodImageUrl(guessFoodCategory(item.name), 160, 160)
+  const tags = parseTags(item.tags)
 
   return (
     <div className="flex items-center gap-4 bg-white rounded-2xl border border-gray-100 shadow-sm p-3">
@@ -282,7 +286,26 @@ function MenuItemCard({
       />
 
       <div className="flex-1 min-w-0">
-        <h3 className="text-sm font-semibold text-gray-900">{item.name}</h3>
+        <div className="flex items-center gap-2 flex-wrap">
+          <h3 className="text-sm font-semibold text-gray-900">{item.name}</h3>
+          {item.prep_time_mins != null && (
+            <span className="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-semibold text-gray-600">
+              ⏱ {item.prep_time_mins} mins
+            </span>
+          )}
+        </div>
+        {tags.length > 0 && (
+          <div className="mt-1 flex flex-wrap gap-1">
+            {tags.map((tag) => (
+              <span
+                key={tag}
+                className="inline-flex rounded-full bg-orange-50 px-2 py-0.5 text-[11px] font-medium text-orange-600"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
         {item.description && (
           <p className="mt-0.5 text-sm text-gray-500 leading-relaxed line-clamp-2">
             {item.description}

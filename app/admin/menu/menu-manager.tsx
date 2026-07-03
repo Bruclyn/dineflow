@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { foodImageUrl, guessFoodCategory } from '@/lib/food-images'
+import { parseTags } from '@/lib/menu-tags'
 import MenuItemModal from './menu-item-modal'
 
 export type Category = {
@@ -18,6 +20,9 @@ export type MenuItem = {
   price: number
   is_available: boolean
   category_id: string | null
+  image_url: string | null
+  tags: string | null
+  prep_time_mins: number | null
   categories: { id: string; name: string } | null
 }
 
@@ -115,6 +120,12 @@ export default function MenuManager({
                     key={item.id}
                     className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-2xl border border-gray-100 bg-white shadow-sm p-4"
                   >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={item.image_url ?? foodImageUrl(guessFoodCategory(item.name), 128, 128)}
+                      alt={item.name}
+                      className="h-16 w-16 shrink-0 rounded-xl object-cover"
+                    />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <h3 className="text-sm font-semibold text-gray-900">{item.name}</h3>
@@ -125,7 +136,24 @@ export default function MenuManager({
                         >
                           {item.is_available ? 'Available' : 'Unavailable'}
                         </span>
+                        {item.prep_time_mins != null && (
+                          <span className="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-semibold text-gray-600">
+                            ⏱ {item.prep_time_mins} mins
+                          </span>
+                        )}
                       </div>
+                      {parseTags(item.tags).length > 0 && (
+                        <div className="mt-1 flex flex-wrap gap-1">
+                          {parseTags(item.tags).map((tag) => (
+                            <span
+                              key={tag}
+                              className="inline-flex rounded-full bg-orange-50 px-2 py-0.5 text-[11px] font-medium text-orange-600"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                       {item.description && (
                         <p className="mt-0.5 text-xs text-gray-500 line-clamp-1">{item.description}</p>
                       )}
