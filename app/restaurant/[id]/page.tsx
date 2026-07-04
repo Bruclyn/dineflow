@@ -12,6 +12,8 @@ type Restaurant = {
   name: string
   description: string | null
   address: string | null
+  phone: string | null
+  email: string | null
   logo_url: string | null
   cover_image_url: string | null
 }
@@ -57,7 +59,7 @@ export default async function RestaurantPage({
     await Promise.all([
       supabase
         .from('restaurants')
-        .select('id, name, description, address, logo_url, cover_image_url')
+        .select('id, name, description, address, phone, email, logo_url, cover_image_url')
         .eq('id', params.id)
         .single<Restaurant>(),
       supabase
@@ -190,9 +192,32 @@ export default async function RestaurantPage({
         )}
 
         {restaurant.address && (
-          <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-8">
+          <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-2">
             <span>📍</span>
             {restaurant.address}
+          </div>
+        )}
+
+        {(restaurant.phone || restaurant.email) && (
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mb-8">
+            {restaurant.phone && (
+              <a
+                href={`tel:${restaurant.phone}`}
+                className="flex items-center gap-1.5 text-xs font-medium text-orange-500 hover:text-orange-600 transition-colors"
+              >
+                <span>📞</span>
+                {restaurant.phone}
+              </a>
+            )}
+            {restaurant.email && (
+              <a
+                href={`mailto:${restaurant.email}`}
+                className="flex items-center gap-1.5 text-xs font-medium text-orange-500 hover:text-orange-600 transition-colors"
+              >
+                <span>✉️</span>
+                {restaurant.email}
+              </a>
+            )}
           </div>
         )}
 
