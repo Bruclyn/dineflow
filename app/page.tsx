@@ -241,6 +241,110 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Become a Partner */}
+      <section className="bg-gray-900 overflow-hidden">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-28">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left: pitch */}
+            <div>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-semibold text-orange-300 mb-6">
+                🤝 For Restaurants
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight">
+                Own a restaurant? Join DineFlow
+              </h2>
+              <p className="mt-4 text-base text-gray-400 max-w-md leading-relaxed">
+                Put your restaurant in front of more customers and take orders online — without the
+                hassle. Manage everything from one simple dashboard.
+              </p>
+
+              <ul className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
+                {[
+                  'More visibility',
+                  'Easy menu management',
+                  'Real-time order tracking',
+                  'Simple dashboard',
+                ].map((benefit) => (
+                  <li key={benefit} className="flex items-center gap-2.5 text-sm font-medium text-gray-200">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-orange-500/20 text-orange-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                    {benefit}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-10">
+                <Link
+                  href="/partner"
+                  className="inline-block rounded-full bg-orange-500 px-8 py-3.5 text-sm font-bold text-white hover:bg-orange-600 shadow-lg shadow-orange-900/40 transition-colors"
+                >
+                  Apply to Partner
+                </Link>
+              </div>
+            </div>
+
+            {/* Right: restaurant dashboard preview mockup */}
+            <div className="relative">
+              <div className="rounded-2xl bg-white shadow-2xl overflow-hidden">
+                {/* Mock window bar */}
+                <div className="flex items-center gap-1.5 px-4 py-3 border-b border-gray-100 bg-gray-50">
+                  <span className="h-2.5 w-2.5 rounded-full bg-red-300" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-yellow-300" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-green-300" />
+                  <span className="ml-3 text-xs font-semibold text-gray-400">Restaurant Dashboard</span>
+                </div>
+
+                <div className="p-5">
+                  {/* Stat tiles */}
+                  <div className="grid grid-cols-3 gap-3 mb-5">
+                    <div className="rounded-xl bg-orange-50 p-3">
+                      <p className="text-xl font-bold text-orange-600 tabular-nums">24</p>
+                      <p className="text-[11px] font-medium text-gray-500 mt-0.5">Orders today</p>
+                    </div>
+                    <div className="rounded-xl bg-gray-50 p-3">
+                      <p className="text-xl font-bold text-gray-900 tabular-nums">₦86k</p>
+                      <p className="text-[11px] font-medium text-gray-500 mt-0.5">Revenue</p>
+                    </div>
+                    <div className="rounded-xl bg-gray-50 p-3">
+                      <p className="text-xl font-bold text-gray-900 tabular-nums">3</p>
+                      <p className="text-[11px] font-medium text-gray-500 mt-0.5">Pending</p>
+                    </div>
+                  </div>
+
+                  {/* Order rows */}
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-400 mb-2">
+                    Recent orders
+                  </p>
+                  <div className="space-y-2">
+                    {[
+                      { id: '#A1B2C3', label: 'Preparing', colour: 'bg-orange-100 text-orange-700' },
+                      { id: '#D4E5F6', label: 'Ready', colour: 'bg-green-100 text-green-700' },
+                      { id: '#G7H8I9', label: 'Confirmed', colour: 'bg-blue-100 text-blue-700' },
+                    ].map((order) => (
+                      <div
+                        key={order.id}
+                        className="flex items-center justify-between rounded-xl border border-gray-100 px-3.5 py-2.5"
+                      >
+                        <span className="font-mono text-xs font-bold text-gray-700">{order.id}</span>
+                        <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${order.colour}`}>
+                          {order.label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Decorative glow */}
+              <div className="pointer-events-none absolute -bottom-8 -right-8 h-40 w-40 rounded-full bg-orange-500/20 blur-3xl" aria-hidden="true" />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Final CTA */}
       <section className="bg-orange-500 overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
