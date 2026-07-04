@@ -2,6 +2,7 @@ import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import ReviewSection from './review-section'
+import OrderTracker from './order-tracker'
 
 type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'completed' | 'cancelled'
 
@@ -37,26 +38,6 @@ type Payment = {
   status: string
   payment_reference: string | null
   payment_method: string | null
-}
-
-const STATUS_STEPS: OrderStatus[] = ['pending', 'confirmed', 'preparing', 'ready', 'completed']
-
-const STATUS_LABELS: Record<OrderStatus, string> = {
-  pending: 'Order received',
-  confirmed: 'Confirmed',
-  preparing: 'Preparing',
-  ready: 'Ready',
-  completed: 'Completed',
-  cancelled: 'Cancelled',
-}
-
-const STATUS_DESCRIPTIONS: Record<OrderStatus, string> = {
-  pending: 'Your order has been received and is awaiting confirmation.',
-  confirmed: 'The restaurant has confirmed your order.',
-  preparing: 'The kitchen is preparing your food.',
-  ready: 'Your order is ready for pickup / out for delivery.',
-  completed: 'Order delivered. Enjoy your meal!',
-  cancelled: 'This order was cancelled.',
 }
 
 export default async function OrderPage({
@@ -104,8 +85,6 @@ export default async function OrderPage({
   if (!order) notFound()
 
   const items = (orderItems ?? []) as unknown as OrderItem[]
-  const isCancelled = order.status === 'cancelled'
-  const currentStepIdx = STATUS_STEPS.indexOf(order.status as OrderStatus)
   const placedAt = new Date(order.created_at).toLocaleString('en-NG', {
     dateStyle: 'medium',
     timeStyle: 'short',
@@ -143,54 +122,8 @@ export default async function OrderPage({
           <p className="text-xs text-orange-200 ml-8 mt-0.5 font-mono">#{order.id.slice(0, 8).toUpperCase()}</p>
         </div>
 
-        {/* Status tracker */}
-        {isCancelled ? (
-          <div className="rounded-2xl border border-red-200 bg-red-50 px-5 py-4">
-            <p className="text-sm font-semibold text-red-600">Order cancelled</p>
-            <p className="text-xs text-red-400 mt-0.5">{STATUS_DESCRIPTIONS.cancelled}</p>
-          </div>
-        ) : (
-          <section className="rounded-2xl border border-gray-100 bg-white shadow-sm px-5 py-5">
-            <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-5">Order status</p>
-
-            <div className="relative">
-              {/* Track line */}
-              <div className="absolute left-[11px] top-1 bottom-1 w-0.5 bg-gray-100" aria-hidden="true" />
-
-              <ol className="space-y-5 relative">
-                {STATUS_STEPS.map((step, idx) => {
-                  const done = currentStepIdx >= idx
-                  const active = currentStepIdx === idx
-                  return (
-                    <li key={step} className="flex items-start gap-3.5">
-                      <span
-                        className={`relative z-10 mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all ${
-                          done
-                            ? 'border-orange-500 bg-orange-500'
-                            : 'border-gray-200 bg-white'
-                        }`}
-                      >
-                        {done && (
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-2.5 w-2.5 text-white" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                          </svg>
-                        )}
-                      </span>
-                      <div>
-                        <p className={`text-sm font-semibold ${done ? 'text-gray-900' : 'text-gray-400'}`}>
-                          {STATUS_LABELS[step]}
-                        </p>
-                        {active && (
-                          <p className="text-xs text-gray-500 mt-0.5">{STATUS_DESCRIPTIONS[step]}</p>
-                        )}
-                      </div>
-                    </li>
-                  )
-                })}
-              </ol>
-            </div>
-          </section>
-        )}
+        {/* Status tracker (live via Realtime) */}
+        <OrderTracker initialOrder={{ id: order.id, status: order.status }} />
 
         {/* Order details */}
         <section className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
