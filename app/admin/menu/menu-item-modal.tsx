@@ -205,8 +205,8 @@ export default function MenuItemModal({
         if (e.target === e.currentTarget) onClose()
       }}
     >
-      <div className="w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-xl p-6">
-        <div className="flex items-center justify-between mb-5">
+      <div className="w-full max-w-md max-h-[92vh] overflow-y-auto rounded-2xl bg-white shadow-xl p-5">
+        <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold text-gray-900">
             {isEditing ? 'Edit item' : 'Add item'}
           </h2>
@@ -220,9 +220,9 @@ export default function MenuItemModal({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
           {/* Image upload */}
-          <div className="space-y-1.5">
+          <div className="space-y-1">
             <label className="text-xs font-medium text-gray-600">Photo</label>
             <input
               ref={fileInputRef}
@@ -235,7 +235,7 @@ export default function MenuItemModal({
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
-              className="group relative flex h-40 w-full items-center justify-center overflow-hidden rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 transition-colors hover:border-orange-300 hover:bg-orange-50/40 disabled:cursor-wait"
+              className="group relative flex h-28 w-full items-center justify-center overflow-hidden rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 transition-colors hover:border-orange-300 hover:bg-orange-50/40 disabled:cursor-wait"
             >
               {previewUrl ? (
                 <>
@@ -246,8 +246,8 @@ export default function MenuItemModal({
                   </span>
                 </>
               ) : (
-                <div className="flex flex-col items-center gap-1.5 text-gray-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <div className="flex flex-col items-center gap-1 text-gray-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5V18a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 18v-1.5m-13.5-6L12 3m0 0l4.5 4.5M12 3v13.5" />
                   </svg>
                   <span className="text-xs font-medium">Click to upload photo</span>
@@ -273,7 +273,7 @@ export default function MenuItemModal({
             )}
           </div>
 
-          <div className="space-y-1.5">
+          <div className="space-y-1">
             <label htmlFor="item-name" className="text-xs font-medium text-gray-600">
               Name
             </label>
@@ -288,7 +288,7 @@ export default function MenuItemModal({
             />
           </div>
 
-          <div className="space-y-1.5">
+          <div className="space-y-1">
             <label htmlFor="item-description" className="text-xs font-medium text-gray-600">
               Description
             </label>
@@ -302,24 +302,41 @@ export default function MenuItemModal({
             />
           </div>
 
-          <div className="space-y-1.5">
-            <label htmlFor="item-price" className="text-xs font-medium text-gray-600">
-              Price (₦)
-            </label>
-            <input
-              id="item-price"
-              type="number"
-              min="0"
-              step="0.01"
-              required
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              className={inputClass}
-              placeholder="2500"
-            />
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <label htmlFor="item-price" className="text-xs font-medium text-gray-600">
+                Price (₦)
+              </label>
+              <input
+                id="item-price"
+                type="number"
+                min="0"
+                step="0.01"
+                required
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                className={inputClass}
+                placeholder="2500"
+              />
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="item-prep-time" className="text-xs font-medium text-gray-600">
+                Ready in (mins)
+              </label>
+              <input
+                id="item-prep-time"
+                type="number"
+                min="0"
+                step="1"
+                value={prepTime}
+                onChange={(e) => setPrepTime(e.target.value)}
+                className={inputClass}
+                placeholder="15"
+              />
+            </div>
           </div>
 
-          <div className="space-y-1.5">
+          <div className="space-y-1">
             <label htmlFor="item-category" className="text-xs font-medium text-gray-600">
               Category
             </label>
@@ -339,7 +356,7 @@ export default function MenuItemModal({
           </div>
 
           {categoryId === NEW_CATEGORY && (
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               <label htmlFor="new-category-name" className="text-xs font-medium text-gray-600">
                 New category name
               </label>
@@ -355,7 +372,7 @@ export default function MenuItemModal({
           )}
 
           {/* Tags */}
-          <div className="space-y-1.5">
+          <div className="space-y-1">
             <label className="text-xs font-medium text-gray-600">Tags</label>
             <div className="flex flex-wrap gap-2">
               {MENU_TAGS.map((tag) => {
@@ -379,24 +396,7 @@ export default function MenuItemModal({
             </div>
           </div>
 
-          {/* Prep time */}
-          <div className="space-y-1.5">
-            <label htmlFor="item-prep-time" className="text-xs font-medium text-gray-600">
-              Ready in (mins)
-            </label>
-            <input
-              id="item-prep-time"
-              type="number"
-              min="0"
-              step="1"
-              value={prepTime}
-              onChange={(e) => setPrepTime(e.target.value)}
-              className={inputClass}
-              placeholder="15"
-            />
-          </div>
-
-          <div className="flex items-center justify-between rounded-xl border border-gray-200 px-3.5 py-2.5">
+          <div className="flex items-center justify-between rounded-xl border border-gray-200 px-3.5 py-2">
             <span className="text-sm font-medium text-gray-700">Available on menu</span>
             <button
               type="button"
