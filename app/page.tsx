@@ -73,6 +73,9 @@ export default function LandingPage() {
             <a href="#how-it-works" className="text-sm font-medium text-gray-600 hover:text-orange-500 transition-colors">
               How It Works
             </a>
+            <Link href="/partner" className="text-sm font-medium text-gray-600 hover:text-orange-500 transition-colors">
+              For Restaurants
+            </Link>
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-3">
@@ -118,10 +121,10 @@ export default function LandingPage() {
                   Get Started
                 </Link>
                 <Link
-                  href="/login"
-                  className="w-full sm:w-auto text-center rounded-full border-2 border-orange-500 bg-white px-8 py-3 text-sm font-bold text-orange-500 hover:bg-orange-50 transition-colors"
+                  href="/partner"
+                  className="w-full sm:w-auto text-center rounded-full bg-gray-900 px-8 py-3 text-sm font-bold text-white hover:bg-gray-800 shadow-lg transition-colors"
                 >
-                  Browse Restaurants
+                  Become a Partner
                 </Link>
               </div>
 
