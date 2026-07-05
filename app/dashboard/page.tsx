@@ -11,6 +11,7 @@ export type Restaurant = {
   address: string | null
   logo_url: string | null
   cover_image_url: string | null
+  cuisine_type: string | null
 }
 
 export default async function DashboardPage() {
@@ -24,7 +25,7 @@ export default async function DashboardPage() {
 
   const { data: restaurants } = await supabase
     .from('restaurants')
-    .select('id, name, description, address, logo_url, cover_image_url')
+    .select('id, name, description, address, logo_url, cover_image_url, cuisine_type')
     .eq('status', 'active')
     .order('name')
 

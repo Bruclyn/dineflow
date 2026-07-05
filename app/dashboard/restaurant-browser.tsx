@@ -5,18 +5,53 @@ import Link from 'next/link'
 import type { Restaurant } from './page'
 import { foodImageUrl } from '@/lib/food-images'
 
+const ALL = 'All'
+
 export default function RestaurantBrowser({ restaurants }: { restaurants: Restaurant[] }) {
   const [query, setQuery] = useState('')
+  const [category, setCategory] = useState(ALL)
 
-  const filtered =
-    query.trim().length > 0
-      ? restaurants.filter((r) =>
-          r.name.toLowerCase().includes(query.trim().toLowerCase())
-        )
-      : restaurants
+  // Unique cuisine types derived from the actual data (no hardcoding)
+  const categories = Array.from(
+    new Set(
+      restaurants
+        .map((r) => r.cuisine_type)
+        .filter((c): c is string => !!c && c.trim().length > 0)
+    )
+  ).sort()
+
+  const search = query.trim().toLowerCase()
+  const filtered = restaurants.filter((r) => {
+    const matchesCategory = category === ALL || r.cuisine_type === category
+    const matchesSearch = search.length === 0 || r.name.toLowerCase().includes(search)
+    return matchesCategory && matchesSearch
+  })
 
   return (
     <div className="space-y-6">
+      {/* Category filter pills */}
+      {categories.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {[ALL, ...categories].map((cat) => {
+            const active = category === cat
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setCategory(cat)}
+                className={
+                  active
+                    ? 'rounded-full bg-orange-500 px-4 py-1.5 text-sm font-medium text-white shadow-sm transition'
+                    : 'rounded-full border border-gray-200 bg-white px-4 py-1.5 text-sm font-medium text-gray-600 transition hover:bg-orange-100'
+                }
+              >
+                {cat}
+              </button>
+            )
+          })}
+        </div>
+      )}
+
       {/* Search bar */}
       <div className="relative">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
