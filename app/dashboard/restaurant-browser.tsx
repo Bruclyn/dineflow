@@ -7,7 +7,15 @@ import { foodImageUrl } from '@/lib/food-images'
 
 const ALL = 'All'
 
-export default function RestaurantBrowser({ restaurants }: { restaurants: Restaurant[] }) {
+export default function RestaurantBrowser({
+  restaurants,
+  firstName,
+  greeting,
+}: {
+  restaurants: Restaurant[]
+  firstName: string
+  greeting: string
+}) {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState(ALL)
 
@@ -28,90 +36,102 @@ export default function RestaurantBrowser({ restaurants }: { restaurants: Restau
   })
 
   return (
-    <div className="space-y-6">
-      {/* Category filter pills */}
-      {categories.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {[ALL, ...categories].map((cat) => {
-            const active = category === cat
-            return (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setCategory(cat)}
-                className={
-                  active
-                    ? 'rounded-full bg-orange-500 px-4 py-1.5 text-sm font-medium text-white shadow-sm transition'
-                    : 'rounded-full border border-gray-200 bg-white px-4 py-1.5 text-sm font-medium text-gray-600 transition hover:bg-orange-100'
-                }
-              >
-                {cat}
-              </button>
-            )
-          })}
-        </div>
-      )}
+    <div>
+      {/* Welcome banner */}
+      <div className="bg-gradient-to-b from-orange-50 to-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+            Good {greeting}, {firstName} 👋
+          </h1>
+          <p className="mt-1 text-gray-500">What are you craving today?</p>
 
-      {/* Search bar */}
-      <div className="relative">
-        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4 text-gray-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"
+          {/* Search bar */}
+          <div className="relative mt-5 w-full max-w-2xl">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"
+                />
+              </svg>
+            </div>
+            <input
+              type="search"
+              placeholder="Search restaurants…"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="w-full rounded-full border border-gray-100 bg-white py-3.5 pl-12 pr-4 text-sm text-gray-900 placeholder-gray-400 shadow-sm outline-none transition focus:border-orange-300 focus:ring-2 focus:ring-orange-100"
             />
-          </svg>
+          </div>
         </div>
-        <input
-          type="search"
-          placeholder="Search restaurants…"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="w-full max-w-sm rounded-xl border border-gray-200 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 shadow-sm outline-none ring-0 transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
-        />
       </div>
 
-      {/* Grid */}
-      {filtered.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {filtered.map((r) => (
-            <RestaurantCard key={r.id} restaurant={r} />
-          ))}
-        </div>
-      ) : (
-        <div className="flex flex-col items-center justify-center py-24 text-center">
-          <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-orange-50">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-orange-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={1.5}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"
-              />
-            </svg>
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+        {/* Cuisine pills */}
+        {categories.length > 0 && (
+          <div className="flex gap-3 overflow-x-auto py-4">
+            {[ALL, ...categories].map((cat) => {
+              const active = category === cat
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setCategory(cat)}
+                  className={`shrink-0 rounded-full px-5 py-2 text-sm font-medium transition-colors ${
+                    active
+                      ? 'bg-orange-500 text-white'
+                      : 'border border-gray-200 bg-white text-gray-600 hover:bg-orange-50 hover:text-orange-600'
+                  }`}
+                >
+                  {cat}
+                </button>
+              )
+            })}
           </div>
-          <p className="text-sm font-medium text-gray-700">
-            {query ? `No results for "${query}"` : 'No restaurants available'}
-          </p>
-          <p className="mt-1 text-xs text-gray-400">
-            {query ? 'Try a different search term.' : 'Check back soon — more are on the way.'}
-          </p>
-        </div>
-      )}
+        )}
+
+        {/* Grid */}
+        {filtered.length > 0 ? (
+          <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((r) => (
+              <RestaurantCard key={r.id} restaurant={r} />
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-24 text-center">
+            <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-orange-50">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-orange-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"
+                />
+              </svg>
+            </div>
+            <p className="text-sm font-medium text-gray-700">
+              {query ? `No results for "${query}"` : 'No restaurants available'}
+            </p>
+            <p className="mt-1 text-xs text-gray-400">
+              {query ? 'Try a different search term.' : 'Check back soon — more are on the way.'}
+            </p>
+          </div>
+        )}
+      </main>
     </div>
   )
 }
@@ -122,57 +142,64 @@ function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
   return (
     <Link
       href={`/restaurant/${restaurant.id}`}
-      className="group flex flex-col bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+      className="group flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden"
     >
       {/* Cover image */}
-      <div className="relative h-40 w-full overflow-hidden">
+      <div className="relative h-44 w-full overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={restaurant.cover_image_url ?? foodImageUrl('restaurant', 400, 200)}
+          src={restaurant.cover_image_url ?? foodImageUrl('restaurant', 400, 220)}
           alt={restaurant.name}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
+      </div>
 
-        {/* "Order Now" reveal pill */}
-        <span className="absolute top-3 right-3 rounded-full bg-orange-500 px-3 py-1 text-xs font-bold text-white shadow-lg opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200">
-          Order Now →
-        </span>
-
-        {/* Logo badge */}
-        <div className="absolute -bottom-4 left-3">
+      {/* Card body */}
+      <div className="relative flex flex-col flex-1 p-5">
+        {/* Overlapping logo badge */}
+        <div className="absolute -top-6 left-5">
           {restaurant.logo_url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={restaurant.logo_url}
               alt={`${restaurant.name} logo`}
-              className="h-11 w-11 rounded-full ring-2 ring-white object-cover bg-white shadow"
+              className="h-12 w-12 rounded-full ring-2 ring-white object-cover bg-white shadow"
             />
           ) : (
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-orange-500 text-base font-bold text-white ring-2 ring-white shadow">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 text-base font-bold text-white ring-2 ring-white shadow">
               {initial}
             </div>
           )}
         </div>
-      </div>
 
-      {/* Card body */}
-      <div className="flex flex-col flex-1 gap-1.5 p-4 pt-6">
-        <h2 className="text-lg font-semibold text-gray-900 leading-snug group-hover:text-orange-500 transition-colors">
-          {restaurant.name}
-        </h2>
+        <div className="mt-6 flex items-center gap-2 flex-wrap">
+          <h2 className="text-lg font-semibold text-gray-900 leading-snug group-hover:text-orange-500 transition-colors">
+            {restaurant.name}
+          </h2>
+          {restaurant.cuisine_type && (
+            <span className="inline-flex rounded-full bg-orange-100 px-2 py-0.5 text-xs font-medium text-orange-700">
+              {restaurant.cuisine_type}
+            </span>
+          )}
+        </div>
 
         {restaurant.description && (
-          <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
+          <p className="mt-1.5 text-sm text-gray-500 leading-relaxed line-clamp-2">
             {restaurant.description}
           </p>
         )}
 
         {restaurant.address && (
-          <div className="mt-auto flex items-center gap-1.5 text-xs text-gray-400 pt-2">
+          <div className="mt-3 flex items-center gap-1 text-xs text-gray-400">
             <span>📍</span>
             <span className="truncate">{restaurant.address}</span>
           </div>
         )}
+
+        {/* Order Now — revealed on hover */}
+        <span className="mt-3 text-sm font-semibold text-orange-500 opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200">
+          Order Now →
+        </span>
       </div>
     </Link>
   )

@@ -1,382 +1,272 @@
 import Link from 'next/link'
-import {
-  ShoppingCart,
-  MapPin,
-  Star,
-  Search,
-  Store,
-  Package,
-  Zap,
-} from 'lucide-react'
-import { foodImageUrl } from '@/lib/food-images'
+import { ShoppingCart, MapPin, Star, Search, Store, Package } from 'lucide-react'
+import LandingNav from '@/app/components/landing-nav'
 
-const FEATURES = [
+const SOCIALS: { label: string; path: string }[] = [
   {
-    icon: Search,
-    title: 'Browse Restaurants',
-    description: 'Discover partner restaurants near you and explore their full menus in seconds.',
+    label: 'Instagram',
+    path: 'M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07zM12 6.35a5.65 5.65 0 100 11.3 5.65 5.65 0 000-11.3zm0 9.32a3.67 3.67 0 110-7.34 3.67 3.67 0 010 7.34zm5.88-9.54a1.32 1.32 0 11-2.64 0 1.32 1.32 0 012.64 0z',
   },
   {
-    icon: ShoppingCart,
-    title: 'Easy Ordering',
-    description: 'Add your favourites to cart and check out in just a few taps — pickup or delivery.',
+    label: 'X',
+    path: 'M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.41l-5.8-7.58-6.64 7.58H.47l8.6-9.83L0 1.15h7.6l5.24 6.93 6.06-6.93zm-1.29 19.5h2.04L6.49 3.24H4.3L17.61 20.65z',
   },
   {
-    icon: MapPin,
-    title: 'Track Your Order',
-    description: 'Follow your order in real time, from confirmation to it reaching your door.',
-  },
-  {
-    icon: Star,
-    title: 'Rate & Review',
-    description: 'Share your experience and help others find the best meals in town.',
+    label: 'Facebook',
+    path: 'M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.26h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z',
   },
 ]
 
 const STEPS = [
   {
-    icon: Store,
+    num: '01',
+    icon: Search,
     title: 'Browse Restaurants',
-    description: 'Explore local restaurants and their menus',
+    description: 'Explore local restaurants and their full menus in just a few seconds.',
   },
   {
+    num: '02',
     icon: ShoppingCart,
-    title: 'Add to Cart & Checkout',
-    description: 'Pick your dishes and check out in seconds',
+    title: 'Add to Cart',
+    description: 'Pick your favourite dishes and check out in a few simple taps.',
   },
   {
+    num: '03',
     icon: Package,
     title: 'Track Your Order',
-    description: 'Follow your order from preparing to completed',
+    description: 'Follow your order in real time, from the kitchen right to your door.',
   },
 ]
 
-const TRUST_INDICATORS = [
-  { icon: Store, label: 'Multiple Restaurants' },
-  { icon: ShoppingCart, label: 'Easy Ordering' },
-  { icon: Package, label: 'Live Order Status' },
-  { icon: Zap, label: 'Fast Checkout' },
+const WHY_FEATURES = [
+  {
+    icon: Store,
+    title: 'Multiple Restaurants',
+    description: 'Discover a growing selection of the best local spots, all in one place.',
+  },
+  {
+    icon: ShoppingCart,
+    title: 'Easy Ordering',
+    description: 'A smooth cart and checkout that gets you fed in minutes, not hours.',
+  },
+  {
+    icon: Package,
+    title: 'Live Order Tracking',
+    description: 'Watch your order progress in real time, every step of the way.',
+  },
+  {
+    icon: Star,
+    title: 'Verified Reviews',
+    description: 'Real ratings from real diners to help you choose with confidence.',
+  },
+]
+
+const TRUST = [
+  { emoji: '🏪', label: '4 Restaurants' },
+  { emoji: '🛒', label: 'Easy Ordering' },
+  { emoji: '📦', label: 'Live Tracking' },
+  { emoji: '⭐', label: 'Real Reviews' },
 ]
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Navbar */}
-      <header className="sticky top-0 z-20 bg-white/80 backdrop-blur-sm border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <span className="text-xl font-bold text-orange-500 tracking-tight">DineFlow</span>
-
-          <nav className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-sm font-medium text-gray-600 hover:text-orange-500 transition-colors">
-              Features
-            </a>
-            <a href="#how-it-works" className="text-sm font-medium text-gray-600 hover:text-orange-500 transition-colors">
-              How It Works
-            </a>
-            <Link href="/partner" className="text-sm font-medium text-gray-600 hover:text-orange-500 transition-colors">
-              For Restaurants
-            </Link>
-          </nav>
-
-          <div className="flex items-center gap-2 sm:gap-3">
-            <Link
-              href="/login"
-              className="text-sm font-semibold text-gray-700 hover:text-orange-500 transition-colors px-3 py-2"
-            >
-              Log in
-            </Link>
-            <Link
-              href="/register"
-              className="rounded-lg bg-orange-500 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-600 transition-colors"
-            >
-              Sign up
-            </Link>
-          </div>
-        </div>
-      </header>
+      <LandingNav />
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-orange-50 to-orange-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-28">
-          <div className="grid grid-cols-1 lg:grid-cols-[55%_45%] gap-14 lg:gap-8 items-center">
-            {/* Left column */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-orange-50 via-white to-orange-50/30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center min-h-[85vh] py-16">
+            {/* Left — text */}
             <div>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-100 px-3.5 py-1.5 text-xs font-semibold text-orange-700 mb-6">
-                🏪 Multi-Restaurant Marketplace
+                🏪 Lagos &amp; Abuja&apos;s Food Marketplace
               </span>
 
-              <h1 className="text-5xl font-bold tracking-tight text-gray-900 leading-tight">
+              <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-gray-900 leading-[1.05]">
                 Delicious Food, Delivered to Your Doorstep
               </h1>
 
-              <p className="mt-6 text-lg text-gray-600 max-w-md leading-relaxed">
-                Discover local restaurants, explore their menus, and get your favourite meals in minutes.
+              <p className="mt-6 text-lg text-gray-500 max-w-md leading-relaxed">
+                Discover the best local restaurants, explore their menus, and get your favourite
+                meals in minutes.
               </p>
 
-              <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <Link
                   href="/register"
-                  className="w-full sm:w-auto text-center rounded-full bg-orange-500 px-8 py-3 text-sm font-bold text-white hover:bg-orange-600 shadow-lg shadow-orange-200 transition-colors"
+                  className="text-center rounded-full bg-orange-500 px-8 py-4 text-sm font-semibold text-white hover:bg-orange-600 shadow-lg shadow-orange-200 transition-colors"
                 >
                   Get Started
                 </Link>
                 <Link
                   href="/partner"
-                  className="w-full sm:w-auto text-center rounded-full bg-gray-900 px-8 py-3 text-sm font-bold text-white hover:bg-gray-800 shadow-lg transition-colors"
+                  className="text-center rounded-full bg-gray-900 px-8 py-4 text-sm font-semibold text-white hover:bg-gray-800 shadow-lg transition-colors"
                 >
                   Become a Partner
                 </Link>
               </div>
 
               <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3">
-                {TRUST_INDICATORS.map((item) => (
-                  <div key={item.label} className="flex items-center gap-1.5 text-xs font-medium text-gray-500">
-                    <item.icon className="h-4 w-4 text-orange-500" strokeWidth={2} />
+                {TRUST.map((item) => (
+                  <div
+                    key={item.label}
+                    className="flex items-center gap-1.5 text-xs font-medium text-gray-500"
+                  >
+                    <span className="text-sm">{item.emoji}</span>
                     {item.label}
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Right column — floating UI mockup cards */}
-            <div className="relative h-[380px] sm:h-[420px] hidden sm:block">
-              {/* Card A: sample restaurant card */}
-              <div className="absolute top-0 right-0 w-64 rounded-2xl bg-white shadow-xl overflow-hidden rotate-2">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={foodImageUrl('rice', 320, 160)}
-                  alt=""
-                  className="h-32 w-full object-cover"
-                />
-                <div className="p-3.5">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-sm font-bold text-gray-900">Spice Garden</p>
-                    <span className="inline-flex items-center gap-0.5 rounded-full bg-orange-100 px-2 py-0.5 text-xs font-bold text-orange-600">
-                      <Star className="h-3 w-3 fill-orange-500 text-orange-500" />
-                      4.8
-                    </span>
-                  </div>
-                  <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-500">
-                    20–30 min
+            {/* Right — floating mockup cards */}
+            <div className="relative h-[420px] hidden sm:block">
+              {/* Card A: restaurant card */}
+              <div className="absolute top-0 right-2 w-64 rounded-2xl bg-white shadow-xl p-4 -rotate-2">
+                <div className="h-28 w-full rounded-xl bg-gradient-to-br from-orange-400 to-orange-600" />
+                <div className="mt-3 flex items-center justify-between gap-2">
+                  <p className="text-sm font-semibold text-gray-900">Spice Garden</p>
+                  <span className="inline-flex items-center gap-0.5 rounded-full bg-orange-100 px-2 py-0.5 text-xs font-bold text-orange-600">
+                    ⭐ 4.8
                   </span>
                 </div>
+                <span className="mt-2 inline-flex rounded-full bg-orange-50 px-2 py-0.5 text-[11px] font-medium text-orange-600">
+                  Nigerian Cuisine
+                </span>
               </div>
 
-              {/* Card B: order status card */}
-              <div className="absolute bottom-4 left-0 w-56 rounded-2xl bg-white shadow-xl p-4 -rotate-3">
-                <p className="text-xs font-semibold text-gray-800 mb-3">Preparing your order…</p>
-                <div className="flex items-center gap-1.5">
+              {/* Card B: order status */}
+              <div className="absolute bottom-6 left-0 w-60 rounded-2xl bg-white shadow-xl p-4 rotate-1">
+                <p className="text-xs font-semibold text-gray-800">Order #D9DF · Preparing 🍳</p>
+                <div className="mt-3 flex items-center gap-1.5">
                   <span className="h-2 w-2 rounded-full bg-orange-500 animate-pulse" />
-                  <span className="h-2 w-2 rounded-full bg-orange-200" />
+                  <span className="h-2 w-2 rounded-full bg-orange-500" />
                   <span className="h-2 w-2 rounded-full bg-orange-200" />
                   <span className="h-2 w-2 rounded-full bg-orange-200" />
                 </div>
               </div>
 
               {/* Card C: review chip */}
-              <div className="absolute top-24 left-2 w-48 rounded-2xl bg-white shadow-xl p-3.5 rotate-3">
-                <div className="flex items-center gap-0.5">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} className="h-3.5 w-3.5 fill-orange-500 text-orange-500" />
-                  ))}
-                </div>
-                <p className="mt-1.5 text-xs font-medium text-gray-700">&ldquo;Great food, fast!&rdquo;</p>
+              <div className="absolute top-40 right-0 rounded-2xl bg-white shadow-xl px-4 py-3 rotate-0">
+                <p className="text-xs font-semibold text-gray-700">
+                  ⭐⭐⭐⭐⭐ <span className="ml-1">Amazing food!</span>
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Decorative gradient blobs */}
+        {/* Decorative blobs */}
         <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-orange-200/40 blur-3xl" aria-hidden="true" />
         <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-amber-200/40 blur-3xl" aria-hidden="true" />
       </section>
 
-      {/* Features */}
-      <section id="features" className="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-28">
-        <div className="text-center max-w-2xl mx-auto mb-14">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">Everything you need to eat well</h2>
-          <p className="mt-3 text-sm sm:text-base text-gray-500">
-            A smoother way to discover, order, and enjoy food from restaurants you love.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {FEATURES.map((feature) => (
-            <div
-              key={feature.title}
-              className="rounded-2xl border border-gray-100 bg-white shadow-sm p-6 hover:shadow-lg transition-shadow"
-            >
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-orange-100 text-orange-500 mb-4">
-                <feature.icon className="h-5 w-5" strokeWidth={2} />
-              </div>
-              <h3 className="text-sm font-bold text-gray-900">{feature.title}</h3>
-              <p className="mt-1.5 text-sm text-gray-500 leading-relaxed">{feature.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* How It Works */}
-      <section id="how-it-works" className="bg-orange-50 border-y border-orange-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-28">
-          <h2 className="text-center text-3xl font-bold text-gray-900 mb-16">How DineFlow Works</h2>
+      <section id="how-it-works" className="bg-white py-20 md:py-24">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="text-3xl font-bold text-gray-900">How DineFlow Works</h2>
+            <p className="mt-3 text-gray-500">Order in three simple steps</p>
+          </div>
 
-          <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-6">
-            {/* Dashed connector line (desktop only) */}
+          <div className="relative grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-6">
+            {/* Dashed connector (desktop) */}
             <div
-              className="hidden sm:block absolute top-8 left-[16.66%] right-[16.66%] border-t-2 border-dashed border-orange-300"
+              className="hidden md:block absolute top-8 left-[16.66%] right-[16.66%] border-t-2 border-dashed border-orange-200"
               aria-hidden="true"
             />
 
-            {STEPS.map((step, idx) => (
-              <div key={step.title} className="relative flex flex-col items-center text-center">
-                <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100 border-4 border-orange-50">
-                  <step.icon className="h-7 w-7 text-orange-500" strokeWidth={2} />
+            {STEPS.map((step) => (
+              <div key={step.num} className="relative flex flex-col items-center text-center">
+                <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100 text-lg font-bold text-orange-600 ring-4 ring-white">
+                  {step.num}
                 </div>
-                <span className="mt-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">
-                  {idx + 1}
-                </span>
-                <h3 className="mt-3 text-base font-bold text-gray-900">{step.title}</h3>
-                <p className="mt-1.5 text-sm text-gray-500 leading-relaxed max-w-[220px]">{step.description}</p>
+                <div className="mt-4 flex h-11 w-11 items-center justify-center rounded-full bg-orange-50 text-orange-500">
+                  <step.icon className="h-5 w-5" strokeWidth={2} />
+                </div>
+                <h3 className="mt-4 text-lg font-medium text-gray-900">{step.title}</h3>
+                <p className="mt-2 text-sm text-gray-500 leading-relaxed max-w-[240px]">
+                  {step.description}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Become a Partner */}
-      <section className="bg-gray-900 overflow-hidden">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-28">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left: pitch */}
+      {/* Why DineFlow */}
+      <section id="why" className="bg-orange-50 py-20 md:py-24">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-12 lg:gap-16 items-center">
+            {/* Left */}
             <div>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-semibold text-orange-300 mb-6">
-                🤝 For Restaurants
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight">
-                Own a restaurant? Join DineFlow
-              </h2>
-              <p className="mt-4 text-base text-gray-400 max-w-md leading-relaxed">
-                Put your restaurant in front of more customers and take orders online — without the
-                hassle. Manage everything from one simple dashboard.
+              <p className="text-xs font-semibold uppercase tracking-wider text-orange-500">
+                Why DineFlow
               </p>
-
-              <ul className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
-                {[
-                  'More visibility',
-                  'Easy menu management',
-                  'Real-time order tracking',
-                  'Simple dashboard',
-                ].map((benefit) => (
-                  <li key={benefit} className="flex items-center gap-2.5 text-sm font-medium text-gray-200">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-orange-500/20 text-orange-400">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </span>
-                    {benefit}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-10">
-                <Link
-                  href="/partner"
-                  className="inline-block rounded-full bg-orange-500 px-8 py-3.5 text-sm font-bold text-white hover:bg-orange-600 shadow-lg shadow-orange-900/40 transition-colors"
-                >
-                  Apply to Partner
-                </Link>
-              </div>
+              <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+                Why thousands choose DineFlow
+              </h2>
+              <p className="mt-4 text-base text-gray-500 leading-relaxed max-w-md">
+                We bring your city&apos;s best kitchens together in one warm, friendly app — so
+                good food is always just a few taps away.
+              </p>
+              <Link
+                href="/register"
+                className="mt-8 inline-block rounded-full bg-orange-500 px-8 py-4 text-sm font-semibold text-white hover:bg-orange-600 shadow-lg shadow-orange-200/60 transition-colors"
+              >
+                Get Started
+              </Link>
             </div>
 
-            {/* Right: restaurant dashboard preview mockup */}
-            <div className="relative">
-              <div className="rounded-2xl bg-white shadow-2xl overflow-hidden">
-                {/* Mock window bar */}
-                <div className="flex items-center gap-1.5 px-4 py-3 border-b border-gray-100 bg-gray-50">
-                  <span className="h-2.5 w-2.5 rounded-full bg-red-300" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-yellow-300" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-green-300" />
-                  <span className="ml-3 text-xs font-semibold text-gray-400">Restaurant Dashboard</span>
-                </div>
-
-                <div className="p-5">
-                  {/* Stat tiles */}
-                  <div className="grid grid-cols-3 gap-3 mb-5">
-                    <div className="rounded-xl bg-orange-50 p-3">
-                      <p className="text-xl font-bold text-orange-600 tabular-nums">24</p>
-                      <p className="text-[11px] font-medium text-gray-500 mt-0.5">Orders today</p>
-                    </div>
-                    <div className="rounded-xl bg-gray-50 p-3">
-                      <p className="text-xl font-bold text-gray-900 tabular-nums">₦86k</p>
-                      <p className="text-[11px] font-medium text-gray-500 mt-0.5">Revenue</p>
-                    </div>
-                    <div className="rounded-xl bg-gray-50 p-3">
-                      <p className="text-xl font-bold text-gray-900 tabular-nums">3</p>
-                      <p className="text-[11px] font-medium text-gray-500 mt-0.5">Pending</p>
-                    </div>
+            {/* Right — 2x2 grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {WHY_FEATURES.map((feature) => (
+                <div
+                  key={feature.title}
+                  className="rounded-2xl bg-white shadow-sm p-6 hover:shadow-md transition-shadow"
+                >
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-orange-100 text-orange-500 mb-4">
+                    <feature.icon className="h-5 w-5" strokeWidth={2} />
                   </div>
-
-                  {/* Order rows */}
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-400 mb-2">
-                    Recent orders
+                  <h3 className="text-base font-medium text-gray-900">{feature.title}</h3>
+                  <p className="mt-1.5 text-sm text-gray-500 leading-relaxed">
+                    {feature.description}
                   </p>
-                  <div className="space-y-2">
-                    {[
-                      { id: '#A1B2C3', label: 'Preparing', colour: 'bg-orange-100 text-orange-700' },
-                      { id: '#D4E5F6', label: 'Ready', colour: 'bg-green-100 text-green-700' },
-                      { id: '#G7H8I9', label: 'Confirmed', colour: 'bg-blue-100 text-blue-700' },
-                    ].map((order) => (
-                      <div
-                        key={order.id}
-                        className="flex items-center justify-between rounded-xl border border-gray-100 px-3.5 py-2.5"
-                      >
-                        <span className="font-mono text-xs font-bold text-gray-700">{order.id}</span>
-                        <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${order.colour}`}>
-                          {order.label}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
                 </div>
-              </div>
-
-              {/* Decorative glow */}
-              <div className="pointer-events-none absolute -bottom-8 -right-8 h-40 w-40 rounded-full bg-orange-500/20 blur-3xl" aria-hidden="true" />
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* Final CTA */}
-      <section className="bg-orange-500 overflow-hidden">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            {/* Left: headline + CTA */}
+      <section className="py-16 md:py-20">
+        <div className="mx-4 md:mx-16 rounded-3xl bg-orange-500 overflow-hidden">
+          <div className="px-6 sm:px-10 py-20 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            {/* Left */}
             <div className="text-center lg:text-left">
-              <h2 className="text-3xl sm:text-4xl font-bold text-white">Ready to order?</h2>
-              <p className="mt-3 text-sm sm:text-base text-orange-100 max-w-md mx-auto lg:mx-0">
+              <h2 className="text-3xl md:text-4xl font-bold text-white">Ready to order?</h2>
+              <p className="mt-3 text-base text-orange-50 max-w-md mx-auto lg:mx-0">
                 Join DineFlow today and get your favourite meals delivered in minutes.
               </p>
-              <div className="mt-8">
-                <Link
-                  href="/register"
-                  className="inline-block rounded-full bg-white px-8 py-3.5 text-sm font-bold text-orange-600 hover:bg-orange-50 shadow-lg transition-colors"
-                >
-                  Get Started
-                </Link>
-              </div>
+              <Link
+                href="/register"
+                className="mt-8 inline-block rounded-full bg-white px-8 py-4 text-sm font-semibold text-orange-600 hover:bg-orange-50 shadow-lg transition-colors"
+              >
+                Get Started
+              </Link>
             </div>
 
-            {/* Right: floating illustrative cards */}
-            <div className="relative h-48 hidden lg:block">
-              <div className="absolute top-0 left-10 flex h-24 w-24 items-center justify-center rounded-2xl bg-white shadow-xl text-4xl rotate-6">
-                🍜
+            {/* Right — floating food illustration */}
+            <div className="relative h-44 hidden lg:block">
+              <div className="absolute top-0 left-12 flex h-24 w-24 items-center justify-center rounded-3xl bg-white/95 shadow-xl text-5xl rotate-6">
+                🍲
               </div>
-              <div className="absolute top-8 left-40 flex h-28 w-28 items-center justify-center rounded-2xl bg-white shadow-xl text-5xl -rotate-3">
+              <div className="absolute top-8 left-44 flex h-28 w-28 items-center justify-center rounded-3xl bg-white/95 shadow-xl text-6xl -rotate-3">
                 🍔
               </div>
-              <div className="absolute top-2 right-0 flex h-20 w-20 items-center justify-center rounded-2xl bg-white shadow-xl text-3xl rotate-12">
+              <div className="absolute top-2 right-2 flex h-20 w-20 items-center justify-center rounded-3xl bg-white/95 shadow-xl text-4xl rotate-12">
                 🥗
               </div>
             </div>
@@ -385,29 +275,69 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <span className="text-lg font-bold text-orange-500 tracking-tight">DineFlow</span>
+      <footer className="bg-gray-900 text-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
+            {/* Brand */}
+            <div className="col-span-2 md:col-span-1">
+              <span className="text-xl font-bold text-orange-500 tracking-tight">DineFlow</span>
+              <p className="mt-3 text-sm text-gray-400 leading-relaxed max-w-xs">
+                Warm, friendly food delivery from your city&apos;s best local kitchens.
+              </p>
+              <div className="mt-5 flex items-center gap-3">
+                {SOCIALS.map((social) => (
+                  <span
+                    key={social.label}
+                    aria-label={social.label}
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-gray-300 hover:bg-orange-500 hover:text-white transition-colors"
+                  >
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+                      <path d={social.path} />
+                    </svg>
+                  </span>
+                ))}
+              </div>
+            </div>
 
-            <nav className="flex items-center gap-6">
-              <a href="#features" className="text-xs font-medium text-gray-500 hover:text-orange-500 transition-colors">
-                Features
-              </a>
-              <a href="#how-it-works" className="text-xs font-medium text-gray-500 hover:text-orange-500 transition-colors">
-                How It Works
-              </a>
-              <Link href="/login" className="text-xs font-medium text-gray-500 hover:text-orange-500 transition-colors">
-                Log in
-              </Link>
-              <Link href="/register" className="text-xs font-medium text-gray-500 hover:text-orange-500 transition-colors">
-                Sign up
-              </Link>
-            </nav>
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-sm font-semibold text-white mb-4">Quick Links</h3>
+              <ul className="space-y-2.5 text-sm text-gray-400">
+                <li><Link href="/#how-it-works" className="hover:text-orange-400 transition-colors">How It Works</Link></li>
+                <li><Link href="/#why" className="hover:text-orange-400 transition-colors">Why DineFlow</Link></li>
+                <li><Link href="/register" className="hover:text-orange-400 transition-colors">Sign Up</Link></li>
+                <li><Link href="/login" className="hover:text-orange-400 transition-colors">Log in</Link></li>
+              </ul>
+            </div>
+
+            {/* For Restaurants */}
+            <div>
+              <h3 className="text-sm font-semibold text-white mb-4">For Restaurants</h3>
+              <ul className="space-y-2.5 text-sm text-gray-400">
+                <li><Link href="/partner" className="hover:text-orange-400 transition-colors">Become a Partner</Link></li>
+                <li><Link href="/partner" className="hover:text-orange-400 transition-colors">Grow Your Business</Link></li>
+                <li><Link href="/login" className="hover:text-orange-400 transition-colors">Partner Login</Link></li>
+              </ul>
+            </div>
+
+            {/* Support */}
+            <div>
+              <h3 className="text-sm font-semibold text-white mb-4">Support</h3>
+              <ul className="space-y-2.5 text-sm text-gray-400">
+                <li className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" /> Lagos &amp; Abuja</li>
+                <li>Help Center</li>
+                <li>Contact Us</li>
+                <li>Privacy &amp; Terms</li>
+              </ul>
+            </div>
           </div>
-          <p className="mt-6 text-center sm:text-left text-xs text-gray-400">
-            &copy; {new Date().getFullYear()} DineFlow. All rights reserved.
-          </p>
+
+          <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-xs text-gray-500">
+              &copy; {new Date().getFullYear()} DineFlow. All rights reserved.
+            </p>
+            <p className="text-xs text-gray-500">Made with ❤️ for food lovers</p>
+          </div>
         </div>
       </footer>
     </div>

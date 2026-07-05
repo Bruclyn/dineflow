@@ -31,9 +31,23 @@ export default async function DashboardPage() {
 
   const initial = (user.user_metadata?.full_name?.[0] ?? user.email?.[0] ?? 'U').toUpperCase()
 
+  // First name + time-of-day greeting (computed in Lagos time for the target audience)
+  const firstName =
+    (user.user_metadata?.full_name as string | undefined)?.trim().split(/\s+/)[0] ||
+    user.email?.split('@')[0] ||
+    'there'
+  const lagosHour = Number(
+    new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Africa/Lagos',
+      hour: 'numeric',
+      hour12: false,
+    }).format(new Date())
+  )
+  const greeting = lagosHour < 12 ? 'morning' : lagosHour < 17 ? 'afternoon' : 'evening'
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white border-b border-gray-100 sticky top-0 z-10 shadow-sm">
+      <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
           <span className="text-xl font-bold text-orange-500 tracking-tight shrink-0">DineFlow</span>
           <div className="flex items-center gap-3 shrink-0">
@@ -43,16 +57,11 @@ export default async function DashboardPage() {
         </div>
       </nav>
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
-        <div className="mb-8">
-          <h1 className="text-2xl font-semibold text-gray-900">Restaurants near you</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Browse and order from our partner restaurants
-          </p>
-        </div>
-
-        <RestaurantBrowser restaurants={(restaurants as Restaurant[]) ?? []} />
-      </main>
+      <RestaurantBrowser
+        restaurants={(restaurants as Restaurant[]) ?? []}
+        firstName={firstName}
+        greeting={greeting}
+      />
     </div>
   )
 }

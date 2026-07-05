@@ -2,6 +2,7 @@ import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import AddToCartButton from './add-to-cart-button'
+import MenuTabs from './menu-tabs'
 import CartNavIcon from '@/app/components/cart-nav-icon'
 import UserMenu from '@/app/components/user-menu'
 import { foodImageUrl, guessFoodCategory } from '@/lib/food-images'
@@ -103,6 +104,8 @@ export default async function RestaurantPage({
     (a, b) => (categoryOrder[a] ?? 9999) - (categoryOrder[b] ?? 9999)
   )
 
+  const tabs = categories.map((name, i) => ({ name, id: `menu-cat-${i}` }))
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navbar */}
@@ -133,19 +136,19 @@ export default async function RestaurantPage({
       </nav>
 
       {/* Cover banner with overlaid identity */}
-      <div className="relative h-56 w-full overflow-hidden">
+      <div className="relative h-64 w-full overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={restaurant.cover_image_url ?? foodImageUrl('restaurant', 1200, 448)}
+          src={restaurant.cover_image_url ?? foodImageUrl('restaurant', 1200, 512)}
           alt={restaurant.name}
           className="h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
         <div className="absolute inset-x-0 bottom-0">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-5 flex items-end gap-4">
             {/* Logo */}
-            <div className="shrink-0 h-16 w-16 sm:h-20 sm:w-20 rounded-2xl border-2 border-white/90 shadow-lg bg-white overflow-hidden">
+            <div className="shrink-0 h-16 w-16 rounded-2xl shadow-lg overflow-hidden">
               {restaurant.logo_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -163,21 +166,29 @@ export default async function RestaurantPage({
             </div>
 
             <div className="pb-1 min-w-0">
-              <h1 className="text-xl sm:text-2xl font-bold text-white leading-tight truncate drop-shadow-sm">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white leading-tight truncate drop-shadow-sm">
                 {restaurant.name}
               </h1>
 
-              {avgRating !== null && (
-                <div className="mt-1.5 flex items-center gap-1.5">
-                  <StarRow rating={avgRating} />
-                  <span className="text-sm font-semibold text-white">
-                    {avgRating.toFixed(1)}
+              <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1">
+                {avgRating !== null && (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-2.5 py-0.5 backdrop-blur-sm">
+                    <StarRow rating={avgRating} />
+                    <span className="text-sm font-semibold text-white">
+                      {avgRating.toFixed(1)}
+                    </span>
+                    <span className="text-xs text-white/80">
+                      ({reviewList.length})
+                    </span>
                   </span>
-                  <span className="text-xs text-white/75">
-                    ({reviewList.length} {reviewList.length === 1 ? 'review' : 'reviews'})
+                )}
+                {restaurant.address && (
+                  <span className="flex items-center gap-1 text-sm text-white/80 min-w-0">
+                    <span>📍</span>
+                    <span className="truncate">{restaurant.address}</span>
                   </span>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -189,13 +200,6 @@ export default async function RestaurantPage({
           <p className="text-sm text-gray-500 leading-relaxed mt-4 mb-2">
             {restaurant.description}
           </p>
-        )}
-
-        {restaurant.address && (
-          <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-2">
-            <span>📍</span>
-            {restaurant.address}
-          </div>
         )}
 
         {(restaurant.phone || restaurant.email) && (
@@ -230,25 +234,26 @@ export default async function RestaurantPage({
             </p>
           </div>
         ) : (
-          <div className="space-y-10 mb-10">
-            {categories.map((cat) => (
-              <section key={cat}>
-                <h2 className="sticky top-16 z-10 -mx-4 sm:-mx-6 px-4 sm:px-6 py-2.5 bg-gray-50/95 backdrop-blur-sm text-base font-bold text-orange-600 mb-4 border-b border-orange-100">
-                  {cat}
-                </h2>
-                <div className="space-y-3">
-                  {grouped[cat].map((item) => (
-                    <MenuItemCard
-                      key={item.id}
-                      item={item}
-                      restaurantId={restaurant.id}
-                      restaurantName={restaurant.name}
-                    />
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
+          <>
+            <MenuTabs tabs={tabs} />
+            <div className="space-y-10 mt-6 mb-10">
+              {tabs.map((tab) => (
+                <section key={tab.id} id={tab.id} className="scroll-mt-32">
+                  <h2 className="text-lg font-bold text-gray-900 mb-4">{tab.name}</h2>
+                  <div className="space-y-3">
+                    {grouped[tab.name].map((item) => (
+                      <MenuItemCard
+                        key={item.id}
+                        item={item}
+                        restaurantId={restaurant.id}
+                        restaurantName={restaurant.name}
+                      />
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          </>
         )}
 
         {/* Reviews */}
@@ -302,7 +307,7 @@ function MenuItemCard({
   const tags = parseTags(item.tags)
 
   return (
-    <div className="flex items-center gap-4 bg-white rounded-2xl border border-gray-100 shadow-sm p-3">
+    <div className="flex gap-4 bg-white rounded-xl shadow-sm p-4">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={imageUrl}
@@ -312,7 +317,7 @@ function MenuItemCard({
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
-          <h3 className="text-sm font-semibold text-gray-900">{item.name}</h3>
+          <h3 className="text-base font-semibold text-gray-900">{item.name}</h3>
           {item.prep_time_mins != null && (
             <span className="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-semibold text-gray-600">
               ⏱ {item.prep_time_mins} mins
@@ -336,7 +341,7 @@ function MenuItemCard({
             {item.description}
           </p>
         )}
-        <p className="mt-1.5 text-sm font-bold text-orange-500">
+        <p className="mt-2 text-lg font-bold text-orange-500">
           ₦{item.price.toLocaleString('en-NG')}
         </p>
       </div>

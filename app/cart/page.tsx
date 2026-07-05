@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useCart } from '@/lib/cart/cart-context'
+import { foodImageUrl, guessFoodCategory } from '@/lib/food-images'
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, clearCart, total } = useCart()
@@ -55,14 +56,14 @@ export default function CartPage() {
   const restaurantName = items[0].restaurant_name
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <CartNav />
 
       <main className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
         {/* Header */}
         <div className="mb-6 flex items-center justify-between gap-4">
           <div>
-            <h1 className="text-xl font-bold text-gray-900">Your cart</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Your Cart</h1>
             <p className="text-xs text-gray-400 mt-0.5">From {restaurantName}</p>
           </div>
           <button
@@ -78,8 +79,16 @@ export default function CartPage() {
           {items.map((item) => (
             <div
               key={item.menu_item_id}
-              className="flex items-center gap-4 bg-white rounded-2xl border border-gray-100 shadow-sm px-4 py-3"
+              className="flex items-center gap-4 bg-white rounded-xl border border-gray-100 shadow-sm p-4"
             >
+              {/* Thumbnail */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={foodImageUrl(guessFoodCategory(item.name), 96, 96)}
+                alt={item.name}
+                className="h-14 w-14 shrink-0 rounded-lg object-cover"
+              />
+
               {/* Name + price */}
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-gray-900 truncate">{item.name}</p>
@@ -136,7 +145,7 @@ export default function CartPage() {
         </div>
 
         {/* Summary card */}
-        <div className="rounded-2xl border border-gray-100 bg-white shadow-sm p-5 space-y-3">
+        <div className="rounded-2xl bg-orange-50 p-6 space-y-3 lg:sticky lg:top-24">
           <div className="flex items-center justify-between text-sm text-gray-500">
             <span>Subtotal</span>
             <span className="font-medium text-gray-900 tabular-nums">
@@ -147,16 +156,16 @@ export default function CartPage() {
             <span>Delivery fee</span>
             <span className="text-gray-400 italic">Calculated at checkout</span>
           </div>
-          <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
+          <div className="pt-3 border-t border-orange-100 flex items-center justify-between">
             <span className="text-base font-bold text-gray-900">Total</span>
-            <span className="text-base font-bold text-orange-500 tabular-nums">
+            <span className="text-lg font-bold text-orange-500 tabular-nums">
               ₦{total.toLocaleString('en-NG')}
             </span>
           </div>
 
           <Link
             href="/checkout"
-            className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 py-3 text-sm font-bold text-white hover:bg-orange-600 transition-colors"
+            className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-orange-500 py-3.5 text-sm font-semibold text-white hover:bg-orange-600 transition-colors"
           >
             Proceed to checkout
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
