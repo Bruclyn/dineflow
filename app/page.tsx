@@ -78,21 +78,21 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center min-h-[85vh] py-16">
             {/* Left — text */}
-            <div>
+            <div className="text-center lg:text-left">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-100 px-3.5 py-1.5 text-xs font-semibold text-orange-700 mb-6">
                 🏪 Lagos &amp; Abuja&apos;s Food Marketplace
               </span>
 
-              <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-gray-900 leading-[1.05]">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 leading-[1.05]">
                 Delicious Food, Delivered to Your Doorstep
               </h1>
 
-              <p className="mt-6 text-lg text-gray-500 max-w-md leading-relaxed">
+              <p className="mt-6 text-lg text-gray-500 max-w-md mx-auto lg:mx-0 leading-relaxed">
                 Discover the best local restaurants, explore their menus, and get your favourite
                 meals in minutes.
               </p>
 
-              <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3">
                 <Link
                   href="/register"
                   className="text-center rounded-full bg-orange-500 px-8 py-4 text-sm font-semibold text-white hover:bg-orange-600 shadow-lg shadow-orange-200 transition-colors"
@@ -107,7 +107,7 @@ export default function LandingPage() {
                 </Link>
               </div>
 
-              <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3">
+              <div className="mt-10 flex flex-wrap justify-center lg:justify-start gap-x-6 gap-y-3">
                 {TRUST.map((item) => (
                   <div
                     key={item.label}
@@ -121,7 +121,7 @@ export default function LandingPage() {
             </div>
 
             {/* Right — floating mockup cards */}
-            <div className="relative h-[420px] hidden sm:block">
+            <div className="relative h-[420px] hidden md:block">
               {/* Card A: restaurant card */}
               <div className="absolute top-0 right-2 w-64 rounded-2xl bg-white shadow-xl p-4 -rotate-2">
                 <div className="h-28 w-full rounded-xl bg-gradient-to-br from-orange-400 to-orange-600" />
@@ -220,7 +220,7 @@ export default function LandingPage() {
             </div>
 
             {/* Right — 2x2 grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {WHY_FEATURES.map((feature) => (
                 <div
                   key={feature.title}
@@ -277,9 +277,9 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="bg-gray-900 text-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
             {/* Brand */}
-            <div className="col-span-2 md:col-span-1">
+            <div className="md:col-span-2 lg:col-span-1">
               <span className="text-xl font-bold text-orange-500 tracking-tight">DineFlow</span>
               <p className="mt-3 text-sm text-gray-400 leading-relaxed max-w-xs">
                 Warm, friendly food delivery from your city&apos;s best local kitchens.
