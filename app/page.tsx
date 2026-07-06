@@ -122,36 +122,40 @@ export default function LandingPage() {
 
             {/* Right — floating mockup cards */}
             <div className="relative h-[420px] hidden md:block">
-              {/* Card A: restaurant card */}
-              <div className="absolute top-0 right-2 w-64 rounded-2xl bg-white shadow-xl p-4 -rotate-2">
-                <div className="h-28 w-full rounded-xl bg-gradient-to-br from-orange-400 to-orange-600" />
-                <div className="mt-3 flex items-center justify-between gap-2">
-                  <p className="text-sm font-semibold text-gray-900">Spice Garden</p>
-                  <span className="inline-flex items-center gap-0.5 rounded-full bg-orange-100 px-2 py-0.5 text-xs font-bold text-orange-600">
-                    ⭐ 4.8
-                  </span>
-                </div>
-                <span className="mt-2 inline-flex rounded-full bg-orange-50 px-2 py-0.5 text-[11px] font-medium text-orange-600">
-                  Nigerian Cuisine
-                </span>
+              {/* Card C: review chip — anchored top-right, separate from Card A */}
+              <div className="absolute top-0 right-0 z-10 rounded-full bg-white shadow-md px-3 py-1.5">
+                <p className="text-xs font-medium text-gray-700">⭐ Amazing food!</p>
               </div>
 
-              {/* Card B: order status */}
-              <div className="absolute bottom-6 left-0 w-60 rounded-2xl bg-white shadow-xl p-4 rotate-1">
-                <p className="text-xs font-semibold text-gray-800">Order #D9DF · Preparing 🍳</p>
-                <div className="mt-3 flex items-center gap-1.5">
+              {/* Card A: restaurant card */}
+              <div className="absolute top-16 right-0 w-52 rounded-xl bg-white shadow-lg overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80"
+                  alt="Featured dish"
+                  className="h-28 w-full object-cover"
+                />
+                <div className="p-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-sm font-semibold text-gray-900">Spice Garden</p>
+                    <span className="shrink-0 rounded-full bg-orange-500 px-2 py-0.5 text-xs font-bold text-white">
+                      ⭐ 4.8
+                    </span>
+                  </div>
+                  <span className="mt-2 inline-flex rounded-full bg-orange-100 px-2 py-0.5 text-xs font-medium text-orange-700">
+                    Nigerian Cuisine
+                  </span>
+                </div>
+              </div>
+
+              {/* Card B: order status — below Card A, offset left */}
+              <div className="absolute bottom-6 left-0 w-44 rounded-xl bg-white shadow-lg p-3">
+                <p className="text-xs font-medium text-gray-700">🍳 Preparing your order…</p>
+                <div className="mt-2 flex items-center gap-1.5">
                   <span className="h-2 w-2 rounded-full bg-orange-500 animate-pulse" />
                   <span className="h-2 w-2 rounded-full bg-orange-500" />
                   <span className="h-2 w-2 rounded-full bg-orange-200" />
-                  <span className="h-2 w-2 rounded-full bg-orange-200" />
                 </div>
-              </div>
-
-              {/* Card C: review chip */}
-              <div className="absolute top-40 right-0 rounded-2xl bg-white shadow-xl px-4 py-3 rotate-0">
-                <p className="text-xs font-semibold text-gray-700">
-                  ⭐⭐⭐⭐⭐ <span className="ml-1">Amazing food!</span>
-                </p>
               </div>
             </div>
           </div>
