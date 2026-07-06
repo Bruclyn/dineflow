@@ -5,7 +5,7 @@ import AddToCartButton from './add-to-cart-button'
 import MenuTabs from './menu-tabs'
 import CartNavIcon from '@/app/components/cart-nav-icon'
 import UserMenu from '@/app/components/user-menu'
-import { foodImageUrl, guessFoodCategory } from '@/lib/food-images'
+import { foodImageUrl, guessFoodCategory, restaurantCoverUrl } from '@/lib/food-images'
 import { parseTags } from '@/lib/menu-tags'
 
 type Restaurant = {
@@ -139,7 +139,7 @@ export default async function RestaurantPage({
       <div className="relative h-64 w-full overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={restaurant.cover_image_url ?? foodImageUrl('restaurant', 1200, 512)}
+          src={restaurant.cover_image_url ?? restaurantCoverUrl(restaurant.name, 1200, 512)}
           alt={restaurant.name}
           className="h-full w-full object-cover"
         />

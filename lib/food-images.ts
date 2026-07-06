@@ -17,6 +17,32 @@ export function foodImageUrl(category: FoodCategory, width: number, height: numb
   return `https://images.unsplash.com/photo-${PHOTO_IDS[category]}?w=${width}&h=${height}&fit=crop&auto=format`
 }
 
+// Map a restaurant to a distinct cover photo so cards don't all look identical.
+// Uses direct images.unsplash.com CDN URLs (source.unsplash.com is deprecated).
+const RESTAURANT_COVER_MAP: [RegExp, FoodCategory][] = [
+  [/burger/i, 'burger'],
+  [/grill|bbq|barbecue|smok/i, 'chicken'],
+  [/spice|garden|jollof|nigerian|afri/i, 'rice'],
+  [/kitchen|mama|home|mum/i, 'spread'],
+  [/pizza|italian/i, 'pizza'],
+  [/noodle|pasta|chinese|asian|wok/i, 'noodles'],
+  [/salad|vegan|green|healthy/i, 'salad'],
+  [/soup|broth/i, 'soup'],
+]
+
+export function restaurantCoverUrl(name: string, width: number, height: number): string {
+  for (const [pattern, category] of RESTAURANT_COVER_MAP) {
+    if (pattern.test(name)) return foodImageUrl(category, width, height)
+  }
+  // Deterministic fallback: spread arbitrary names across the photo set for variety.
+  const keys = Object.keys(PHOTO_IDS) as FoodCategory[]
+  let hash = 0
+  for (let i = 0; i < name.length; i++) {
+    hash = (hash * 31 + name.charCodeAt(i)) >>> 0
+  }
+  return foodImageUrl(keys[hash % keys.length], width, height)
+}
+
 const KEYWORD_MAP: [RegExp, FoodCategory][] = [
   [/burger/i, 'burger'],
   [/pizza/i, 'pizza'],

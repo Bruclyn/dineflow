@@ -114,7 +114,7 @@ export default function PartnerPage() {
                   key={card.title}
                   className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:p-6"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/15 text-2xl">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500 text-2xl shadow-sm shadow-orange-500/30">
                     <span aria-hidden="true">{card.icon}</span>
                   </div>
                   <h3 className="mt-4 text-base font-bold text-white">{card.title}</h3>

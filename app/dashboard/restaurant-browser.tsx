@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import type { Restaurant } from './page'
-import { foodImageUrl } from '@/lib/food-images'
+import { restaurantCoverUrl } from '@/lib/food-images'
 
 const ALL = 'All'
 
@@ -148,7 +148,7 @@ function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
       <div className="relative h-44 w-full overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={restaurant.cover_image_url ?? foodImageUrl('restaurant', 400, 220)}
+          src={restaurant.cover_image_url ?? restaurantCoverUrl(restaurant.name, 400, 220)}
           alt={restaurant.name}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
