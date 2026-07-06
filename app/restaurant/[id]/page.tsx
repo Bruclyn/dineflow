@@ -143,7 +143,8 @@ export default async function RestaurantPage({
           alt={restaurant.name}
           className="h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+        {/* Dark gradient at the bottom only — keeps the image's natural colour up top */}
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/75 to-transparent" />
 
         <div className="absolute inset-x-0 bottom-0">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-5 flex items-end gap-4">
