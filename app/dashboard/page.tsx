@@ -46,10 +46,10 @@ export default async function DashboardPage() {
   const greeting = lagosHour < 12 ? 'morning' : lagosHour < 17 ? 'afternoon' : 'evening'
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#FAFAF8]">
       <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-          <span className="text-xl font-bold text-orange-500 tracking-tight shrink-0">DineFlow</span>
+          <span className="text-xl font-display font-bold text-[#E8471E] tracking-tight shrink-0">DineFlow</span>
           <div className="flex items-center gap-3 shrink-0">
             <CartNavIcon />
             <UserMenu initial={initial} />

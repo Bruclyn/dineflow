@@ -22,7 +22,7 @@ type Order = {
 const STATUS_COLOURS: Record<string, string> = {
   pending: 'bg-yellow-100 text-yellow-700',
   confirmed: 'bg-blue-100 text-blue-700',
-  preparing: 'bg-orange-100 text-orange-700',
+  preparing: 'bg-[#E8471E]/10 text-[#C93D18]',
   ready: 'bg-green-100 text-green-700',
   completed: 'bg-gray-100 text-gray-600',
   cancelled: 'bg-red-100 text-red-600',
@@ -45,15 +45,15 @@ export default async function AdminOrdersPage() {
     <main className="flex-1 px-4 sm:px-8 py-8 max-w-5xl w-full mx-auto">
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Orders</h1>
+          <h1 className="font-display text-2xl font-bold text-[#1A1A2E]">Orders</h1>
           <p className="text-sm text-gray-500 mt-0.5">{orders.length} order{orders.length !== 1 ? 's' : ''} total</p>
         </div>
       </div>
 
       {orders.length === 0 ? (
         <div className="rounded-2xl border border-gray-100 bg-white shadow-sm px-6 py-24 text-center">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-orange-50 mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#E8471E]/10 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#E8471E]/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
           </div>
@@ -128,7 +128,7 @@ function OrderCard({ order }: { order: Order }) {
         )}
 
         {/* Total */}
-        <p className="text-sm font-bold text-gray-900 tabular-nums">
+        <p className="text-sm font-bold text-[#1A1A2E] tabular-nums">
           ₦{order.total_amount.toLocaleString('en-NG')}
         </p>
       </div>

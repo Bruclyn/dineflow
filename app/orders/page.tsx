@@ -25,10 +25,10 @@ type Order = {
 const ACTIVE_STATUSES: OrderStatus[] = ['pending', 'confirmed', 'preparing', 'ready']
 
 const STATUS_COLOURS: Record<OrderStatus, string> = {
-  pending: 'bg-orange-100 text-orange-700',
-  confirmed: 'bg-orange-100 text-orange-700',
-  preparing: 'bg-orange-100 text-orange-700',
-  ready: 'bg-orange-100 text-orange-700',
+  pending: 'bg-[#E8471E]/10 text-[#C93D18]',
+  confirmed: 'bg-[#E8471E]/10 text-[#C93D18]',
+  preparing: 'bg-[#E8471E]/10 text-[#C93D18]',
+  ready: 'bg-[#E8471E]/10 text-[#C93D18]',
   completed: 'bg-green-100 text-green-700',
   cancelled: 'bg-red-100 text-red-600',
 }
@@ -61,10 +61,10 @@ export default async function MyOrdersPage() {
   })
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#FAFAF8]">
       <nav className="bg-white border-b border-gray-100 sticky top-0 z-10 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <span className="text-xl font-bold text-orange-500 tracking-tight">DineFlow</span>
+          <span className="text-xl font-display font-bold text-[#E8471E] tracking-tight">DineFlow</span>
           <div className="flex items-center gap-2">
             <CartNavIcon />
             <LogoutButton />
@@ -74,7 +74,7 @@ export default async function MyOrdersPage() {
 
       <main className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">My Orders</h1>
+          <h1 className="font-display text-2xl font-bold text-[#1A1A2E]">My Orders</h1>
           <p className="text-sm text-gray-500 mt-0.5">
             {sorted.length} order{sorted.length !== 1 ? 's' : ''}
           </p>
@@ -82,8 +82,8 @@ export default async function MyOrdersPage() {
 
         {sorted.length === 0 ? (
           <div className="rounded-2xl border border-gray-100 bg-white shadow-sm px-6 py-24 text-center">
-            <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-orange-50 mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#E8471E]/10 mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#E8471E]/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
             </div>
@@ -93,7 +93,7 @@ export default async function MyOrdersPage() {
             </p>
             <Link
               href="/dashboard"
-              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-orange-600 transition-colors"
+              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#E8471E] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#C93D18] transition-colors"
             >
               Browse restaurants
             </Link>
@@ -125,7 +125,7 @@ function OrderCard({ order }: { order: Order }) {
   return (
     <Link
       href={`/orders/${order.id}`}
-      className="group block rounded-2xl border border-gray-100 bg-white shadow-sm p-4 sm:p-5 hover:shadow-md hover:border-orange-100 transition-all"
+      className="group block rounded-2xl border border-gray-100 bg-white shadow-sm p-4 sm:p-5 hover:shadow-md hover:border-[#E8471E]/10 transition-all"
     >
       <div className="flex flex-wrap items-center gap-2 mb-2">
         <span className="font-mono text-xs font-bold text-gray-800">
@@ -150,16 +150,16 @@ function OrderCard({ order }: { order: Order }) {
         <span className="text-xs text-gray-400 ml-auto shrink-0">{placedAt}</span>
       </div>
 
-      <p className="text-sm font-semibold text-gray-900">{order.restaurants?.name ?? 'Restaurant'}</p>
+      <p className="text-sm font-semibold text-[#1A1A2E]">{order.restaurants?.name ?? 'Restaurant'}</p>
       {itemSummary && (
         <p className="text-sm text-gray-500 mt-0.5 line-clamp-1">{itemSummary}</p>
       )}
 
       <div className="mt-2.5 flex items-center justify-between">
-        <span className="text-sm font-bold text-orange-500 tabular-nums">
+        <span className="text-sm font-bold text-[#E8471E] tabular-nums">
           ₦{order.total_amount.toLocaleString('en-NG')}
         </span>
-        <span className="text-xs font-semibold text-gray-400 group-hover:text-orange-500 transition-colors">
+        <span className="text-xs font-semibold text-gray-400 group-hover:text-[#E8471E] transition-colors">
           View details →
         </span>
       </div>

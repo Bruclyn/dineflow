@@ -52,7 +52,7 @@ export default function InquiryStatusSelect({
         value={current}
         onChange={handleChange}
         disabled={saving}
-        className="w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold capitalize text-gray-700 outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 disabled:opacity-50 transition-all"
+        className="w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold capitalize text-gray-700 outline-none focus:border-[#F5A623] focus:ring-2 focus:ring-[#E8471E]/10 disabled:opacity-50 transition-all"
       >
         {STATUSES.map((s) => (
           <option key={s} value={s} className="capitalize">

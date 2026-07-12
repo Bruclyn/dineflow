@@ -38,9 +38,9 @@ export default function RestaurantBrowser({
   return (
     <div>
       {/* Welcome banner */}
-      <div className="bg-gradient-to-b from-orange-50 to-white">
+      <div className="bg-gradient-to-b from-[#E8471E]/10 to-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+          <h1 className="font-display text-2xl md:text-3xl font-bold text-[#1A1A2E]">
             Good {greeting}, {firstName} 👋
           </h1>
           <p className="mt-1 text-gray-500">What are you craving today?</p>
@@ -68,7 +68,7 @@ export default function RestaurantBrowser({
               placeholder="Search restaurants…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full rounded-full border border-gray-100 bg-white py-3.5 pl-12 pr-4 text-sm text-gray-900 placeholder-gray-400 shadow-sm outline-none transition focus:border-orange-300 focus:ring-2 focus:ring-orange-100"
+              className="w-full rounded-full border border-gray-100 bg-white py-3.5 pl-12 pr-4 text-sm text-[#1A1A2E] placeholder-gray-400 shadow-sm outline-none transition focus:border-[#E8471E]/40 focus:ring-2 focus:ring-[#E8471E]/10"
             />
           </div>
         </div>
@@ -87,8 +87,8 @@ export default function RestaurantBrowser({
                   onClick={() => setCategory(cat)}
                   className={`shrink-0 rounded-full px-5 py-2 text-sm font-medium transition-colors ${
                     active
-                      ? 'bg-orange-500 text-white'
-                      : 'border border-gray-200 bg-white text-gray-600 hover:bg-orange-50 hover:text-orange-600'
+                      ? 'bg-[#E8471E] text-white'
+                      : 'border border-gray-200 bg-white text-gray-600 hover:bg-[#E8471E]/10 hover:text-[#C93D18]'
                   }`}
                 >
                   {cat}
@@ -107,10 +107,10 @@ export default function RestaurantBrowser({
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-orange-50">
+            <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-[#E8471E]/10">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-orange-400"
+                className="h-6 w-6 text-[#F5A623]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -166,18 +166,18 @@ function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
               className="h-12 w-12 rounded-full ring-2 ring-white object-cover bg-white shadow"
             />
           ) : (
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 text-base font-bold text-white ring-2 ring-white shadow">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#E8471E] text-base font-bold text-white ring-2 ring-white shadow">
               {initial}
             </div>
           )}
         </div>
 
         <div className="mt-6 flex items-center gap-2 flex-wrap">
-          <h2 className="text-lg font-semibold text-gray-900 leading-snug group-hover:text-orange-500 transition-colors">
+          <h2 className="text-lg font-semibold text-[#1A1A2E] leading-snug group-hover:text-[#E8471E] transition-colors">
             {restaurant.name}
           </h2>
           {restaurant.cuisine_type && (
-            <span className="inline-flex rounded-full bg-orange-100 px-2 py-0.5 text-xs font-medium text-orange-700">
+            <span className="inline-flex rounded-full bg-[#E8471E]/10 px-2 py-0.5 text-xs font-medium text-[#C93D18]">
               {restaurant.cuisine_type}
             </span>
           )}
@@ -197,7 +197,7 @@ function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
         )}
 
         {/* Order Now — revealed on hover */}
-        <span className="mt-3 text-sm font-semibold text-orange-500 opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200">
+        <span className="mt-3 text-sm font-semibold text-[#E8471E] opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200">
           Order Now →
         </span>
       </div>

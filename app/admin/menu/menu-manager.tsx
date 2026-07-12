@@ -75,14 +75,14 @@ export default function MenuManager({
     <div>
       <div className="mb-6 flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Menu</h1>
+          <h1 className="font-display text-2xl font-bold text-[#1A1A2E]">Menu</h1>
           <p className="text-sm text-gray-500 mt-0.5">
             {initialItems.length} item{initialItems.length !== 1 ? 's' : ''} total
           </p>
         </div>
         <button
           onClick={() => setModalItem(null)}
-          className="flex shrink-0 items-center gap-1.5 rounded-xl bg-orange-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-orange-600 transition-colors"
+          className="flex shrink-0 items-center gap-1.5 rounded-xl bg-[#E8471E] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#C93D18] transition-colors"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -99,8 +99,8 @@ export default function MenuManager({
 
       {initialItems.length === 0 ? (
         <div className="rounded-2xl border border-gray-100 bg-white shadow-sm px-6 py-24 text-center">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-orange-50 mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#E8471E]/10 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#E8471E]/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
           </div>
@@ -111,7 +111,7 @@ export default function MenuManager({
         <div className="space-y-8">
           {categoryNames.map((cat) => (
             <section key={cat}>
-              <h2 className="text-sm font-semibold text-gray-900 mb-3 pb-2 border-b border-gray-100">
+              <h2 className="text-sm font-semibold text-[#1A1A2E] mb-3 pb-2 border-b border-gray-100">
                 {cat}
               </h2>
               <div className="space-y-2">
@@ -128,7 +128,7 @@ export default function MenuManager({
                     />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="text-sm font-semibold text-gray-900">{item.name}</h3>
+                        <h3 className="text-sm font-semibold text-[#1A1A2E]">{item.name}</h3>
                         <span
                           className={`inline-flex rounded-full px-2 py-0.5 text-[11px] font-semibold ${
                             item.is_available ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'
@@ -147,7 +147,7 @@ export default function MenuManager({
                           {parseTags(item.tags).map((tag) => (
                             <span
                               key={tag}
-                              className="inline-flex rounded-full bg-orange-50 px-2 py-0.5 text-[11px] font-medium text-orange-600"
+                              className="inline-flex rounded-full bg-[#E8471E]/10 px-2 py-0.5 text-[11px] font-medium text-[#C93D18]"
                             >
                               {tag}
                             </span>
@@ -157,14 +157,14 @@ export default function MenuManager({
                       {item.description && (
                         <p className="mt-0.5 text-xs text-gray-500 line-clamp-1">{item.description}</p>
                       )}
-                      <p className="mt-1 text-sm font-bold text-orange-500 tabular-nums">
+                      <p className="mt-1 text-sm font-bold text-[#E8471E] tabular-nums">
                         ₦{item.price.toLocaleString('en-NG')}
                       </p>
                     </div>
                     <div className="shrink-0 flex items-center gap-2">
                       <button
                         onClick={() => setModalItem(item)}
-                        className="rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-semibold text-gray-600 hover:bg-gray-50 transition-colors"
+                        className="rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-semibold text-gray-600 hover:bg-[#FAFAF8] transition-colors"
                       >
                         Edit
                       </button>

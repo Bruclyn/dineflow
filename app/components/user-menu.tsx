@@ -34,7 +34,7 @@ export default function UserMenu({ initial }: { initial: string }) {
         onClick={() => setOpen((v) => !v)}
         aria-label="Account menu"
         aria-expanded={open}
-        className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-100 text-sm font-bold text-orange-700 hover:bg-orange-200 transition-colors"
+        className="flex h-9 w-9 items-center justify-center rounded-full bg-[#E8471E]/10 text-sm font-bold text-[#C93D18] hover:bg-[#E8471E]/30 transition-colors"
       >
         {initial}
       </button>
@@ -44,7 +44,7 @@ export default function UserMenu({ initial }: { initial: string }) {
           <Link
             href="/orders"
             onClick={() => setOpen(false)}
-            className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-[#FAFAF8] transition-colors"
           >
             <ClipboardList className="h-4 w-4" strokeWidth={2} />
             My Orders

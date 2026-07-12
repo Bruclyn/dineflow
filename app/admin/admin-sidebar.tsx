@@ -48,7 +48,7 @@ const NAV: NavItem[] = [
 
 function Tooltip({ label }: { label: string }) {
   return (
-    <span className="pointer-events-none absolute left-full top-1/2 ml-2 -translate-y-1/2 whitespace-nowrap rounded-lg bg-gray-900 px-2.5 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100 transition-opacity z-20">
+    <span className="pointer-events-none absolute left-full top-1/2 ml-2 -translate-y-1/2 whitespace-nowrap rounded-lg bg-[#1A1A2E] px-2.5 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100 transition-opacity z-20">
       {label}
     </span>
   )
@@ -72,11 +72,11 @@ function NavLink({
           collapsed ? 'justify-center p-2.5' : 'gap-3 px-3 py-2.5'
         } ${
           active
-            ? 'bg-orange-500 text-white font-semibold'
-            : 'text-gray-600 hover:bg-orange-50 hover:text-orange-600'
+            ? 'bg-[#E8471E] text-white font-semibold'
+            : 'text-gray-600 hover:bg-[#E8471E]/10 hover:text-[#C93D18]'
         }`}
       >
-        <span className={active ? 'text-white' : 'text-gray-400 group-hover:text-orange-500'}>{item.icon}</span>
+        <span className={active ? 'text-white' : 'text-gray-400 group-hover:text-[#E8471E]'}>{item.icon}</span>
         {!collapsed && item.label}
       </Link>
       {collapsed && <Tooltip label={item.label} />}
@@ -100,8 +100,8 @@ export default function AdminSidebar({ restaurantName }: { restaurantName: strin
     <>
       {/* Mobile: horizontal top bar */}
       <header className="md:hidden bg-white border-b border-gray-100 shadow-sm">
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-50">
-          <span className="text-lg font-bold text-orange-500 tracking-tight">DineFlow</span>
+        <div className="flex items-center justify-between px-4 py-3 border-b border-[#FAFAF8]">
+          <span className="text-lg font-display font-bold text-[#E8471E] tracking-tight">DineFlow</span>
           <span className="text-xs font-medium text-gray-500 truncate max-w-[180px]">{restaurantName}</span>
         </div>
         <nav className="flex gap-1 px-3 py-2 overflow-x-auto">
@@ -112,7 +112,7 @@ export default function AdminSidebar({ restaurantName }: { restaurantName: strin
                 key={item.href}
                 href={item.href}
                 className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap transition-colors ${
-                  active ? 'bg-orange-500 text-white' : 'text-gray-500 hover:bg-gray-100'
+                  active ? 'bg-[#E8471E] text-white' : 'text-gray-500 hover:bg-gray-100'
                 }`}
               >
                 {item.icon}
@@ -129,15 +129,15 @@ export default function AdminSidebar({ restaurantName }: { restaurantName: strin
           collapsed ? 'w-20' : 'w-56'
         }`}
       >
-        <div className={`border-b border-gray-50 ${collapsed ? 'px-3 py-4' : 'px-5 pt-6 pb-5'}`}>
+        <div className={`border-b border-[#FAFAF8] ${collapsed ? 'px-3 py-4' : 'px-5 pt-6 pb-5'}`}>
           <div className={`flex items-center ${collapsed ? 'flex-col gap-3' : 'justify-between gap-2'}`}>
             {collapsed ? (
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-500 text-white shrink-0">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#E8471E] text-white shrink-0">
                 <UtensilsCrossed className="h-5 w-5" strokeWidth={2} />
               </div>
             ) : (
               <div className="min-w-0">
-                <div className="text-xl font-bold text-orange-500 tracking-tight mb-1">DineFlow</div>
+                <div className="text-xl font-display font-bold text-[#E8471E] tracking-tight mb-1">DineFlow</div>
                 <div className="text-xs font-medium text-gray-500 leading-snug truncate" title={restaurantName}>
                   {restaurantName}
                 </div>
@@ -159,7 +159,7 @@ export default function AdminSidebar({ restaurantName }: { restaurantName: strin
           ))}
         </nav>
 
-        <div className={`border-t border-gray-50 ${collapsed ? 'p-2' : 'p-3'}`}>
+        <div className={`border-t border-[#FAFAF8] ${collapsed ? 'p-2' : 'p-3'}`}>
           <div className="group relative w-full">
             <button
               onClick={handleLogout}

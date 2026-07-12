@@ -14,7 +14,7 @@ function Star({ filled }: { filled: boolean }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className={`h-4 w-4 ${filled ? 'text-orange-400' : 'text-gray-200'}`}
+      className={`h-4 w-4 ${filled ? 'text-[#F5A623]' : 'text-gray-200'}`}
       viewBox="0 0 20 20"
       fill="currentColor"
     >
@@ -119,7 +119,7 @@ export default function ReviewSection({
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className={`h-7 w-7 transition-colors ${
-                  (hoverRating || rating) >= star ? 'text-orange-400' : 'text-gray-200'
+                  (hoverRating || rating) >= star ? 'text-[#F5A623]' : 'text-gray-200'
                 }`}
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -135,7 +135,7 @@ export default function ReviewSection({
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           placeholder="Tell us about your experience (optional)…"
-          className="w-full resize-none rounded-xl border border-gray-200 px-3.5 py-2.5 text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all"
+          className="w-full resize-none rounded-xl border border-gray-200 px-3.5 py-2.5 text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#F5A623] focus:ring-2 focus:ring-[#E8471E]/10 transition-all"
         />
 
         {error && (
@@ -150,7 +150,7 @@ export default function ReviewSection({
         <button
           type="submit"
           disabled={submitting}
-          className="w-full rounded-xl bg-orange-500 py-3 text-sm font-bold text-white hover:bg-orange-600 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+          className="w-full rounded-xl bg-[#E8471E] py-3 text-sm font-bold text-white hover:bg-[#C93D18] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
         >
           {submitting ? 'Submitting…' : 'Submit review'}
         </button>

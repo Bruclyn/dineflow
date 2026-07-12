@@ -38,7 +38,7 @@ export default async function SuperAdminDashboardPage() {
   return (
     <main className="flex-1 px-4 sm:px-8 py-8 max-w-5xl w-full mx-auto">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Platform overview</h1>
+        <h1 className="font-display text-2xl font-bold text-[#1A1A2E]">Platform overview</h1>
         <p className="text-sm text-gray-500 mt-0.5">Across all restaurants on DineFlow</p>
       </div>
 
@@ -110,7 +110,7 @@ function StatCard({
   accent: 'orange' | 'blue' | 'green' | 'yellow'
 }) {
   const colours = {
-    orange: 'bg-orange-50 text-orange-500',
+    orange: 'bg-[#E8471E]/10 text-[#E8471E]',
     blue: 'bg-blue-50 text-blue-500',
     green: 'bg-green-50 text-green-500',
     yellow: 'bg-yellow-50 text-yellow-500',
@@ -121,7 +121,7 @@ function StatCard({
       <div className={`inline-flex h-9 w-9 items-center justify-center rounded-xl ${colours[accent]} mb-3`}>
         {icon}
       </div>
-      <p className="text-2xl font-bold text-gray-900 tabular-nums leading-none">{value}</p>
+      <p className="font-display text-2xl font-bold text-[#1A1A2E] tabular-nums leading-none">{value}</p>
       <p className="text-xs text-gray-500 mt-1">{label}</p>
     </div>
   )

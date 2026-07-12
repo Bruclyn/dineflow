@@ -10,7 +10,7 @@ export default function CartNavIcon() {
     <Link
       href="/cart"
       aria-label={`Cart${itemCount > 0 ? ` — ${itemCount} item${itemCount === 1 ? '' : 's'}` : ''}`}
-      className="relative flex items-center justify-center h-9 w-9 rounded-xl text-gray-600 hover:text-orange-500 hover:bg-orange-50 transition-colors"
+      className="relative flex items-center justify-center h-9 w-9 rounded-xl text-gray-600 hover:text-[#E8471E] hover:bg-[#E8471E]/10 transition-colors"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +28,7 @@ export default function CartNavIcon() {
       </svg>
 
       {itemCount > 0 && (
-        <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-orange-500 text-white text-[10px] font-bold leading-none px-1 ring-2 ring-white">
+        <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-[#E8471E] text-white text-[10px] font-bold leading-none px-1 ring-2 ring-white">
           {itemCount > 99 ? '99+' : itemCount}
         </span>
       )}

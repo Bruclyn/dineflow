@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 
 const inputClass =
-  'w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition'
+  'w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm text-[#1A1A2E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8471E] focus:border-transparent transition'
 
 const BENEFIT_CARDS = [
   {
@@ -78,12 +78,12 @@ export default function PartnerPage() {
       {/* Header */}
       <header className="bg-white border-b border-gray-100 sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-orange-500 tracking-tight">
+          <Link href="/" className="text-xl font-display font-bold text-[#E8471E] tracking-tight">
             DineFlow
           </Link>
           <Link
             href="/login"
-            className="text-sm font-semibold text-gray-700 hover:text-orange-500 transition-colors"
+            className="text-sm font-semibold text-gray-700 hover:text-[#E8471E] transition-colors"
           >
             Log in
           </Link>
@@ -92,13 +92,13 @@ export default function PartnerPage() {
 
       <main className="flex-1">
         {/* SECTION A — Marketing hero */}
-        <section className="bg-gray-900 overflow-hidden">
+        <section className="bg-[#1A1A2E] overflow-hidden">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
             <div className="text-center max-w-2xl mx-auto">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-semibold text-orange-300 mb-6">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-semibold text-[#E8471E]/40 mb-6">
                 🤝 For Restaurants
               </span>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white leading-tight">
+              <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white leading-tight">
                 Grow your restaurant with DineFlow
               </h1>
               <p className="mt-5 text-base sm:text-lg text-gray-400 leading-relaxed">
@@ -114,7 +114,7 @@ export default function PartnerPage() {
                   key={card.title}
                   className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:p-6"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500 text-2xl shadow-sm shadow-orange-500/30">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#E8471E] text-2xl shadow-sm shadow-[#E8471E]/30">
                     <span aria-hidden="true">{card.icon}</span>
                   </div>
                   <h3 className="mt-4 text-base font-bold text-white">{card.title}</h3>
@@ -129,7 +129,7 @@ export default function PartnerPage() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
                 {HOW_STEPS.map((step) => (
                   <div key={step.n} className="flex sm:flex-col items-center sm:text-center gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-500 text-sm font-bold text-white">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E8471E] text-sm font-bold text-white">
                       {step.n}
                     </span>
                     <p className="text-sm text-gray-300 leading-relaxed">{step.text}</p>
@@ -141,7 +141,7 @@ export default function PartnerPage() {
         </section>
 
         {/* Orange divider leading into the form */}
-        <div className="h-1.5 bg-orange-500" aria-hidden="true" />
+        <div className="h-1.5 bg-[#E8471E]" aria-hidden="true" />
 
         {/* SECTION B — Inquiry form */}
         <section className="bg-white">
@@ -154,14 +154,14 @@ export default function PartnerPage() {
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  <h2 className="text-xl font-bold text-gray-900">Application received</h2>
+                  <h2 className="font-display text-xl font-bold text-[#1A1A2E]">Application received</h2>
                   <p className="mt-2 text-sm text-gray-600 leading-relaxed max-w-sm mx-auto">
                     Thanks for your interest! We&apos;ll review your application and get in touch within
                     2-3 business days.
                   </p>
                   <Link
                     href="/"
-                    className="mt-8 inline-block rounded-lg bg-orange-500 px-6 py-2.5 text-sm font-semibold text-white hover:bg-orange-600 transition-colors"
+                    className="mt-8 inline-block rounded-lg bg-[#E8471E] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#C93D18] transition-colors"
                   >
                     Back to home
                   </Link>
@@ -170,7 +170,7 @@ export default function PartnerPage() {
             ) : (
               <>
                 <div className="text-center mb-8">
-                  <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">
+                  <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-[#1A1A2E]">
                     Apply to become a partner
                   </h2>
                   <p className="mt-2 text-sm sm:text-base text-gray-500">
@@ -285,7 +285,7 @@ export default function PartnerPage() {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full bg-orange-500 hover:bg-orange-600 active:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold py-2.5 rounded-lg transition-colors mt-2"
+                      className="w-full bg-[#E8471E] hover:bg-[#C93D18] active:bg-[#C93D18] disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold py-2.5 rounded-lg transition-colors mt-2"
                     >
                       {loading ? 'Submitting…' : 'Submit application'}
                     </button>

@@ -62,7 +62,7 @@ export default function RestaurantActions({
         disabled={loading !== null}
         className={`flex-1 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
           variant === 'primary'
-            ? 'bg-orange-500 text-white hover:bg-orange-600'
+            ? 'bg-[#E8471E] text-white hover:bg-[#C93D18]'
             : 'border border-red-200 text-red-500 hover:bg-red-50'
         }`}
       >

@@ -59,7 +59,7 @@ async function getStats(restaurantId: string) {
 const STATUS_COLOURS: Record<string, string> = {
   pending: 'bg-yellow-100 text-yellow-700',
   confirmed: 'bg-blue-100 text-blue-700',
-  preparing: 'bg-orange-100 text-orange-700',
+  preparing: 'bg-[#E8471E]/10 text-[#C93D18]',
   ready: 'bg-green-100 text-green-700',
   completed: 'bg-gray-100 text-gray-600',
   cancelled: 'bg-red-100 text-red-600',
@@ -73,7 +73,7 @@ export default async function AdminDashboardPage() {
   return (
     <main className="flex-1 px-4 sm:px-8 py-8 max-w-5xl w-full mx-auto">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">{restaurantName}</h1>
+        <h1 className="font-display text-2xl font-bold text-[#1A1A2E]">{restaurantName}</h1>
         <p className="text-sm text-gray-500 mt-0.5">Admin overview</p>
       </div>
 
@@ -124,8 +124,8 @@ export default async function AdminDashboardPage() {
       {/* Recent orders */}
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-semibold text-gray-900">Recent orders</h2>
-          <a href="/admin/orders" className="text-xs font-semibold text-orange-500 hover:text-orange-600 transition-colors">
+          <h2 className="text-base font-semibold text-[#1A1A2E]">Recent orders</h2>
+          <a href="/admin/orders" className="text-xs font-semibold text-[#E8471E] hover:text-[#C93D18] transition-colors">
             View all →
           </a>
         </div>
@@ -138,16 +138,16 @@ export default async function AdminDashboardPage() {
           <div className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-50">
+                <tr className="border-b border-[#FAFAF8]">
                   <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-400">Order</th>
                   <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-400 hidden sm:table-cell">Type</th>
                   <th className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-400">Status</th>
                   <th className="text-right px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-400">Total</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-[#FAFAF8]">
                 {recentOrders.map((order) => (
-                  <tr key={order.id} className="hover:bg-gray-50/50 transition-colors">
+                  <tr key={order.id} className="hover:bg-[#FAFAF8]/50 transition-colors">
                     <td className="px-5 py-3">
                       <span className="font-mono text-xs text-gray-700">
                         #{(order.id as string).slice(0, 8).toUpperCase()}
@@ -169,7 +169,7 @@ export default async function AdminDashboardPage() {
                         {order.status as string}
                       </span>
                     </td>
-                    <td className="px-5 py-3 text-right font-semibold text-gray-900 tabular-nums">
+                    <td className="px-5 py-3 text-right font-semibold text-[#1A1A2E] tabular-nums">
                       ₦{(order.total_amount as number).toLocaleString('en-NG')}
                     </td>
                   </tr>
@@ -195,7 +195,7 @@ function StatCard({
   accent: 'orange' | 'blue' | 'green' | 'yellow'
 }) {
   const colours = {
-    orange: 'bg-orange-50 text-orange-500',
+    orange: 'bg-[#E8471E]/10 text-[#E8471E]',
     blue: 'bg-blue-50 text-blue-500',
     green: 'bg-green-50 text-green-500',
     yellow: 'bg-yellow-50 text-yellow-500',
@@ -206,7 +206,7 @@ function StatCard({
       <div className={`inline-flex h-9 w-9 items-center justify-center rounded-xl ${colours[accent]} mb-3`}>
         {icon}
       </div>
-      <p className="text-2xl font-bold text-gray-900 tabular-nums leading-none">{value}</p>
+      <p className="font-display text-2xl font-bold text-[#1A1A2E] tabular-nums leading-none">{value}</p>
       <p className="text-xs text-gray-500 mt-1">{label}</p>
     </div>
   )

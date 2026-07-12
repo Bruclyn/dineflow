@@ -84,7 +84,7 @@ export default function InventoryManager({
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Inventory</h1>
+        <h1 className="font-display text-2xl font-bold text-[#1A1A2E]">Inventory</h1>
         <p className="text-sm text-gray-500 mt-0.5">
           {initialRows.length} item{initialRows.length !== 1 ? 's' : ''} tracked
         </p>
@@ -92,8 +92,8 @@ export default function InventoryManager({
 
       {initialRows.length === 0 ? (
         <div className="rounded-2xl border border-gray-100 bg-white shadow-sm px-6 py-24 text-center">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-orange-50 mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#E8471E]/10 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#E8471E]/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
             </svg>
           </div>
@@ -119,7 +119,7 @@ export default function InventoryManager({
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h3 className="text-sm font-semibold text-gray-900">
+                    <h3 className="text-sm font-semibold text-[#1A1A2E]">
                       {row.menu_items?.name ?? 'Unknown item'}
                     </h3>
                     {outOfStock && (
@@ -128,7 +128,7 @@ export default function InventoryManager({
                       </span>
                     )}
                     {lowStock && (
-                      <span className="inline-flex rounded-full bg-orange-100 px-2 py-0.5 text-[11px] font-semibold text-orange-600">
+                      <span className="inline-flex rounded-full bg-[#E8471E]/10 px-2 py-0.5 text-[11px] font-semibold text-[#C93D18]">
                         Low stock
                       </span>
                     )}
@@ -147,7 +147,7 @@ export default function InventoryManager({
                       min="0"
                       value={draft.stockQuantity}
                       onChange={(e) => updateDraft(row.id, 'stockQuantity', e.target.value)}
-                      className="w-20 rounded-lg border border-gray-200 px-2 py-1.5 text-sm text-center text-gray-900 outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all"
+                      className="w-20 rounded-lg border border-gray-200 px-2 py-1.5 text-sm text-center text-[#1A1A2E] outline-none focus:border-[#F5A623] focus:ring-2 focus:ring-[#E8471E]/10 transition-all"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
@@ -160,13 +160,13 @@ export default function InventoryManager({
                       min="0"
                       value={draft.lowStockThreshold}
                       onChange={(e) => updateDraft(row.id, 'lowStockThreshold', e.target.value)}
-                      className="w-20 rounded-lg border border-gray-200 px-2 py-1.5 text-sm text-center text-gray-900 outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all"
+                      className="w-20 rounded-lg border border-gray-200 px-2 py-1.5 text-sm text-center text-[#1A1A2E] outline-none focus:border-[#F5A623] focus:ring-2 focus:ring-[#E8471E]/10 transition-all"
                     />
                   </div>
                   <button
                     onClick={() => handleSave(row)}
                     disabled={!dirty || saving}
-                    className="rounded-lg bg-orange-500 px-3 py-2 text-xs font-semibold text-white hover:bg-orange-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                    className="rounded-lg bg-[#E8471E] px-3 py-2 text-xs font-semibold text-white hover:bg-[#C93D18] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                   >
                     {saving ? 'Saving…' : 'Save'}
                   </button>

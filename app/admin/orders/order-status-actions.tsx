@@ -68,7 +68,7 @@ export default function OrderStatusActions({
         <button
           onClick={() => update(nextStatus)}
           disabled={loading !== null}
-          className="flex items-center justify-center gap-1.5 rounded-xl bg-orange-500 px-3 py-2 text-xs font-semibold text-white hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="flex items-center justify-center gap-1.5 rounded-xl bg-[#E8471E] px-3 py-2 text-xs font-semibold text-white hover:bg-[#C93D18] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {loading === 'advance' ? (
             <span className="h-3 w-3 rounded-full border-2 border-white border-t-transparent animate-spin" />

@@ -9,7 +9,7 @@ const NEW_CATEGORY = '__new__'
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024 // 5 MB
 
 const inputClass =
-  'w-full rounded-xl border border-gray-200 px-3.5 py-2.5 text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all'
+  'w-full rounded-xl border border-gray-200 px-3.5 py-2.5 text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#F5A623] focus:ring-2 focus:ring-[#E8471E]/10 transition-all'
 
 export default function MenuItemModal({
   restaurantId,
@@ -207,7 +207,7 @@ export default function MenuItemModal({
     >
       <div className="w-full max-w-md max-h-[92vh] overflow-y-auto rounded-2xl bg-white shadow-xl p-5">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-gray-900">
+          <h2 className="text-lg font-bold text-[#1A1A2E]">
             {isEditing ? 'Edit item' : 'Add item'}
           </h2>
           <button
@@ -235,7 +235,7 @@ export default function MenuItemModal({
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
-              className="group relative flex h-28 w-full items-center justify-center overflow-hidden rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 transition-colors hover:border-orange-300 hover:bg-orange-50/40 disabled:cursor-wait"
+              className="group relative flex h-28 w-full items-center justify-center overflow-hidden rounded-xl border-2 border-dashed border-gray-200 bg-[#FAFAF8] transition-colors hover:border-[#E8471E]/40 hover:bg-[#E8471E]/10/40 disabled:cursor-wait"
             >
               {previewUrl ? (
                 <>
@@ -255,7 +255,7 @@ export default function MenuItemModal({
               )}
               {uploading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-white/75">
-                  <svg className="h-6 w-6 animate-spin text-orange-500" fill="none" viewBox="0 0 24 24">
+                  <svg className="h-6 w-6 animate-spin text-[#E8471E]" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
@@ -385,8 +385,8 @@ export default function MenuItemModal({
                     aria-pressed={active}
                     className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
                       active
-                        ? 'border-orange-500 bg-orange-500 text-white'
-                        : 'border-gray-200 bg-white text-gray-600 hover:border-orange-300 hover:bg-orange-50'
+                        ? 'border-[#E8471E] bg-[#E8471E] text-white'
+                        : 'border-gray-200 bg-white text-gray-600 hover:border-[#E8471E]/40 hover:bg-[#E8471E]/10'
                     }`}
                   >
                     {tag}
@@ -404,7 +404,7 @@ export default function MenuItemModal({
               aria-checked={isAvailable}
               onClick={() => setIsAvailable((v) => !v)}
               className={`relative inline-flex h-6 w-10 items-center rounded-full transition-colors shrink-0 ${
-                isAvailable ? 'bg-orange-500' : 'bg-gray-300'
+                isAvailable ? 'bg-[#E8471E]' : 'bg-gray-300'
               }`}
             >
               <span
@@ -428,14 +428,14 @@ export default function MenuItemModal({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 rounded-xl border border-gray-200 py-2.5 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors"
+              className="flex-1 rounded-xl border border-gray-200 py-2.5 text-sm font-semibold text-gray-600 hover:bg-[#FAFAF8] transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 rounded-xl bg-orange-500 py-2.5 text-sm font-semibold text-white hover:bg-orange-600 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+              className="flex-1 rounded-xl bg-[#E8471E] py-2.5 text-sm font-semibold text-white hover:bg-[#C93D18] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
             >
               {saving ? 'Saving…' : isEditing ? 'Save changes' : 'Add item'}
             </button>

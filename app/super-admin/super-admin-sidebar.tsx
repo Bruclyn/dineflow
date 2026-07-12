@@ -48,11 +48,11 @@ function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
       href={item.href}
       className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
         active
-          ? 'bg-orange-50 text-orange-600 font-semibold'
-          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+          ? 'bg-[#E8471E]/10 text-[#C93D18] font-semibold'
+          : 'text-gray-600 hover:bg-[#FAFAF8] hover:text-[#1A1A2E]'
       }`}
     >
-      <span className={active ? 'text-orange-500' : 'text-gray-400'}>{item.icon}</span>
+      <span className={active ? 'text-[#E8471E]' : 'text-gray-400'}>{item.icon}</span>
       {item.label}
     </Link>
   )
@@ -65,8 +65,8 @@ export default function SuperAdminSidebar() {
     <>
       {/* Mobile: horizontal top bar */}
       <header className="md:hidden bg-white border-b border-gray-100 shadow-sm">
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-50">
-          <span className="text-lg font-bold text-orange-500 tracking-tight">DineFlow</span>
+        <div className="flex items-center justify-between px-4 py-3 border-b border-[#FAFAF8]">
+          <span className="text-lg font-display font-bold text-[#E8471E] tracking-tight">DineFlow</span>
           <span className="text-xs font-medium text-gray-500">Platform Admin</span>
         </div>
         <nav className="flex gap-1 px-3 py-2 overflow-x-auto">
@@ -77,7 +77,7 @@ export default function SuperAdminSidebar() {
                 key={item.href}
                 href={item.href}
                 className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap transition-colors ${
-                  active ? 'bg-orange-500 text-white' : 'text-gray-500 hover:bg-gray-100'
+                  active ? 'bg-[#E8471E] text-white' : 'text-gray-500 hover:bg-gray-100'
                 }`}
               >
                 {item.icon}
@@ -90,8 +90,8 @@ export default function SuperAdminSidebar() {
 
       {/* Desktop: left sidebar */}
       <aside className="hidden md:flex flex-col w-56 shrink-0 min-h-screen bg-white border-r border-gray-100">
-        <div className="px-5 pt-6 pb-5 border-b border-gray-50">
-          <div className="text-xl font-bold text-orange-500 tracking-tight mb-1">DineFlow</div>
+        <div className="px-5 pt-6 pb-5 border-b border-[#FAFAF8]">
+          <div className="text-xl font-display font-bold text-[#E8471E] tracking-tight mb-1">DineFlow</div>
           <div className="text-xs font-medium text-gray-500 leading-snug">Platform Admin</div>
         </div>
 
@@ -101,7 +101,7 @@ export default function SuperAdminSidebar() {
           ))}
         </nav>
 
-        <div className="p-4 border-t border-gray-50">
+        <div className="p-4 border-t border-[#FAFAF8]">
           <span className="text-xs text-gray-400">Super Admin</span>
         </div>
       </aside>

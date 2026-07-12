@@ -29,7 +29,7 @@ export default async function SuperAdminRestaurantsPage() {
   return (
     <main className="flex-1 px-4 sm:px-8 py-8 max-w-5xl w-full mx-auto">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Restaurants</h1>
+        <h1 className="font-display text-2xl font-bold text-[#1A1A2E]">Restaurants</h1>
         <p className="text-sm text-gray-500 mt-0.5">
           {restaurants.length} restaurant{restaurants.length !== 1 ? 's' : ''} total
         </p>
@@ -61,7 +61,7 @@ function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
     <div className="flex flex-col sm:flex-row sm:items-start gap-4 rounded-2xl border border-gray-100 bg-white shadow-sm p-4 sm:p-5">
       <div className="flex-1 min-w-0 space-y-1">
         <div className="flex items-center gap-2 flex-wrap">
-          <h3 className="text-sm font-semibold text-gray-900">{restaurant.name}</h3>
+          <h3 className="text-sm font-semibold text-[#1A1A2E]">{restaurant.name}</h3>
           <span
             className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize ${
               STATUS_COLOURS[restaurant.status] ?? 'bg-gray-100 text-gray-600'

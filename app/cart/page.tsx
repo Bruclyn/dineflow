@@ -9,13 +9,13 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="min-h-screen bg-[#FAFAF8] flex flex-col">
         <CartNav />
         <div className="flex-1 flex flex-col items-center justify-center px-4 py-24 text-center">
-          <div className="mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-orange-50">
+          <div className="mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-[#E8471E]/10">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-9 w-9 text-orange-300"
+              className="h-9 w-9 text-[#E8471E]/40"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -34,7 +34,7 @@ export default function CartPage() {
           </p>
           <Link
             href="/dashboard"
-            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-orange-600 transition-colors"
+            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#E8471E] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#C93D18] transition-colors"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,7 @@ export default function CartPage() {
         {/* Header */}
         <div className="mb-6 flex items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Your Cart</h1>
+            <h1 className="font-display text-2xl font-bold text-[#1A1A2E]">Your Cart</h1>
             <p className="text-xs text-gray-400 mt-0.5">From {restaurantName}</p>
           </div>
           <button
@@ -91,8 +91,8 @@ export default function CartPage() {
 
               {/* Name + price */}
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-gray-900 truncate">{item.name}</p>
-                <p className="text-xs text-orange-500 font-medium mt-0.5">
+                <p className="text-sm font-semibold text-[#1A1A2E] truncate">{item.name}</p>
+                <p className="text-xs text-[#E8471E] font-medium mt-0.5">
                   ₦{item.price.toLocaleString('en-NG')}
                 </p>
               </div>
@@ -102,7 +102,7 @@ export default function CartPage() {
                 <button
                   onClick={() => updateQuantity(item.menu_item_id, item.quantity - 1)}
                   disabled={item.quantity <= 1}
-                  className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-600 hover:border-orange-300 hover:text-orange-500 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                  className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-600 hover:border-[#E8471E]/40 hover:text-[#E8471E] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                   aria-label="Decrease quantity"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -110,13 +110,13 @@ export default function CartPage() {
                   </svg>
                 </button>
 
-                <span className="w-6 text-center text-sm font-semibold text-gray-900 tabular-nums">
+                <span className="w-6 text-center text-sm font-semibold text-[#1A1A2E] tabular-nums">
                   {item.quantity}
                 </span>
 
                 <button
                   onClick={() => updateQuantity(item.menu_item_id, item.quantity + 1)}
-                  className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-600 hover:border-orange-300 hover:text-orange-500 transition-colors"
+                  className="flex h-7 w-7 items-center justify-center rounded-lg border border-gray-200 text-gray-600 hover:border-[#E8471E]/40 hover:text-[#E8471E] transition-colors"
                   aria-label="Increase quantity"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -126,7 +126,7 @@ export default function CartPage() {
               </div>
 
               {/* Line subtotal */}
-              <p className="w-20 text-right text-sm font-bold text-gray-900 shrink-0 tabular-nums">
+              <p className="w-20 text-right text-sm font-bold text-[#1A1A2E] shrink-0 tabular-nums">
                 ₦{(item.price * item.quantity).toLocaleString('en-NG')}
               </p>
 
@@ -145,10 +145,10 @@ export default function CartPage() {
         </div>
 
         {/* Summary card */}
-        <div className="rounded-2xl bg-orange-50 p-6 space-y-3 lg:sticky lg:top-24">
+        <div className="rounded-2xl bg-[#E8471E]/10 p-6 space-y-3 lg:sticky lg:top-24">
           <div className="flex items-center justify-between text-sm text-gray-500">
             <span>Subtotal</span>
-            <span className="font-medium text-gray-900 tabular-nums">
+            <span className="font-medium text-[#1A1A2E] tabular-nums">
               ₦{total.toLocaleString('en-NG')}
             </span>
           </div>
@@ -156,16 +156,16 @@ export default function CartPage() {
             <span>Delivery fee</span>
             <span className="text-gray-400 italic">Calculated at checkout</span>
           </div>
-          <div className="pt-3 border-t border-orange-100 flex items-center justify-between">
-            <span className="text-base font-bold text-gray-900">Total</span>
-            <span className="text-lg font-bold text-orange-500 tabular-nums">
+          <div className="pt-3 border-t border-[#E8471E]/10 flex items-center justify-between">
+            <span className="text-base font-bold text-[#1A1A2E]">Total</span>
+            <span className="text-lg font-bold text-[#E8471E] tabular-nums">
               ₦{total.toLocaleString('en-NG')}
             </span>
           </div>
 
           <Link
             href="/checkout"
-            className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-orange-500 py-3.5 text-sm font-semibold text-white hover:bg-orange-600 transition-colors"
+            className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#E8471E] py-3.5 text-sm font-semibold text-white hover:bg-[#C93D18] transition-colors"
           >
             Proceed to checkout
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -184,14 +184,14 @@ function CartNav() {
       <div className="max-w-2xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         <Link
           href="/dashboard"
-          className="flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-orange-500 transition-colors"
+          className="flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-[#E8471E] transition-colors"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
           Back
         </Link>
-        <span className="text-xl font-bold text-orange-500 tracking-tight">DineFlow</span>
+        <span className="text-xl font-display font-bold text-[#E8471E] tracking-tight">DineFlow</span>
         <div className="w-16" /> {/* spacer to centre the logo */}
       </div>
     </nav>

@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 
 const inputClass =
-  'w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition'
+  'w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm text-[#1A1A2E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8471E] focus:border-transparent transition'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -69,12 +69,12 @@ export default function RegisterPage() {
   return (
     <div className="w-full max-w-md">
       <div className="text-center mb-8">
-        <span className="text-3xl font-bold text-orange-500">DineFlow</span>
+        <span className="font-display text-3xl font-bold text-[#E8471E]">DineFlow</span>
         <p className="mt-1 text-sm text-gray-500">Multi-restaurant ordering platform</p>
       </div>
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-1">Create an account</h1>
+        <h1 className="font-display text-2xl font-semibold text-[#1A1A2E] mb-1">Create an account</h1>
         <p className="text-sm text-gray-500 mb-6">Order from your favourite restaurants</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -167,7 +167,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-orange-500 hover:bg-orange-600 active:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold py-2.5 rounded-lg transition-colors mt-2"
+            className="w-full bg-[#E8471E] hover:bg-[#C93D18] active:bg-[#C93D18] disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold py-2.5 rounded-lg transition-colors mt-2"
           >
             {loading ? 'Creating account…' : 'Create account'}
           </button>
@@ -175,7 +175,7 @@ export default function RegisterPage() {
 
         <p className="mt-6 text-center text-sm text-gray-500">
           Already have an account?{' '}
-          <Link href="/login" className="font-medium text-orange-500 hover:text-orange-600">
+          <Link href="/login" className="font-medium text-[#E8471E] hover:text-[#C93D18]">
             Sign in
           </Link>
         </p>

@@ -35,7 +35,7 @@ export default async function SuperAdminInquiriesPage() {
   return (
     <main className="flex-1 px-4 sm:px-8 py-8 max-w-5xl w-full mx-auto">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Partner Inquiries</h1>
+        <h1 className="font-display text-2xl font-bold text-[#1A1A2E]">Partner Inquiries</h1>
         <p className="text-sm text-gray-500 mt-0.5">
           {inquiries.length} inquir{inquiries.length !== 1 ? 'ies' : 'y'} total
         </p>
@@ -43,8 +43,8 @@ export default async function SuperAdminInquiriesPage() {
 
       {inquiries.length === 0 ? (
         <div className="rounded-2xl border border-gray-100 bg-white shadow-sm px-6 py-24 text-center">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-orange-50 mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#E8471E]/10 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#E8471E]/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
           </div>
@@ -74,7 +74,7 @@ function InquiryCard({ inquiry }: { inquiry: Inquiry }) {
       <div className="flex-1 min-w-0 space-y-2">
         {/* Header row */}
         <div className="flex items-center gap-2 flex-wrap">
-          <h3 className="text-sm font-semibold text-gray-900">{inquiry.restaurant_name}</h3>
+          <h3 className="text-sm font-semibold text-[#1A1A2E]">{inquiry.restaurant_name}</h3>
           <span
             className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize ${STATUS_COLOURS[inquiry.status] ?? 'bg-gray-100 text-gray-600'}`}
           >
@@ -93,12 +93,12 @@ function InquiryCard({ inquiry }: { inquiry: Inquiry }) {
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500">
           <span className="font-medium text-gray-700">{inquiry.owner_name}</span>
           {inquiry.phone && (
-            <a href={`tel:${inquiry.phone}`} className="hover:text-orange-500 transition-colors">
+            <a href={`tel:${inquiry.phone}`} className="hover:text-[#E8471E] transition-colors">
               📞 {inquiry.phone}
             </a>
           )}
           {inquiry.email && (
-            <a href={`mailto:${inquiry.email}`} className="hover:text-orange-500 transition-colors">
+            <a href={`mailto:${inquiry.email}`} className="hover:text-[#E8471E] transition-colors">
               ✉️ {inquiry.email}
             </a>
           )}

@@ -9,7 +9,7 @@ export default async function AdminLayout({
   const { restaurantName } = await resolveAdmin()
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
+    <div className="min-h-screen bg-[#FAFAF8] flex flex-col md:flex-row">
       <AdminSidebar restaurantName={restaurantName} />
       <div className="flex-1 min-w-0 flex flex-col">{children}</div>
     </div>
