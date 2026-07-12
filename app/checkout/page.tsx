@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { ArrowLeft, Check, Minus, Plus, Trash2, Truck, Store, CreditCard, Wallet } from 'lucide-react'
 import { useCart } from '@/lib/cart/cart-context'
 import { createClient } from '@/lib/supabase/client'
