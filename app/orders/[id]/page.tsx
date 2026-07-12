@@ -1,5 +1,6 @@
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
+import { ArrowLeft, Check, Truck, Store } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import ReviewSection from './review-section'
 import OrderTracker from './order-tracker'
@@ -91,87 +92,88 @@ export default async function OrderPage({
   })
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#FAFAF8]">
       {/* Navbar */}
-      <nav className="bg-white border-b border-gray-100 sticky top-0 z-10 shadow-sm">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <nav className="sticky top-0 z-10 border-b border-[#E5E7EB] bg-white/90 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-2xl items-center justify-between gap-4 px-4 sm:px-6">
           <Link
             href="/dashboard"
-            className="flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-orange-500 transition-colors"
+            className="flex items-center gap-1.5 text-sm font-medium text-[#6B7280] transition-colors hover:text-[#E8471E]"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
+            <ArrowLeft className="h-4 w-4" />
             Dashboard
           </Link>
-          <span className="text-xl font-bold text-orange-500 tracking-tight">DineFlow</span>
+          <span className="font-display text-xl font-extrabold tracking-tight text-[#E8471E]">
+            DineFlow
+          </span>
           <div className="w-20" />
         </div>
       </nav>
 
-      <main className="max-w-2xl mx-auto px-4 sm:px-6 py-8 space-y-6">
+      <main className="mx-auto max-w-2xl space-y-6 px-4 py-8 sm:px-6">
         {/* Confirmation banner */}
-        <div className="rounded-2xl bg-orange-500 px-6 py-5 text-white">
-          <div className="flex items-center gap-3 mb-1">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
-            <h1 className="text-base font-bold">Order placed successfully!</h1>
+        <div className="rounded-xl bg-[#E8471E] px-6 py-5 text-white shadow-card">
+          <div className="mb-1 flex items-center gap-3">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/20">
+              <Check className="h-5 w-5" strokeWidth={3} />
+            </span>
+            <h1 className="font-display text-lg font-bold">Order placed successfully!</h1>
           </div>
-          <p className="text-xs text-orange-100 ml-8">Placed at {placedAt}</p>
-          <p className="text-xs text-orange-200 ml-8 mt-0.5 font-mono">#{order.id.slice(0, 8).toUpperCase()}</p>
+          <p className="ml-11 text-xs text-orange-100">Placed at {placedAt}</p>
+          <p className="ml-11 mt-0.5 font-mono text-xs text-orange-200">
+            #{order.id.slice(0, 8).toUpperCase()}
+          </p>
         </div>
 
         {/* Status tracker (live via Realtime) */}
-        <OrderTracker initialOrder={{ id: order.id, status: order.status }} />
+        <OrderTracker
+          initialOrder={{ id: order.id, status: order.status }}
+          createdAt={order.created_at}
+          orderType={order.order_type}
+        />
 
         {/* Order details */}
-        <section className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
-          <div className="px-5 py-4 border-b border-gray-50 flex items-center justify-between">
-            <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Items</p>
-            <span className="text-xs text-gray-400">
-              {order.restaurants?.name}
-            </span>
+        <section className="overflow-hidden rounded-xl border border-[#E5E7EB] bg-white shadow-card">
+          <div className="flex items-center justify-between border-b border-[#E5E7EB] px-5 py-4">
+            <p className="text-xs font-semibold uppercase tracking-wide text-[#6B7280]">Items</p>
+            <span className="text-xs text-[#6B7280]">{order.restaurants?.name}</span>
           </div>
-          <ul className="divide-y divide-gray-50">
+          <ul className="divide-y divide-[#E5E7EB]">
             {items.map((item) => (
               <li key={item.id} className="flex items-center justify-between gap-4 px-5 py-3">
-                <div className="flex items-center gap-2 min-w-0">
-                  <span className="shrink-0 inline-flex h-5 w-5 items-center justify-center rounded-full bg-orange-100 text-xs font-bold text-orange-600 tabular-nums">
+                <div className="flex min-w-0 items-center gap-2.5">
+                  <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#E8471E]/10 text-xs font-bold tabular-nums text-[#E8471E]">
                     {item.quantity}
                   </span>
-                  <span className="text-sm text-gray-800 truncate">
+                  <span className="truncate text-sm text-[#1A1A2E]">
                     {item.menu_items?.name ?? 'Item'}
                   </span>
                 </div>
-                <span className="shrink-0 text-sm font-semibold text-gray-900 tabular-nums">
+                <span className="shrink-0 text-sm font-semibold tabular-nums text-[#1A1A2E]">
                   ₦{item.subtotal.toLocaleString('en-NG')}
                 </span>
               </li>
             ))}
           </ul>
-          <div className="px-5 py-4 border-t border-gray-100 flex items-center justify-between">
-            <span className="text-sm font-bold text-gray-900">Total paid</span>
-            <span className="text-base font-bold text-orange-500 tabular-nums">
+          <div className="flex items-center justify-between border-t border-[#E5E7EB] px-5 py-4">
+            <span className="text-sm font-bold text-[#1A1A2E]">Total paid</span>
+            <span className="text-base font-bold tabular-nums text-[#E8471E]">
               ₦{order.total_amount.toLocaleString('en-NG')}
             </span>
           </div>
         </section>
 
         {/* Delivery / pickup info */}
-        <section className="rounded-2xl border border-gray-100 bg-white shadow-sm px-5 py-4 space-y-3">
+        <section className="space-y-3 rounded-xl border border-[#E5E7EB] bg-white px-5 py-4 shadow-card">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">Order type</span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-50 px-3 py-1 text-xs font-semibold text-orange-600 capitalize">
+            <span className="text-xs font-semibold uppercase tracking-wide text-[#6B7280]">
+              Order type
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#E8471E]/10 px-3 py-1 text-xs font-semibold capitalize text-[#E8471E]">
               {order.order_type === 'delivery' ? (
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2 .001M13 16H9m4 0h5.5a.5.5 0 00.5-.5V11l-2.5-3.5H13V16z" />
-                </svg>
+                <Truck className="h-3.5 w-3.5" />
               ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0H5m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
+                <Store className="h-3.5 w-3.5" />
               )}
               {order.order_type}
             </span>
@@ -179,57 +181,61 @@ export default async function OrderPage({
 
           {order.order_type === 'delivery' && order.delivery_address && (
             <div>
-              <p className="text-xs text-gray-400">Delivery address</p>
-              <p className="text-sm text-gray-700 mt-0.5">{order.delivery_address}</p>
+              <p className="text-xs text-[#6B7280]">Delivery address</p>
+              <p className="mt-0.5 text-sm text-[#1A1A2E]">{order.delivery_address}</p>
             </div>
           )}
 
           {order.order_type === 'pickup' && order.restaurants?.address && (
             <div>
-              <p className="text-xs text-gray-400">Pick up from</p>
-              <p className="text-sm text-gray-700 mt-0.5">{order.restaurants.address}</p>
+              <p className="text-xs text-[#6B7280]">Pick up from</p>
+              <p className="mt-0.5 text-sm text-[#1A1A2E]">{order.restaurants.address}</p>
             </div>
           )}
 
           {order.notes && (
             <div>
-              <p className="text-xs text-gray-400">Special instructions</p>
-              <p className="text-sm text-gray-700 mt-0.5 italic">{order.notes}</p>
+              <p className="text-xs text-[#6B7280]">Special instructions</p>
+              <p className="mt-0.5 text-sm italic text-[#1A1A2E]">{order.notes}</p>
             </div>
           )}
         </section>
 
         {/* Payment */}
         {payment && (
-          <section className="rounded-2xl border border-gray-100 bg-white shadow-sm px-5 py-4 space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">Payment</p>
+          <section className="space-y-2 rounded-xl border border-[#E5E7EB] bg-white px-5 py-4 shadow-card">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-[#6B7280]">
+              Payment
+            </p>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-500">Method</span>
-              <span className="font-medium text-gray-800 capitalize">
+              <span className="text-[#6B7280]">Method</span>
+              <span className="font-medium capitalize text-[#1A1A2E]">
                 {payment.payment_method ?? 'Simulated'}
               </span>
             </div>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-500">Status</span>
-              <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize ${
-                payment.status === 'paid' || payment.status === 'completed'
-                  ? 'bg-green-100 text-green-700'
-                  : 'bg-yellow-100 text-yellow-700'
-              }`}>
+              <span className="text-[#6B7280]">Status</span>
+              <span
+                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize ${
+                  payment.status === 'paid' || payment.status === 'completed'
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-yellow-100 text-yellow-700'
+                }`}
+              >
                 {payment.status}
               </span>
             </div>
             {payment.payment_reference && (
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-500">Reference</span>
-                <span className="font-mono text-xs text-gray-700 bg-gray-50 rounded px-2 py-0.5">
+                <span className="text-[#6B7280]">Reference</span>
+                <span className="rounded bg-[#FAFAF8] px-2 py-0.5 font-mono text-xs text-[#1A1A2E]">
                   {payment.payment_reference}
                 </span>
               </div>
             )}
-            <div className="flex items-center justify-between text-sm pt-2 border-t border-gray-100">
-              <span className="font-bold text-gray-900">Amount</span>
-              <span className="font-bold text-orange-500 tabular-nums">
+            <div className="flex items-center justify-between border-t border-[#E5E7EB] pt-2 text-sm">
+              <span className="font-bold text-[#1A1A2E]">Amount</span>
+              <span className="font-bold tabular-nums text-[#E8471E]">
                 ₦{payment.amount.toLocaleString('en-NG')}
               </span>
             </div>
@@ -246,7 +252,7 @@ export default async function OrderPage({
 
         <Link
           href="/dashboard"
-          className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-orange-500 py-3 text-sm font-bold text-orange-500 hover:bg-orange-50 transition-colors"
+          className="flex w-full items-center justify-center gap-2 rounded-lg border border-[#E8471E] py-3 text-sm font-semibold text-[#E8471E] transition-colors hover:bg-[#E8471E] hover:text-white"
         >
           Order more food
         </Link>

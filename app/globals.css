@@ -18,3 +18,23 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Order-tracker: moving highlight along the filled progress bar */
+@keyframes tracker-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.tracker-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  animation: tracker-shimmer 1.6s ease-in-out infinite;
+}
