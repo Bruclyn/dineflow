@@ -81,3 +81,17 @@ export function localFoodImage(name: string): string {
   }
   return '/icon-12.png'
 }
+
+// Local ambiance banner photo per restaurant (matched by exact DB name).
+// icon-3..6 are restaurant interior/exterior shots suited to a wide banner.
+const LOCAL_RESTAURANT_BANNERS: Record<string, string> = {
+  'Spice Garden': '/icon-6.png', // bright, airy upscale dining room
+  'Grill House': '/icon-5.png', // casual grill spot, open kitchen
+  'Mamas Kitchen': '/icon-4.png', // warm modern interior
+  'Burger Palace': '/icon-3.png', // lively evening terrace
+}
+
+// Returns a local banner path for a restaurant, or null to fall back.
+export function localRestaurantBanner(name: string): string | null {
+  return LOCAL_RESTAURANT_BANNERS[name] ?? null
+}

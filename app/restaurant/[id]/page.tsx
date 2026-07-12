@@ -7,7 +7,7 @@ import AddToCartButton from './add-to-cart-button'
 import MenuTabs from './menu-tabs'
 import CartNavIcon from '@/app/components/cart-nav-icon'
 import UserMenu from '@/app/components/user-menu'
-import { restaurantCoverUrl, localFoodImage } from '@/lib/food-images'
+import { restaurantCoverUrl, localFoodImage, localRestaurantBanner } from '@/lib/food-images'
 import { parseTags } from '@/lib/menu-tags'
 
 type Restaurant = {
@@ -140,7 +140,11 @@ export default async function RestaurantPage({
       <div className="relative h-[300px] w-full overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={restaurant.cover_image_url ?? restaurantCoverUrl(restaurant.name, 1600, 600)}
+          src={
+            localRestaurantBanner(restaurant.name) ??
+            restaurant.cover_image_url ??
+            restaurantCoverUrl(restaurant.name, 1600, 600)
+          }
           alt={restaurant.name}
           className="h-full w-full object-cover"
         />
@@ -235,7 +239,7 @@ export default async function RestaurantPage({
               {tabs.map((tab) => (
                 <section key={tab.id} id={tab.id} className="scroll-mt-32">
                   <h2 className="font-display text-lg font-bold text-[#1A1A2E] mb-4">{tab.name}</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-4">
                     {grouped[tab.name].map((item) => (
                       <MenuItemCard
                         key={item.id}
