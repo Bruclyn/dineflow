@@ -5,9 +5,10 @@ import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
 
 const LINKS = [
+  { label: 'Home', href: '/' },
+  { label: 'Restaurants', href: '/#restaurants' },
   { label: 'How It Works', href: '/#how-it-works' },
-  { label: 'Why DineFlow', href: '/#why' },
-  { label: 'For Restaurants', href: '/partner' },
+  { label: 'Become a Partner', href: '/partner' },
 ]
 
 export default function LandingNav() {
@@ -22,99 +23,108 @@ export default function LandingNav() {
   }, [])
 
   return (
+    <>
     <header
-      className={`sticky top-0 z-50 border-b border-gray-100 transition-colors ${
-        scrolled ? 'bg-white/80 backdrop-blur-sm' : 'bg-white'
+      className={`sticky top-0 z-50 border-b border-[#E5E7EB] bg-white/80 backdrop-blur-md transition-shadow ${
+        scrolled ? 'shadow-sm' : ''
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="text-xl font-bold text-orange-500 tracking-tight">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+        <Link href="/" className="font-display text-xl font-bold tracking-tight text-[#E8471E]">
           DineFlow
         </Link>
 
-        {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8">
-          {LINKS.map((link) => (
+          {LINKS.map((l) => (
             <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+              key={l.href}
+              href={l.href}
+              className="text-sm font-medium text-[#1A1A2E] hover:text-[#E8471E] transition-colors"
             >
-              {link.label}
+              {l.label}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-2 sm:gap-3">
+        <div className="hidden md:flex items-center gap-3">
           <Link
             href="/login"
-            className="px-3 py-2 text-sm font-semibold text-gray-700 hover:text-orange-500 transition-colors"
+            className="rounded-lg border border-[#E8471E] px-5 py-2 text-sm font-semibold text-[#E8471E] hover:bg-[#E8471E] hover:text-white transition-colors"
           >
-            Log in
+            Sign In
           </Link>
           <Link
             href="/register"
-            className="rounded-full bg-orange-500 px-5 py-2 text-sm font-semibold text-white hover:bg-orange-600 transition-colors"
+            className="rounded-lg bg-[#E8471E] px-5 py-2 text-sm font-semibold text-white hover:bg-[#C93D18] transition-colors"
           >
-            Sign Up
+            Order Now
           </Link>
         </div>
 
-        {/* Mobile hamburger */}
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="md:hidden flex h-10 w-10 items-center justify-center rounded-xl text-gray-700 hover:bg-gray-100 transition-colors"
+          className="md:hidden flex h-10 w-10 items-center justify-center rounded-lg text-[#1A1A2E] hover:bg-black/5 transition-colors"
           aria-label="Open menu"
         >
           <Menu className="h-6 w-6" />
         </button>
       </div>
-
-      {/* Mobile full-screen dropdown */}
-      {open && (
-        <div className="fixed inset-0 z-50 bg-white md:hidden flex flex-col">
-          <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 h-16 flex items-center justify-between border-b border-gray-100">
-            <span className="text-xl font-bold text-orange-500 tracking-tight">DineFlow</span>
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              className="flex h-10 w-10 items-center justify-center rounded-xl text-gray-700 hover:bg-gray-100 transition-colors"
-              aria-label="Close menu"
-            >
-              <X className="h-6 w-6" />
-            </button>
-          </div>
-          <nav className="flex flex-col gap-1 px-4 sm:px-6 py-6">
-            {LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="rounded-xl px-4 py-3 text-base font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="mt-4 flex flex-col gap-3 px-1">
-              <Link
-                href="/login"
-                onClick={() => setOpen(false)}
-                className="rounded-full border border-gray-200 px-5 py-3 text-center text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
-              >
-                Log in
-              </Link>
-              <Link
-                href="/register"
-                onClick={() => setOpen(false)}
-                className="rounded-full bg-orange-500 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-orange-600 transition-colors"
-              >
-                Sign Up
-              </Link>
-            </div>
-          </nav>
-        </div>
-      )}
     </header>
+
+    {/* Mobile full-screen overlay — rendered OUTSIDE the blurred header so
+        position:fixed anchors to the viewport, not the header's containing block */}
+    {open && (
+      <div
+        className="fixed inset-0 z-[9999] flex h-screen w-full flex-col overflow-y-auto bg-white md:hidden"
+        style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }}
+      >
+        {/* Top: logo + close */}
+        <div className="flex h-16 shrink-0 items-center justify-between border-b border-[#E5E7EB] px-4 sm:px-6">
+          <span className="font-display text-xl font-bold tracking-tight text-[#E8471E]">DineFlow</span>
+          <button
+            type="button"
+            onClick={() => setOpen(false)}
+            className="flex h-10 w-10 items-center justify-center rounded-lg text-[#1A1A2E] hover:bg-black/5 transition-colors"
+            aria-label="Close menu"
+          >
+            <X className="h-6 w-6" />
+          </button>
+        </div>
+
+        {/* Center: links */}
+        <nav className="flex flex-1 flex-col items-center justify-center gap-2 px-6">
+          {LINKS.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              className="rounded-lg px-4 py-3 text-lg font-semibold text-[#1A1A2E] hover:text-[#E8471E] transition-colors"
+            >
+              {l.label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Bottom: auth buttons */}
+        <div className="flex shrink-0 flex-col gap-3 px-6 pb-10">
+          <Link
+            href="/login"
+            onClick={() => setOpen(false)}
+            className="rounded-lg border border-[#E8471E] px-5 py-3 text-center text-sm font-semibold text-[#E8471E] hover:bg-[#E8471E] hover:text-white transition-colors"
+          >
+            Sign In
+          </Link>
+          <Link
+            href="/register"
+            onClick={() => setOpen(false)}
+            className="rounded-lg bg-[#E8471E] px-5 py-3 text-center text-sm font-semibold text-white hover:bg-[#C93D18] transition-colors"
+          >
+            Order Now
+          </Link>
+        </div>
+      </div>
+    )}
+    </>
   )
 }

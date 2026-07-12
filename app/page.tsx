@@ -1,346 +1,354 @@
 import Link from 'next/link'
-import { ShoppingCart, MapPin, Star, Search, Store, Package } from 'lucide-react'
+import Image from 'next/image'
+import { MapPin, Star, Clock, Store, ShoppingBag, Truck } from 'lucide-react'
 import LandingNav from '@/app/components/landing-nav'
 
-const SOCIALS: { label: string; path: string }[] = [
+const CUISINES = [
+  { emoji: '🍚', label: 'Rice' },
+  { emoji: '🍔', label: 'Burgers' },
+  { emoji: '🍝', label: 'Pasta' },
+  { emoji: '🥩', label: 'Grills' },
+  { emoji: '🥤', label: 'Drinks' },
+  { emoji: '🍱', label: 'Local' },
+]
+
+const RESTAURANTS = [
   {
-    label: 'Instagram',
-    path: 'M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07zM12 6.35a5.65 5.65 0 100 11.3 5.65 5.65 0 000-11.3zm0 9.32a3.67 3.67 0 110-7.34 3.67 3.67 0 010 7.34zm5.88-9.54a1.32 1.32 0 11-2.64 0 1.32 1.32 0 012.64 0z',
+    name: 'From Grace House',
+    img: '/icon-6.png',
+    cuisine: 'Continental · Brunch',
+    rating: 4.8,
+    reviews: 320,
+    time: '25–35 min',
+    promo: '20% OFF',
+    initial: 'G',
+    color: '#E8471E',
   },
   {
-    label: 'X',
-    path: 'M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.41l-5.8-7.58-6.64 7.58H.47l8.6-9.83L0 1.15h7.6l5.24 6.93 6.06-6.93zm-1.29 19.5h2.04L6.49 3.24H4.3L17.61 20.65z',
+    name: 'Grills',
+    img: '/icon-5.png',
+    cuisine: 'Grills & BBQ',
+    rating: 4.7,
+    reviews: 214,
+    time: '30–40 min',
+    promo: null,
+    initial: 'G',
+    color: '#1A1A2E',
   },
   {
-    label: 'Facebook',
-    path: 'M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.26h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z',
+    name: 'McKisheen',
+    img: '/icon-4.png',
+    cuisine: 'Burgers & Fast Food',
+    rating: 4.6,
+    reviews: 540,
+    time: '20–30 min',
+    promo: 'Free delivery',
+    initial: 'M',
+    color: '#F5A623',
   },
+]
+
+const STATS = [
+  { icon: '⭐', value: '4.8', label: 'Average Rating' },
+  { icon: '🍔', value: '15,000+', label: 'Meals Ordered' },
+  { icon: '🏪', value: '50+', label: 'Restaurant Partners' },
+  { icon: '🚚', value: '30 min', label: 'Average Delivery' },
 ]
 
 const STEPS = [
   {
-    num: '01',
-    icon: Search,
-    title: 'Browse Restaurants',
-    description: 'Explore local restaurants and their full menus in just a few seconds.',
-  },
-  {
-    num: '02',
-    icon: ShoppingCart,
-    title: 'Add to Cart',
-    description: 'Pick your favourite dishes and check out in a few simple taps.',
-  },
-  {
-    num: '03',
-    icon: Package,
-    title: 'Track Your Order',
-    description: 'Follow your order in real time, from the kitchen right to your door.',
-  },
-]
-
-const WHY_FEATURES = [
-  {
+    n: '1',
     icon: Store,
-    title: 'Multiple Restaurants',
-    description: 'Discover a growing selection of the best local spots, all in one place.',
+    title: 'Choose a restaurant',
+    desc: 'Browse the best local restaurants near you and find your next favourite meal.',
   },
   {
-    icon: ShoppingCart,
-    title: 'Easy Ordering',
-    description: 'A smooth cart and checkout that gets you fed in minutes, not hours.',
+    n: '2',
+    icon: ShoppingBag,
+    title: 'Pick your meals',
+    desc: 'Add delicious dishes to your cart, customise your order and check out in seconds.',
   },
   {
-    icon: Package,
-    title: 'Live Order Tracking',
-    description: 'Watch your order progress in real time, every step of the way.',
-  },
-  {
-    icon: Star,
-    title: 'Verified Reviews',
-    description: 'Real ratings from real diners to help you choose with confidence.',
+    n: '3',
+    icon: Truck,
+    title: 'Get it delivered',
+    desc: 'Track your order in real time — hot food delivered to your door in about 30 minutes.',
   },
 ]
 
 const TRUST = [
-  { emoji: '🏪', label: '4 Restaurants' },
-  { emoji: '🛒', label: 'Easy Ordering' },
-  { emoji: '📦', label: 'Live Tracking' },
-  { emoji: '⭐', label: 'Real Reviews' },
+  { icon: '⭐', text: '4.8 Rating' },
+  { icon: '🍔', text: '15,000+ Meals' },
+  { icon: '🚚', text: '30 min avg delivery' },
 ]
 
-export default function LandingPage() {
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#FAFAF8]">
       <LandingNav />
 
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-orange-50 via-white to-orange-50/30">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center min-h-[85vh] py-16">
-            {/* Left — text */}
-            <div className="text-center lg:text-left">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-100 px-3.5 py-1.5 text-xs font-semibold text-orange-700 mb-6">
-                🏪 Lagos &amp; Abuja&apos;s Food Marketplace
-              </span>
+      {/* 2. Hero */}
+      <section className="relative min-h-[calc(100vh-4rem)] w-full overflow-hidden">
+        <Image
+          src="/icon-2.png"
+          alt="Warm restaurant interior with fairy lights"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.80) 60%, rgba(0,0,0,0.90) 100%)',
+          }}
+        />
 
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 leading-[1.05]">
-                Delicious Food, Delivered to Your Doorstep
-              </h1>
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 flex min-h-[calc(100vh-4rem)] items-center">
+          <div className="max-w-2xl py-16">
+            <h1 className="font-display font-extrabold text-white text-[36px] leading-[1.1] md:text-[56px]">
+              Your Favourite Restaurants. Delivered Fast.
+            </h1>
+            <p className="mt-5 max-w-md text-lg text-white/80">
+              Order from the best local restaurants in your city. Hot food at your door in 30
+              minutes.
+            </p>
 
-              <p className="mt-6 text-lg text-gray-500 max-w-md mx-auto lg:mx-0 leading-relaxed">
-                Discover the best local restaurants, explore their menus, and get your favourite
-                meals in minutes.
-              </p>
-
-              <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3">
-                <Link
-                  href="/register"
-                  className="text-center rounded-full bg-orange-500 px-8 py-4 text-sm font-semibold text-white hover:bg-orange-600 shadow-lg shadow-orange-200 transition-colors"
-                >
-                  Get Started
-                </Link>
-                <Link
-                  href="/partner"
-                  className="text-center rounded-full bg-gray-900 px-8 py-4 text-sm font-semibold text-white hover:bg-gray-800 shadow-lg transition-colors"
-                >
-                  Become a Partner
-                </Link>
-              </div>
-
-              <div className="mt-10 flex flex-wrap justify-center lg:justify-start gap-x-6 gap-y-3">
-                {TRUST.map((item) => (
-                  <div
-                    key={item.label}
-                    className="flex items-center gap-1.5 text-xs font-medium text-gray-500"
-                  >
-                    <span className="text-sm">{item.emoji}</span>
-                    {item.label}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right — floating mockup cards */}
-            <div className="relative h-[420px] hidden md:block">
-              {/* Card C: review chip — anchored top-right, separate from Card A */}
-              <div className="absolute top-0 right-0 z-10 rounded-full bg-white shadow-md px-3 py-1.5">
-                <p className="text-xs font-medium text-gray-700">⭐ Amazing food!</p>
-              </div>
-
-              {/* Card A: restaurant card */}
-              <div className="absolute top-16 right-0 w-52 rounded-xl bg-white shadow-lg overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80"
-                  alt="Featured dish"
-                  className="h-28 w-full object-cover"
+            {/* Search bar */}
+            <div className="mt-8 flex w-full max-w-lg flex-col gap-2 rounded-2xl bg-white/95 p-2 shadow-[0_4px_16px_rgba(0,0,0,0.12)] sm:flex-row sm:items-center sm:rounded-full">
+              <div className="flex flex-1 items-center gap-2 px-3">
+                <MapPin className="h-5 w-5 shrink-0 text-[#6B7280]" />
+                <input
+                  type="text"
+                  placeholder="Enter your delivery location"
+                  aria-label="Delivery location"
+                  className="w-full bg-transparent py-2.5 text-sm text-[#1A1A2E] placeholder-[#6B7280] focus:outline-none"
                 />
-                <div className="p-3">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-sm font-semibold text-gray-900">Spice Garden</p>
-                    <span className="shrink-0 rounded-full bg-orange-500 px-2 py-0.5 text-xs font-bold text-white">
-                      ⭐ 4.8
-                    </span>
-                  </div>
-                  <span className="mt-2 inline-flex rounded-full bg-orange-100 px-2 py-0.5 text-xs font-medium text-orange-700">
-                    Nigerian Cuisine
-                  </span>
-                </div>
               </div>
-
-              {/* Card B: order status — below Card A, offset left */}
-              <div className="absolute bottom-6 left-0 w-44 rounded-xl bg-white shadow-lg p-3">
-                <p className="text-xs font-medium text-gray-700">🍳 Preparing your order…</p>
-                <div className="mt-2 flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-orange-500 animate-pulse" />
-                  <span className="h-2 w-2 rounded-full bg-orange-500" />
-                  <span className="h-2 w-2 rounded-full bg-orange-200" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Decorative blobs */}
-        <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-orange-200/40 blur-3xl" aria-hidden="true" />
-        <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-amber-200/40 blur-3xl" aria-hidden="true" />
-      </section>
-
-      {/* How It Works */}
-      <section id="how-it-works" className="bg-white py-20 md:py-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl font-bold text-gray-900">How DineFlow Works</h2>
-            <p className="mt-3 text-gray-500">Order in three simple steps</p>
-          </div>
-
-          <div className="relative grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-6">
-            {/* Dashed connector (desktop) */}
-            <div
-              className="hidden md:block absolute top-8 left-[16.66%] right-[16.66%] border-t-2 border-dashed border-orange-200"
-              aria-hidden="true"
-            />
-
-            {STEPS.map((step) => (
-              <div key={step.num} className="relative flex flex-col items-center text-center">
-                <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100 text-lg font-bold text-orange-600 ring-4 ring-white">
-                  {step.num}
-                </div>
-                <div className="mt-4 flex h-11 w-11 items-center justify-center rounded-full bg-orange-50 text-orange-500">
-                  <step.icon className="h-5 w-5" strokeWidth={2} />
-                </div>
-                <h3 className="mt-4 text-lg font-medium text-gray-900">{step.title}</h3>
-                <p className="mt-2 text-sm text-gray-500 leading-relaxed max-w-[240px]">
-                  {step.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Why DineFlow */}
-      <section id="why" className="bg-orange-50 py-20 md:py-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-12 lg:gap-16 items-center">
-            {/* Left */}
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-orange-500">
-                Why DineFlow
-              </p>
-              <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-                Why thousands choose DineFlow
-              </h2>
-              <p className="mt-4 text-base text-gray-500 leading-relaxed max-w-md">
-                We bring your city&apos;s best kitchens together in one warm, friendly app — so
-                good food is always just a few taps away.
-              </p>
               <Link
-                href="/register"
-                className="mt-8 inline-block rounded-full bg-orange-500 px-8 py-4 text-sm font-semibold text-white hover:bg-orange-600 shadow-lg shadow-orange-200/60 transition-colors"
+                href="/dashboard"
+                className="rounded-full bg-[#E8471E] px-6 py-3 text-center text-sm font-semibold text-white hover:bg-[#C93D18] transition-colors"
               >
-                Get Started
+                Find Food
               </Link>
             </div>
 
-            {/* Right — 2x2 grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {WHY_FEATURES.map((feature) => (
-                <div
-                  key={feature.title}
-                  className="rounded-2xl bg-white shadow-sm p-6 hover:shadow-md transition-shadow"
-                >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-orange-100 text-orange-500 mb-4">
-                    <feature.icon className="h-5 w-5" strokeWidth={2} />
-                  </div>
-                  <h3 className="text-base font-medium text-gray-900">{feature.title}</h3>
-                  <p className="mt-1.5 text-sm text-gray-500 leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
+            {/* Trust badges */}
+            <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium text-white/90">
+              {TRUST.map((t) => (
+                <span key={t.text} className="flex items-center gap-1.5">
+                  <span>{t.icon}</span>
+                  {t.text}
+                </span>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-16 md:py-20">
-        <div className="mx-4 md:mx-16 rounded-3xl bg-orange-500 overflow-hidden">
-          <div className="px-6 sm:px-10 py-20 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            {/* Left */}
-            <div className="text-center lg:text-left">
-              <h2 className="text-3xl md:text-4xl font-bold text-white">Ready to order?</h2>
-              <p className="mt-3 text-base text-orange-50 max-w-md mx-auto lg:mx-0">
-                Join DineFlow today and get your favourite meals delivered in minutes.
-              </p>
-              <Link
-                href="/register"
-                className="mt-8 inline-block rounded-full bg-white px-8 py-4 text-sm font-semibold text-orange-600 hover:bg-orange-50 shadow-lg transition-colors"
-              >
-                Get Started
-              </Link>
-            </div>
+      {/* 3. Popular Cuisines */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+        <div className="flex gap-3 overflow-x-auto pb-2">
+          {CUISINES.map((c) => (
+            <Link
+              key={c.label}
+              href="/dashboard"
+              className="group flex shrink-0 items-center gap-2 rounded-full border border-[#E5E7EB] bg-white px-5 py-2.5 text-sm font-semibold text-[#1A1A2E] shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)]"
+            >
+              <span className="text-lg">{c.emoji}</span>
+              {c.label}
+            </Link>
+          ))}
+        </div>
+      </section>
 
-            {/* Right — floating food illustration */}
-            <div className="relative h-44 hidden lg:block">
-              <div className="absolute top-0 left-12 flex h-24 w-24 items-center justify-center rounded-3xl bg-white/95 shadow-xl text-5xl rotate-6">
-                🍲
+      {/* 4. Featured Restaurants */}
+      <section id="restaurants" className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+        <div className="mb-8 flex items-end justify-between gap-4">
+          <div>
+            <h2 className="font-display text-3xl font-bold text-[#1A1A2E]">Top Restaurants Near You</h2>
+            <p className="mt-2 text-[#6B7280]">Hand-picked favourites, ready to deliver.</p>
+          </div>
+          <Link
+            href="/dashboard"
+            className="hidden sm:inline-block text-sm font-semibold text-[#E8471E] hover:text-[#C93D18] transition-colors"
+          >
+            View all →
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {RESTAURANTS.map((r) => (
+            <Link
+              key={r.name}
+              href="/dashboard"
+              className="group block rounded-xl bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] hover:scale-[1.01]"
+            >
+              {/* Banner */}
+              <div className="relative h-[180px] w-full overflow-hidden rounded-t-xl">
+                <Image
+                  src={r.img}
+                  alt={`${r.name} restaurant interior`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                {r.promo && (
+                  <span className="absolute left-3 top-3 rounded-full bg-[#F5A623] px-3 py-1 text-xs font-semibold text-[#1A1A2E]">
+                    {r.promo}
+                  </span>
+                )}
+                {/* Logo */}
+                <div
+                  className="absolute -bottom-5 left-4 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white text-sm font-bold text-white shadow"
+                  style={{ backgroundColor: r.color }}
+                >
+                  {r.initial}
+                </div>
               </div>
-              <div className="absolute top-8 left-44 flex h-28 w-28 items-center justify-center rounded-3xl bg-white/95 shadow-xl text-6xl -rotate-3">
-                🍔
+
+              {/* Body */}
+              <div className="p-5 pt-7">
+                <h3 className="font-display text-base font-bold text-[#1A1A2E]">{r.name}</h3>
+                <p className="mt-0.5 text-[13px] text-[#6B7280]">{r.cuisine}</p>
+                <div className="mt-3 flex items-center gap-4 text-[13px]">
+                  <span className="flex items-center gap-1 font-semibold text-[#1A1A2E]">
+                    <Star className="h-4 w-4 fill-[#F5A623] text-[#F5A623]" />
+                    {r.rating.toFixed(1)}
+                    <span className="font-normal text-[#6B7280]">({r.reviews})</span>
+                  </span>
+                  <span className="flex items-center gap-1 text-[#6B7280]">
+                    <Clock className="h-4 w-4" />
+                    {r.time}
+                  </span>
+                </div>
               </div>
-              <div className="absolute top-2 right-2 flex h-20 w-20 items-center justify-center rounded-3xl bg-white/95 shadow-xl text-4xl rotate-12">
-                🥗
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* 5. Trust / Stats */}
+      <section className="bg-[#1A1A2E]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {STATS.map((s) => (
+              <div key={s.label} className="text-center">
+                <div className="text-3xl">{s.icon}</div>
+                <div className="mt-2 font-display text-3xl font-bold text-white">{s.value}</div>
+                <div className="mt-1 text-sm text-white/70">{s.label}</div>
               </div>
+            ))}
+          </div>
+          <p className="mt-8 text-center text-xs text-white/40">
+            * Figures shown are for demonstration purposes
+          </p>
+        </div>
+      </section>
+
+      {/* 6. How It Works */}
+      <section id="how-it-works" className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+        <div className="mb-14 text-center">
+          <h2 className="font-display text-3xl font-bold text-[#1A1A2E]">How It Works</h2>
+          <p className="mt-2 text-[#6B7280]">Three simple steps to a great meal.</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
+          {STEPS.map((step) => (
+            <div key={step.n} className="flex flex-col items-center text-center md:items-start md:text-left">
+              <div className="flex items-center gap-4">
+                <span className="font-display text-5xl font-extrabold text-[#E8471E]">{step.n}</span>
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#E8471E]/10 text-[#E8471E]">
+                  <step.icon className="h-6 w-6" strokeWidth={2} />
+                </span>
+              </div>
+              <h3 className="mt-5 font-display text-lg font-bold text-[#1A1A2E]">{step.title}</h3>
+              <p className="mt-2 max-w-xs text-sm text-[#6B7280] leading-relaxed">{step.desc}</p>
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 7. Become a Partner CTA */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-16 md:pb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch overflow-hidden rounded-2xl bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
+          <div className="p-8 md:p-12 flex flex-col justify-center">
+            <span className="inline-flex w-fit rounded-full bg-[#E8471E]/10 px-3 py-1 text-xs font-semibold text-[#E8471E]">
+              For Restaurants
+            </span>
+            <h2 className="mt-4 font-display text-3xl font-bold text-[#1A1A2E]">
+              Grow Your Restaurant With DineFlow
+            </h2>
+            <p className="mt-3 text-[#6B7280] leading-relaxed max-w-md">
+              Join 50+ restaurants already earning more with us. Reach thousands of hungry customers
+              and manage everything from one simple dashboard.
+            </p>
+            <Link
+              href="/partner"
+              className="mt-8 inline-block w-fit rounded-lg bg-[#E8471E] px-6 py-3 text-sm font-semibold text-white hover:bg-[#C93D18] transition-colors"
+            >
+              Partner With Us
+            </Link>
+          </div>
+          <div className="relative min-h-[260px] lg:min-h-[440px]">
+            <Image
+              src="/icon-1.png"
+              alt="Busy outdoor restaurant terrace"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+            />
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white">
+      {/* 8. Footer */}
+      <footer className="bg-[#1A1A2E] text-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-            {/* Brand */}
-            <div className="md:col-span-2 lg:col-span-1">
-              <span className="text-xl font-bold text-orange-500 tracking-tight">DineFlow</span>
-              <p className="mt-3 text-sm text-gray-400 leading-relaxed max-w-xs">
-                Warm, friendly food delivery from your city&apos;s best local kitchens.
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
+            <div className="col-span-2 md:col-span-1">
+              <span className="font-display text-xl font-bold tracking-tight text-[#E8471E]">DineFlow</span>
+              <p className="mt-3 max-w-xs text-sm text-white/60 leading-relaxed">
+                Your favourite local restaurants, delivered hot and fast across the city.
               </p>
-              <div className="mt-5 flex items-center gap-3">
-                {SOCIALS.map((social) => (
-                  <span
-                    key={social.label}
-                    aria-label={social.label}
-                    className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-gray-300 hover:bg-orange-500 hover:text-white transition-colors"
-                  >
-                    <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden="true">
-                      <path d={social.path} />
-                    </svg>
-                  </span>
-                ))}
-              </div>
             </div>
 
-            {/* Quick Links */}
             <div>
-              <h3 className="text-sm font-semibold text-white mb-4">Quick Links</h3>
-              <ul className="space-y-2.5 text-sm text-gray-400">
-                <li><Link href="/#how-it-works" className="hover:text-orange-400 transition-colors">How It Works</Link></li>
-                <li><Link href="/#why" className="hover:text-orange-400 transition-colors">Why DineFlow</Link></li>
-                <li><Link href="/register" className="hover:text-orange-400 transition-colors">Sign Up</Link></li>
-                <li><Link href="/login" className="hover:text-orange-400 transition-colors">Log in</Link></li>
+              <h3 className="text-sm font-semibold text-white mb-4">Company</h3>
+              <ul className="space-y-2.5 text-sm text-white/60">
+                <li><Link href="/#how-it-works" className="hover:text-[#F5A623] transition-colors">How It Works</Link></li>
+                <li><Link href="/#restaurants" className="hover:text-[#F5A623] transition-colors">Restaurants</Link></li>
+                <li><Link href="/partner" className="hover:text-[#F5A623] transition-colors">Become a Partner</Link></li>
+                <li><Link href="/register" className="hover:text-[#F5A623] transition-colors">Sign Up</Link></li>
               </ul>
             </div>
 
-            {/* For Restaurants */}
             <div>
-              <h3 className="text-sm font-semibold text-white mb-4">For Restaurants</h3>
-              <ul className="space-y-2.5 text-sm text-gray-400">
-                <li><Link href="/partner" className="hover:text-orange-400 transition-colors">Become a Partner</Link></li>
-                <li><Link href="/partner" className="hover:text-orange-400 transition-colors">Grow Your Business</Link></li>
-                <li><Link href="/login" className="hover:text-orange-400 transition-colors">Partner Login</Link></li>
+              <h3 className="text-sm font-semibold text-white mb-4">Cities</h3>
+              <ul className="space-y-2.5 text-sm text-white/60">
+                <li>Lagos</li>
+                <li>Abuja</li>
+                <li>Port Harcourt</li>
+                <li>Ibadan</li>
               </ul>
             </div>
 
-            {/* Support */}
             <div>
-              <h3 className="text-sm font-semibold text-white mb-4">Support</h3>
-              <ul className="space-y-2.5 text-sm text-gray-400">
-                <li className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" /> Lagos &amp; Abuja</li>
-                <li>Help Center</li>
-                <li>Contact Us</li>
-                <li>Privacy &amp; Terms</li>
+              <h3 className="text-sm font-semibold text-white mb-4">Contact</h3>
+              <ul className="space-y-2.5 text-sm text-white/60">
+                <li className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" /> Lagos, Nigeria</li>
+                <li>hello@dineflow.app</li>
+                <li>+234 800 000 0000</li>
               </ul>
             </div>
           </div>
 
           <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-white/40">
               &copy; {new Date().getFullYear()} DineFlow. All rights reserved.
             </p>
-            <p className="text-xs text-gray-500">Made with ❤️ for food lovers</p>
+            <p className="text-xs text-white/40">Made with ❤️ for food lovers</p>
           </div>
         </div>
       </footer>
