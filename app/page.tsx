@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { MapPin, Star, Clock, Store, ShoppingBag, Truck } from 'lucide-react'
 import LandingNav from '@/app/components/landing-nav'
+import { localRestaurantBanner } from '@/lib/food-images'
 
 const CUISINES = [
   { emoji: '🍚', label: 'Rice' },
@@ -12,39 +13,57 @@ const CUISINES = [
   { emoji: '🍱', label: 'Local' },
 ]
 
+// The four real restaurants, so the homepage showcase links straight to each
+// restaurant page. Banner photos come from localRestaurantBanner() (same source
+// as the page banners), so a card always matches the top of its restaurant page.
 const RESTAURANTS = [
   {
-    name: 'From Grace House',
+    id: 'a2000000-0000-0000-0000-000000000002',
+    name: 'Spice Garden',
     img: '/icon-6.png',
-    cuisine: 'Continental · Brunch',
+    cuisine: 'Nigerian · Modern',
     rating: 4.8,
-    reviews: 320,
-    time: '25–35 min',
+    reviews: 214,
+    time: '30–40 min',
     promo: '20% OFF',
-    initial: 'G',
+    initial: 'S',
     color: '#E8471E',
   },
   {
-    name: 'Grills',
+    id: 'a1000000-0000-0000-0000-000000000001',
+    name: 'Burger Palace',
+    img: '/icon-3.png',
+    cuisine: 'Burgers & Fast Food',
+    rating: 4.7,
+    reviews: 540,
+    time: '20–30 min',
+    promo: 'Free delivery',
+    initial: 'B',
+    color: '#F5A623',
+  },
+  {
+    id: 'e3000000-0000-0000-0000-000000000003',
+    name: 'Grill House',
     img: '/icon-5.png',
     cuisine: 'Grills & BBQ',
     rating: 4.7,
-    reviews: 214,
+    reviews: 186,
     time: '30–40 min',
     promo: null,
     initial: 'G',
     color: '#1A1A2E',
   },
   {
-    name: 'McKisheen',
+    id: 'e2000000-0000-0000-0000-000000000002',
+    name: 'Mamas Kitchen',
     img: '/icon-4.png',
-    cuisine: 'Burgers & Fast Food',
+    cuisine: 'Home-style Nigerian',
     rating: 4.6,
-    reviews: 540,
+    reviews: 132,
     time: '20–30 min',
-    promo: 'Free delivery',
+    promo: null,
     initial: 'M',
-    color: '#F5A623',
+    color: '#E8471E',
   },
 ]
 
@@ -178,17 +197,17 @@ export default function HomePage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {RESTAURANTS.map((r) => (
             <Link
               key={r.name}
-              href="/dashboard"
+              href={`/restaurant/${r.id}`}
               className="group block rounded-xl bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] hover:scale-[1.01]"
             >
               {/* Banner */}
               <div className="relative h-[180px] w-full overflow-hidden rounded-t-xl">
                 <Image
-                  src={r.img}
+                  src={localRestaurantBanner(r.name) ?? r.img}
                   alt={`${r.name} restaurant interior`}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
