@@ -31,7 +31,7 @@ export default function AddToCartButton({ item }: Props) {
       className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full shadow-sm transition-all duration-200 ${
         added
           ? 'bg-green-500 text-white'
-          : 'bg-orange-500 text-white hover:bg-orange-600 active:scale-90'
+          : 'bg-[#E8471E] text-white hover:bg-[#C93D18] active:scale-90'
       }`}
     >
       {added ? (

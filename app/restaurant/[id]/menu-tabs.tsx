@@ -37,7 +37,7 @@ export default function MenuTabs({ tabs }: { tabs: Tab[] }) {
   }
 
   return (
-    <div className="sticky top-16 z-20 -mx-4 sm:-mx-6 bg-white border-b border-gray-100">
+    <div className="sticky top-16 z-20 -mx-4 sm:-mx-6 bg-white border-b border-[#E5E7EB]">
       <div className="flex gap-1 overflow-x-auto px-4 sm:px-6">
         {tabs.map((t) => (
           <a
@@ -46,8 +46,8 @@ export default function MenuTabs({ tabs }: { tabs: Tab[] }) {
             onClick={(e) => handleClick(e, t.id)}
             className={`shrink-0 whitespace-nowrap px-3 py-3 text-sm font-medium border-b-2 transition-colors ${
               active === t.id
-                ? 'border-orange-500 text-orange-500'
-                : 'border-transparent text-gray-500 hover:text-gray-800'
+                ? 'border-[#E8471E] text-[#E8471E]'
+                : 'border-transparent text-[#6B7280] hover:text-[#1A1A2E]'
             }`}
           >
             {t.name}

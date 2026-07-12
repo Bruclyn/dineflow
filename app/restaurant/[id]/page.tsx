@@ -1,11 +1,13 @@
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
+import { ArrowLeft, Star, Clock } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import AddToCartButton from './add-to-cart-button'
 import MenuTabs from './menu-tabs'
 import CartNavIcon from '@/app/components/cart-nav-icon'
 import UserMenu from '@/app/components/user-menu'
-import { foodImageUrl, guessFoodCategory, restaurantCoverUrl } from '@/lib/food-images'
+import { restaurantCoverUrl, localFoodImage } from '@/lib/food-images'
 import { parseTags } from '@/lib/menu-tags'
 
 type Restaurant = {
@@ -17,6 +19,7 @@ type Restaurant = {
   email: string | null
   logo_url: string | null
   cover_image_url: string | null
+  cuisine_type: string | null
 }
 
 type Category = {
@@ -43,6 +46,8 @@ type Review = {
   created_at: string
 }
 
+const DELIVERY_TIMES = ['20–30 min', '25–35 min', '30–40 min']
+
 export default async function RestaurantPage({
   params,
 }: {
@@ -60,7 +65,7 @@ export default async function RestaurantPage({
     await Promise.all([
       supabase
         .from('restaurants')
-        .select('id, name, description, address, phone, email, logo_url, cover_image_url')
+        .select('id, name, description, address, phone, email, logo_url, cover_image_url, cuisine_type')
         .eq('id', params.id)
         .single<Restaurant>(),
       supabase
@@ -89,6 +94,11 @@ export default async function RestaurantPage({
       ? reviewList.reduce((sum, r) => sum + r.rating, 0) / reviewList.length
       : null
 
+  const deliveryTime =
+    DELIVERY_TIMES[
+      restaurant.id.split('').reduce((a, c) => a + c.charCodeAt(0), 0) % DELIVERY_TIMES.length
+    ]
+
   // Build a lookup of category display_order so we can sort headings correctly
   const categoryOrder: Record<string, number> = {}
   const grouped = items.reduce<Record<string, MenuItem[]>>((acc, item) => {
@@ -107,27 +117,18 @@ export default async function RestaurantPage({
   const tabs = categories.map((name, i) => ({ name, id: `menu-cat-${i}` }))
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#FAFAF8]">
       {/* Navbar */}
-      <nav className="bg-white border-b border-gray-100 sticky top-0 z-10 shadow-sm">
+      <nav className="bg-white border-b border-[#E5E7EB] sticky top-0 z-30 shadow-sm">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
           <Link
             href="/dashboard"
-            className="flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-orange-500 transition-colors"
+            className="flex items-center gap-1.5 text-sm font-medium text-[#6B7280] hover:text-[#E8471E] transition-colors"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
+            <ArrowLeft className="h-4 w-4" />
             Back
           </Link>
-          <span className="text-xl font-bold text-orange-500 tracking-tight">DineFlow</span>
+          <span className="font-display text-xl font-bold tracking-tight text-[#E8471E]">DineFlow</span>
           <div className="flex items-center gap-3">
             <CartNavIcon />
             <UserMenu initial={initial} />
@@ -135,102 +136,95 @@ export default async function RestaurantPage({
         </div>
       </nav>
 
-      {/* Cover banner with overlaid identity */}
-      <div className="relative h-64 w-full overflow-hidden">
+      {/* Banner — 300px, full-width */}
+      <div className="relative h-[300px] w-full overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={restaurant.cover_image_url ?? restaurantCoverUrl(restaurant.name, 1200, 512)}
+          src={restaurant.cover_image_url ?? restaurantCoverUrl(restaurant.name, 1600, 600)}
           alt={restaurant.name}
           className="h-full w-full object-cover"
         />
-        {/* Dark gradient at the bottom only — keeps the image's natural colour up top */}
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/75 to-transparent" />
-
-        <div className="absolute inset-x-0 bottom-0">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-5 flex items-end gap-4">
-            {/* Logo */}
-            <div className="shrink-0 h-16 w-16 rounded-2xl shadow-lg overflow-hidden">
-              {restaurant.logo_url ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={restaurant.logo_url}
-                  alt={`${restaurant.name} logo`}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center bg-orange-500">
-                  <span className="text-2xl font-bold text-white">
-                    {restaurant.name.charAt(0)}
-                  </span>
-                </div>
-              )}
-            </div>
-
-            <div className="pb-1 min-w-0">
-              <h1 className="text-2xl sm:text-3xl font-bold text-white leading-tight truncate drop-shadow-sm">
-                {restaurant.name}
-              </h1>
-
-              <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1">
-                {avgRating !== null && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-2.5 py-0.5 backdrop-blur-sm">
-                    <StarRow rating={avgRating} />
-                    <span className="text-sm font-semibold text-white">
-                      {avgRating.toFixed(1)}
-                    </span>
-                    <span className="text-xs text-white/80">
-                      ({reviewList.length})
-                    </span>
-                  </span>
-                )}
-                {restaurant.address && (
-                  <span className="flex items-center gap-1 text-sm text-white/80 min-w-0">
-                    <span>📍</span>
-                    <span className="truncate">{restaurant.address}</span>
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
-      {/* Restaurant details */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        {restaurant.description && (
-          <p className="text-sm text-gray-500 leading-relaxed mt-4 mb-2">
-            {restaurant.description}
-          </p>
-        )}
-
-        {(restaurant.phone || restaurant.email) && (
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mb-8">
-            {restaurant.phone && (
-              <a
-                href={`tel:${restaurant.phone}`}
-                className="flex items-center gap-1.5 text-xs font-medium text-orange-500 hover:text-orange-600 transition-colors"
-              >
-                <span>📞</span>
-                {restaurant.phone}
-              </a>
-            )}
-            {restaurant.email && (
-              <a
-                href={`mailto:${restaurant.email}`}
-                className="flex items-center gap-1.5 text-xs font-medium text-orange-500 hover:text-orange-600 transition-colors"
-              >
-                <span>✉️</span>
-                {restaurant.email}
-              </a>
+        {/* Identity — below banner, logo overlapping bottom-left */}
+        <div className="relative -mt-8 mb-8">
+          <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full border-4 border-white bg-white shadow-lg">
+            {restaurant.logo_url ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={restaurant.logo_url}
+                alt={`${restaurant.name} logo`}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center bg-[#E8471E]">
+                <span className="text-2xl font-bold text-white">{restaurant.name.charAt(0)}</span>
+              </div>
             )}
           </div>
-        )}
+
+          <h1 className="mt-3 font-display text-2xl md:text-[28px] font-bold text-[#1A1A2E]">
+            {restaurant.name}
+          </h1>
+
+          <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-[#6B7280]">
+            {restaurant.cuisine_type && <span>{restaurant.cuisine_type}</span>}
+            {restaurant.cuisine_type && <span className="text-[#E5E7EB]">•</span>}
+            {avgRating !== null ? (
+              <span className="flex items-center gap-1 font-semibold text-[#1A1A2E]">
+                <Star className="h-4 w-4 fill-[#F5A623] text-[#F5A623]" />
+                {avgRating.toFixed(1)}
+                <span className="font-normal text-[#6B7280]">({reviewList.length})</span>
+              </span>
+            ) : (
+              <span className="flex items-center gap-1 text-[#6B7280]">
+                <Star className="h-4 w-4 text-[#E5E7EB]" />
+                New
+              </span>
+            )}
+            <span className="text-[#E5E7EB]">•</span>
+            <span className="flex items-center gap-1">
+              <Clock className="h-4 w-4" />
+              {deliveryTime}
+            </span>
+          </div>
+
+          {restaurant.description && (
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#6B7280]">
+              {restaurant.description}
+            </p>
+          )}
+
+          {(restaurant.phone || restaurant.email) && (
+            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5">
+              {restaurant.phone && (
+                <a
+                  href={`tel:${restaurant.phone}`}
+                  className="flex items-center gap-1.5 text-xs font-medium text-[#E8471E] hover:text-[#C93D18] transition-colors"
+                >
+                  <span>📞</span>
+                  {restaurant.phone}
+                </a>
+              )}
+              {restaurant.email && (
+                <a
+                  href={`mailto:${restaurant.email}`}
+                  className="flex items-center gap-1.5 text-xs font-medium text-[#E8471E] hover:text-[#C93D18] transition-colors"
+                >
+                  <span>✉️</span>
+                  {restaurant.email}
+                </a>
+              )}
+            </div>
+          )}
+        </div>
 
         {/* Menu */}
         {categories.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
-            <p className="text-sm font-medium text-gray-400">No menu items yet</p>
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-sm font-medium text-[#6B7280]">No menu items yet</p>
+            <p className="text-xs text-[#6B7280]/70 mt-1">
               This restaurant hasn&apos;t added any items yet. Check back soon.
             </p>
           </div>
@@ -240,8 +234,8 @@ export default async function RestaurantPage({
             <div className="space-y-10 mt-6 mb-10">
               {tabs.map((tab) => (
                 <section key={tab.id} id={tab.id} className="scroll-mt-32">
-                  <h2 className="text-lg font-bold text-gray-900 mb-4">{tab.name}</h2>
-                  <div className="space-y-3">
+                  <h2 className="font-display text-lg font-bold text-[#1A1A2E] mb-4">{tab.name}</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {grouped[tab.name].map((item) => (
                       <MenuItemCard
                         key={item.id}
@@ -259,22 +253,22 @@ export default async function RestaurantPage({
 
         {/* Reviews */}
         <section className="pb-16">
-          <h2 className="text-base font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-100">
+          <h2 className="font-display text-base font-bold text-[#1A1A2E] mb-4 pb-2 border-b border-[#E5E7EB]">
             Reviews{reviewList.length > 0 && ` (${reviewList.length})`}
           </h2>
 
           {reviewList.length === 0 ? (
-            <div className="rounded-2xl border border-gray-100 bg-white shadow-sm px-6 py-10 text-center">
-              <p className="text-sm font-medium text-gray-400">No reviews yet</p>
-              <p className="text-xs text-gray-400 mt-1">Be the first to share your experience!</p>
+            <div className="rounded-xl bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] px-6 py-10 text-center">
+              <p className="text-sm font-medium text-[#6B7280]">No reviews yet</p>
+              <p className="text-xs text-[#6B7280]/70 mt-1">Be the first to share your experience!</p>
             </div>
           ) : (
             <div className="space-y-3">
               {reviewList.map((review) => (
-                <div key={review.id} className="rounded-2xl border border-gray-100 bg-white shadow-sm p-5">
+                <div key={review.id} className="rounded-xl bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-5">
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <StarRow rating={review.rating} />
-                    <span className="shrink-0 text-xs text-gray-400">
+                    <span className="shrink-0 text-xs text-[#6B7280]">
                       {new Date(review.created_at).toLocaleDateString('en-NG', {
                         year: 'numeric',
                         month: 'short',
@@ -283,7 +277,7 @@ export default async function RestaurantPage({
                     </span>
                   </div>
                   {review.comment && (
-                    <p className="text-sm text-gray-700 leading-relaxed">{review.comment}</p>
+                    <p className="text-sm text-[#1A1A2E]/80 leading-relaxed">{review.comment}</p>
                   )}
                 </div>
               ))}
@@ -304,58 +298,70 @@ function MenuItemCard({
   restaurantId: string
   restaurantName: string
 }) {
-  const imageUrl = item.image_url ?? foodImageUrl(guessFoodCategory(item.name), 160, 160)
   const tags = parseTags(item.tags)
 
   return (
-    <div className="flex gap-4 bg-white rounded-xl shadow-sm p-4">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={imageUrl}
-        alt={item.name}
-        className="h-20 w-20 shrink-0 rounded-xl object-cover"
-      />
+    <div className="flex gap-4 rounded-xl bg-white p-4 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-shadow hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)]">
+      {item.image_url ? (
+        /* Real uploaded image (remote) — plain img avoids next.config remotePatterns */
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img
+          src={item.image_url}
+          alt={item.name}
+          className="h-[100px] w-[100px] shrink-0 rounded-lg object-cover"
+        />
+      ) : (
+        <Image
+          src={localFoodImage(item.name)}
+          alt={item.name}
+          width={100}
+          height={100}
+          className="h-[100px] w-[100px] shrink-0 rounded-lg object-cover"
+        />
+      )}
 
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 flex-wrap">
-          <h3 className="text-base font-semibold text-gray-900">{item.name}</h3>
-          {item.prep_time_mins != null && (
-            <span className="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-semibold text-gray-600">
-              ⏱ {item.prep_time_mins} mins
-            </span>
-          )}
-        </div>
-        {tags.length > 0 && (
-          <div className="mt-1 flex flex-wrap gap-1">
+      <div className="flex flex-1 flex-col min-w-0">
+        <h3 className="font-display text-[15px] font-semibold text-[#1A1A2E]">{item.name}</h3>
+
+        {(tags.length > 0 || item.prep_time_mins != null) && (
+          <div className="mt-1 flex flex-wrap items-center gap-1">
+            {item.prep_time_mins != null && (
+              <span className="inline-flex items-center rounded-full bg-[#F3F4F6] px-2 py-0.5 text-[11px] font-semibold text-[#6B7280]">
+                ⏱ {item.prep_time_mins} mins
+              </span>
+            )}
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex rounded-full bg-orange-50 px-2 py-0.5 text-[11px] font-medium text-orange-600"
+                className="inline-flex rounded-full bg-[#E8471E]/10 px-2 py-0.5 text-[11px] font-medium text-[#E8471E]"
               >
                 {tag}
               </span>
             ))}
           </div>
         )}
+
         {item.description && (
-          <p className="mt-0.5 text-sm text-gray-500 leading-relaxed line-clamp-2">
+          <p className="mt-1 text-[13px] leading-relaxed text-[#6B7280] line-clamp-2">
             {item.description}
           </p>
         )}
-        <p className="mt-2 text-lg font-bold text-orange-500">
-          ₦{item.price.toLocaleString('en-NG')}
-        </p>
-      </div>
 
-      <AddToCartButton
-        item={{
-          menu_item_id: item.id,
-          name: item.name,
-          price: item.price,
-          restaurant_id: restaurantId,
-          restaurant_name: restaurantName,
-        }}
-      />
+        <div className="mt-auto flex items-center justify-between pt-3">
+          <span className="text-base font-bold text-[#E8471E]">
+            ₦{item.price.toLocaleString('en-NG')}
+          </span>
+          <AddToCartButton
+            item={{
+              menu_item_id: item.id,
+              name: item.name,
+              price: item.price,
+              restaurant_id: restaurantId,
+              restaurant_name: restaurantName,
+            }}
+          />
+        </div>
+      </div>
     </div>
   )
 }
@@ -370,9 +376,7 @@ function StarRow({ rating }: { rating: number }) {
           <svg
             key={star}
             xmlns="http://www.w3.org/2000/svg"
-            className={`h-3.5 w-3.5 ${
-              filled || half ? 'text-orange-400' : 'text-gray-200'
-            }`}
+            className={`h-3.5 w-3.5 ${filled || half ? 'text-[#F5A623]' : 'text-[#E5E7EB]'}`}
             viewBox="0 0 20 20"
             fill="currentColor"
           >

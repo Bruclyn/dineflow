@@ -60,3 +60,24 @@ export function guessFoodCategory(name: string): FoodCategory {
   }
   return 'spread'
 }
+
+// Local food photos in /public/, mapped by dish / category keyword.
+// NOTE: mapped by the ACTUAL pixel content of each file — icon-11 is the
+// fried-rice wok and icon-12 is pounded yam + egusi (the reverse of some
+// numbering), so each dish shows the correct photo.
+const LOCAL_FOOD_MAP: [RegExp, string][] = [
+  [/burger|sandwich|shawarma|wrap/i, '/icon-10.png'],
+  [/fries|chips|\bsides?\b|plantain|potato/i, '/icon-9.png'],
+  [/frappe|milkshake|shake|smoothie|dessert|ice ?cream|cake|parfait|sundae/i, '/icon-8.png'],
+  [/zobo|drink|juice|soda|water|chapman|cola|beverage|\btea\b|coffee/i, '/icon-7.png'],
+  [/rice|jollof|basmati|pilau|risotto|fried rice/i, '/icon-11.png'],
+  [/yam|pounded|eba|fufu|amala|semo|swallow|soup|egusi|okra|ogbono|efo|afang|stew|local|native/i, '/icon-12.png'],
+]
+
+// Returns a local /public image path for a dish name, for use with next/image.
+export function localFoodImage(name: string): string {
+  for (const [pattern, path] of LOCAL_FOOD_MAP) {
+    if (pattern.test(name)) return path
+  }
+  return '/icon-12.png'
+}
