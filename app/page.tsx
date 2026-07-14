@@ -346,17 +346,17 @@ export default function HomePage() {
             <div>
               <h3 className="text-sm font-semibold text-white mb-4">Cities</h3>
               <ul className="space-y-2.5 text-sm text-white/60">
-                <li>Lagos</li>
-                <li>Abuja</li>
-                <li>Port Harcourt</li>
-                <li>Ibadan</li>
+                <li>PTI</li>
+                <li>Ugbomoro</li>
+                <li>Iterigbi</li>
+                <li>Warri</li>
               </ul>
             </div>
 
             <div>
               <h3 className="text-sm font-semibold text-white mb-4">Contact</h3>
               <ul className="space-y-2.5 text-sm text-white/60">
-                <li className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" /> Lagos, Nigeria</li>
+                <li className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" /> Warri, Nigeria</li>
                 <li>hello@dineflow.app</li>
                 <li>+234 800 000 0000</li>
               </ul>

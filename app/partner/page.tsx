@@ -102,7 +102,7 @@ export default function PartnerPage() {
                 Grow your restaurant with DineFlow
               </h1>
               <p className="mt-5 text-base sm:text-lg text-gray-400 leading-relaxed">
-                Join Lagos and Abuja&apos;s fastest-growing food marketplace and reach thousands of
+                Join Warri&apos;s fastest-growing food marketplace and reach thousands of
                 hungry customers.
               </p>
             </div>
@@ -253,7 +253,7 @@ export default function PartnerPage() {
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
                         className={inputClass}
-                        placeholder="Lagos"
+                        placeholder="Warri"
                       />
                     </div>
 

@@ -18,7 +18,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "DineFlow — Food delivery in Lagos & Abuja",
+  title: "DineFlow — Food delivery in Warri",
   description: "Discover the best local restaurants, explore their menus, and get your favourite meals in minutes.",
   manifest: "/manifest.json",
   appleWebApp: {

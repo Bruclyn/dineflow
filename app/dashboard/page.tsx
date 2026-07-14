@@ -31,19 +31,19 @@ export default async function DashboardPage() {
 
   const initial = (user.user_metadata?.full_name?.[0] ?? user.email?.[0] ?? 'U').toUpperCase()
 
-  // First name + time-of-day greeting (computed in Lagos time for the target audience)
+  // First name + time-of-day greeting (computed in Nigerian WAT time for the target audience)
   const firstName =
     (user.user_metadata?.full_name as string | undefined)?.trim().split(/\s+/)[0] ||
     user.email?.split('@')[0] ||
     'there'
-  const lagosHour = Number(
+  const localHour = Number(
     new Intl.DateTimeFormat('en-US', {
       timeZone: 'Africa/Lagos',
       hour: 'numeric',
       hour12: false,
     }).format(new Date())
   )
-  const greeting = lagosHour < 12 ? 'morning' : lagosHour < 17 ? 'afternoon' : 'evening'
+  const greeting = localHour < 12 ? 'morning' : localHour < 17 ? 'afternoon' : 'evening'
 
   return (
     <div className="min-h-screen bg-[#FAFAF8]">
